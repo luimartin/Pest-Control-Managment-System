@@ -4,7 +4,7 @@ from AssignItem import AssignItem
 class Technician:
     def __init__(self, l_name, f_name, contact_num, loc):
         self.id = None
-        
+
         self.__l_name = l_name
         self.__f_name = f_name
         self.__contact_num = contact_num
@@ -14,8 +14,8 @@ class Technician:
         self.technician.append(self)
 
         self.item = []
-        self.client = []
-        
+        self.client = [] 
+
         self.status = False
         self.count = 0
 
