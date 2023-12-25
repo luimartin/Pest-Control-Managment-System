@@ -1,6 +1,7 @@
 from ClientInfo import ClientInfo
 from Technician import Technician
 from Inventory import Inventory
+import time
 
 def main():
     """
