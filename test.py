@@ -6,12 +6,18 @@ class Client:
         pass
     
     def add_client_info(self, name, email, phone_num, address):
-        query = "insert into CLIENT values (%s, %s, %s, %s, %s, %s, %s)"
+        query = (
+            "insert into CLIENT(name, email, phone_num, address, status, void)"
+            "values (%s, %s, %s, %s, %s, %s,)"
+        )
         data = (name, email, phone_num, address, 'New', 0)
         handle_transaction(query, data)
 
     def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):
-        query = "insert into CONTRACT values (%s, %s %s, %s, %s, %s, %s, %s, %s)"
+        query = (
+            "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price)"
+            "values (%s, %s %s, %s, %s, %s, %s, %s, %s)"
+        )
         data = (problem, service_type, start_date, end_date, square_meter, unit, price)
         handle_transaction(query, data)
 
