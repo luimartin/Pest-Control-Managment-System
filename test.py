@@ -16,9 +16,9 @@ class Client:
     def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):
         query = (
             "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price)"
-            "values (%s, %s %s, %s, %s, %s, %s, %s, %s)"
+            "values (%s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (problem, service_type, start_date, end_date, square_meter, unit, price)
+        data = (ref_id, problem, service_type, start_date, end_date, square_meter, unit, price)
         handle_transaction(query, data)
 
     def search(self):
