@@ -1,30 +1,28 @@
-class Schedule:
-    def __init__(self, sched_type, start_date, end_date, time_in=9, time_out=17):
-        self.__sched_type = sched_type
-        self.__start_date = start_date       
-        self.__end_date = end_date
-        self.__time_in = time_in
-        self.__time_out = time_out
-        
-    def __str__(self):
-        return self.__sched_type, self.__start_date, self.__end_date, self.__time_in, self.__time_out
+from Database import *
+from QuerySettings import *
 
-    @property
-    def sched_type(self):
-        return self.__sched_type
-    
-    @property
-    def start_date(self):
-        return self.__start_date
-    
-    @property
-    def end_date(self):
-        return self.__end_date
-    
-    @property
-    def time_in(self):
-        return self.__time_in
-    
-    @property
-    def time_out(self):
-        return self.__time_out    
+class Schedule:
+    def __init__(self):
+        pass
+
+    def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in, time_out):
+        query = (
+            "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
+            "values (%s, %s, %s, %s, %s, %s)"
+        )
+        data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
+        handle_transaction(query, data)
+
+    def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
+        temp = "update SCHEDULE set {} = ".format(categ) 
+        query = temp + "%s where schedule_id = %s and client_id = %s"
+        data = (new_input, sched_id, ref_id)
+        handle_transaction(query, data)
+
+    def get_data(self, sched_id, ref_id, categ):
+        temp = "select {} from SCHEDULE ".format(categ)
+        query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
+        handle_select(query)
+
+s = Schedule()
+s.get_data(1, 1, 'schedule_type')

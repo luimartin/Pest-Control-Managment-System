@@ -1,25 +1,9 @@
 from Database import *
 from QuerySettings import *
 
-class Client:
+class Schedule:
     def __init__(self):
         pass
-    
-    def add_client_info(self, name, email, phone_num, address):
-        query = (
-            "insert into CLIENT(name, email, phone_num, address, status, void)"
-            "values (%s, %s, %s, %s, %s, %s,)"
-        )
-        data = (name, email, phone_num, address, 'New', 0)
-        handle_transaction(query, data)
-
-    def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):
-        query = (
-            "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price)"
-            "values (%s, %s, %s, %s, %s, %s, %s, %s)"
-        )
-        data = (ref_id, problem, service_type, start_date, end_date, square_meter, unit, price)
-        handle_transaction(query, data)
 
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in, time_out):
         query = (
@@ -29,9 +13,13 @@ class Client:
         data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
         handle_transaction(query, data)
 
-    def search(self):
-        query = "select * from CLIENT"
+    def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
+        temp = "update SCHEDULE set {} = ".format(categ) 
+        query = temp + "%s where schedule_id = %s and client_id = %s"
+        data = (new_input, sched_id, ref_id)
+        handle_transaction(query, data)
+
+    def get_data(self, sched_id, ref_id, categ):
+        temp = "select {} from CONTRACT ".format(categ)
+        query = temp + "where contract_id = {} and client_id = {}".format(sched_id, ref_id)
         handle_select(query)
-        
-c = Client()
-c.add_schedule(1, "Posting", "2022-12-31", "2022-01-02",  "09:00:00", "17:30:00")

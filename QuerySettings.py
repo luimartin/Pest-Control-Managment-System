@@ -8,11 +8,10 @@ def handle_transaction(query, data):
     except Error as error:
         mydb.rollback()
         print("Error type: {}".format(error))
-        
+
 def handle_select(query):
     try:
         mycursor.execute(query)
-        for i in mycursor:
-            print(i)
+        print(mycursor.fetchall())
     except Error as error:
         print("Error type: {}".format(error))
