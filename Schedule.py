@@ -23,6 +23,3 @@ class Schedule:
         temp = "select {} from SCHEDULE ".format(categ)
         query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
         handle_select(query)
-
-s = Schedule()
-s.get_data(1, 1, 'schedule_type')
