@@ -1,14 +1,14 @@
 import mysql.connector
 
 # Connect database
-db = mysql.connector.connect(
+mydb = mysql.connector.connect(
 	host = 'localhost',
 	user = 'bowie',
 	passwd = 'BowieShendi#7',
-	database = 'mansys'
+    database = 'mansys'
 )
-mycursor = db.cursor()
-	
+mycursor = mydb.cursor()
+
 """
     MySQL Queries
 	
