@@ -1,11 +1,12 @@
 import mysql.connector
+from mysql.connector import Error
 
 # Connect database
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	user = 'bowie',
 	passwd = 'BowieShendi#7',
-    database = 'mansys'
+	database = 'mansys'
 )
 mycursor = mydb.cursor()
 

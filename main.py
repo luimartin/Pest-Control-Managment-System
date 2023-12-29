@@ -1,6 +1,7 @@
 from ClientInfo import ClientInfo
 from Technician import Technician
 from Inventory import Inventory
+import Database
 import time
 
 def main():
@@ -18,15 +19,15 @@ def main():
         print(tech1.item[1].__str__())
         tech1.assign_client(client1.client[0])
         print(tech1.handled_client())
+
+        inv = Inventory('Termite MODO', 'Chemical', 200, '2023-10-05', 'For Termite Use Only')
+        print(inv.inventory[0].__str__())
+        tech1 = Technician('Mora', 'Jeremy', '0945895252525', 'Pasig City')
+        print(tech1.__str__())
+        tech1.assign_item('Termite MODO', 'Chemical', 250, '2023-07-03', inv)
+        print(inv.inventory[0].__str__())
+        print(tech1.accounted_item())
     """
-    inv = Inventory('Termite MODO', 'Chemical', 200, '2023-10-05', 'For Termite Use Only')
-    print(inv.inventory[0].__str__())
-    tech1 = Technician('Mora', 'Jeremy', '0945895252525', 'Pasig City')
-    print(tech1.__str__())
-    tech1.assign_item('Termite MODO', 'Chemical', 250, '2023-07-03', inv)
-    print(inv.inventory[0].__str__())
-    print(tech1.accounted_item())
-    
 
 if __name__ == "__main__": 
     main()
