@@ -76,6 +76,4 @@ class Inventory:
     @property
     def desc(self):
         return self.__desc    
-        
-        
     

@@ -1,17 +1,14 @@
 import mysql.connector
 
 # Connect database
-class Database:
-	def __init__(self):
-		db = mysql.connector.connect(
-			host = 'localhost',
-			user = 'bowie',
-			passwd = 'BowieShendi#7',
-			database = 'mansys'
-		)
-
-		mycursor = db.cursor()
-
+db = mysql.connector.connect(
+	host = 'localhost',
+	user = 'bowie',
+	passwd = 'BowieShendi#7',
+	database = 'mansys'
+)
+mycursor = db.cursor()
+	
 """
     MySQL Queries
 	
@@ -98,24 +95,24 @@ class Database:
 		PRIMARY KEY (category_id)
     );
 	
-	8.
+	8.  
 	create table SALES(
         sale_id int not null auto_increment,
 		figure decimal(10, 2) not null,
         sale_date date not null,
-		PRIMARY KEY (sale_id), 
+		PRIMARY KEY (sale_id)
 	);
 	
-	9. 
-	create table MESSAGE(
+	9. DONE (Validated) 
+    create table MESSAGE(
         message_id int not null auto_increment,
-		client_id int, 
-		technician_id,
-		message_category varchar(50),
-		message varchar(255),
+        client_id int, 
+        technician_id int,
+        message_category varchar(50),
+        message varchar(255),
         PRIMARY KEY (message_id),
-		CONSTRAINT fk_client_msg FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
-		CONSTRAINT fk_technician_msg FOREIGN KEY (technician_id) REFERENCES TECHNICIAN(technician_id)
+        CONSTRAINT fk_client_msg FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
+        CONSTRAINT fk_technician_msg FOREIGN KEY (technician_id) REFERENCES TECHNICIAN(technician_id)
     );
     
 	10. DONE (VALIDATED)
