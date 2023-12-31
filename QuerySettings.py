@@ -10,8 +10,12 @@ def handle_transaction(query, data):
         print("Error type: {}".format(error))
 
 def handle_select(query):
+    output = None
+
     try:
         mycursor.execute(query)
-        print(mycursor.fetchall())
+        output = mycursor.fetchone()
     except Error as error:
         print("Error type: {}".format(error))
+
+    return output

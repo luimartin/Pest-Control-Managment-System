@@ -1,10 +1,13 @@
 from Database import *
 from QuerySettings import *
 
+from Contract import Contract
+from Schedule import Schedule
+
 class ClientInfo:
     def __init__(self):
-        # self.sys = sys
-        pass
+        self.contract = Contract()
+        self.schedule = Schedule()        
     
     def add_client_info(self, name, email, phone_num, address):
         query = (
@@ -23,8 +26,8 @@ class ClientInfo:
     def get_data(self, ref_id, categ):
         temp = "select {} from CLIENT ".format(categ)
         query = temp + "where client_id = {}".format(ref_id)
-        handle_select(query)
-
+        return handle_select(query)
+        
     def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
-        handle_select(query)   
+        return handle_select(query)   
