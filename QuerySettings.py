@@ -1,5 +1,6 @@
 from Database import *
 
+# Use to handle insert, update, and delete queries
 def handle_transaction(query, data):
     try:
         mycursor.execute(query, data)
@@ -9,6 +10,7 @@ def handle_transaction(query, data):
         mydb.rollback()
         print("Error type: {}".format(error))
 
+# Use to handle SELECT queries
 def handle_select(query):
     output = None
     try:
