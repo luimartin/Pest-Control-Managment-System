@@ -6,8 +6,8 @@ from Schedule import Schedule
 
 class ClientInfo:
     def __init__(self):
-        self.contract = Contract()
-        self.schedule = Schedule()        
+        self.Contract = Contract()
+        self.Schedule = Schedule()        
     
     def add_client_info(self, name, email, phone_num, address):
         query = (

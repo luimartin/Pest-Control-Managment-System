@@ -14,12 +14,14 @@ class Inventory:
         handle_transaction(query, data)
 
     def deduct_item(self, inv_id, amount):
+        output = None 
         if self.isItemExist(inv_id):
             query = "update INVENTORY set quantity = quantity - %s WHERE item_id = %s"
             data = (amount, inv_id)
             handle_transaction(query, data)
+            output = True
 
-        return None
+        return output
     
     def stock_item(self, inv_id, amount):
         if self.isItemExist(inv_id):
