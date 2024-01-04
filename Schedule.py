@@ -1,11 +1,14 @@
 from Database import *
 from QuerySettings import *
 
+from ClientInfo import ClientInfo
+from Technician import Technician
+
 class Schedule:
     def __init__(self):
+        self.ClientInfo = ClientInfo()
+        self.Techincian = Technician()
         
-        pass
-
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in, time_out):
         query = (
             "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
@@ -14,8 +17,14 @@ class Schedule:
         data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
         handle_transaction(query, data)
 
-    def assign_technician(self, tech_id):
-        pass        
+    def assign_technician(self, sched_id, client_id, tech_id):
+        query = (
+            "update SCHEDULE"
+            "set technician_id = %s"
+            "where schedule_id = %s and client_id = %s"
+        )
+        data = (tech_id, sched_id, client_id)
+        handle_transaction(query, data)      
 
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 

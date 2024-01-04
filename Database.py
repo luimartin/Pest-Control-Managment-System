@@ -69,10 +69,12 @@ mycursor = mydb.cursor()
 	
 	5. DONE (VALIDATED)
 	create table TECHNICIAN_ITEM(
+		technician_item_id int not null auto_increment,
         technician_id int, 
 		item_id int,
 		quantity int not null,
 		date_acquired date not null,
+        PRIMARY KEY (technician_item_id),
 		CONSTRAINT fk_technician_assign FOREIGN KEY (technician_id) REFERENCES TECHNICIAN(technician_id),
         CONSTRAINT fk_inventory FOREIGN KEY (item_id) REFERENCES INVENTORY(item_id)
     );

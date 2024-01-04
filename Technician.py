@@ -59,6 +59,9 @@ class Technician:
 
         if output >= return_amount: return True
         return False
+    
+    def isTechnicianAvailable(self, tech_id):
+        pass
 
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
@@ -76,4 +79,3 @@ class Technician:
         return handle_select(query)   
 
 t = Technician()
-t.return_item(1, 1, 1)
