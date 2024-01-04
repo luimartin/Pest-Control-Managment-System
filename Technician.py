@@ -39,6 +39,27 @@ class Technician:
         )
         return handle_select(query)
 
+    def return_item(self, tech_id, inv_id, return_amount):
+        if self.isAssignedItemAvailable(tech_id, inv_id, return_amount):
+            query = (
+                "update TECHNICIAN_ITEM, INVENTORY "
+                "set TECHNICIAN_ITEM.quantity = TECHNICIAN_ITEM.quantity - %s"
+                ", INVENTORY.quantity = INVENTORY.quantity + %s "
+                "where TECHNICIAN_ITEM.item_id = %s and TECHNICIAN_ITEM.item_id = %s"
+            )
+            data = (return_amount, return_amount, inv_id, tech_id)
+            handle_transaction(query, data)
+
+    def isAssignedItemAvailable(self, tech_id, inv_id, return_amount):
+        query = (
+            "select quantity from TECHNICIAN_ITEM "
+            "where technician_id = {} and item_id = {}".format(tech_id, inv_id)
+        )
+        output = handle_select(query)[0][0]
+
+        if output >= return_amount: return True
+        return False
+
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
         query = temp + "%s where technician_id = %s"
@@ -53,3 +74,6 @@ class Technician:
     def search(self, input):
         query = "select * from TECHNICIAN where first_name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+
+t = Technician()
+t.return_item(1, 1, 1)
