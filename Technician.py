@@ -16,8 +16,8 @@ class Technician:
         handle_transaction(query, data)
     
     def assign_item(self, tech_id, item_id, quantity, date_acquired):
-        is_item_valid = self.Inventory.deduct_item(item_id, quantity)
-        if is_item_valid:
+        isItemValid = self.Inventory.deduct_item(item_id, quantity)
+        if isItemValid:
             query = (
                 "insert into TECHNICIAN_ITEM (technician_id, item_id, quantity, date_acquired)"
                 "values (%s, %s, %s, %s)"
@@ -60,8 +60,22 @@ class Technician:
         if output >= return_amount: return True
         return False
     
+    def isTechnicianExist(self, tech_id):
+        query = "select void from TECHNICIAN where technician_id =  {}".format(tech_id)
+        output = handle_select(query)[0][0] # Retrieve either 1 or 0 (0 means the item exists in DB, not void)  
+
+        if not output: return True
+        return False 
+
     def isTechnicianAvailable(self, tech_id):
-        pass
+        query = (
+            "select count(schedule_id) from SCHEDULE"
+            "inner join TECHNICIAN on TECHNICIAN.technician_id = {}".format(tech_id)
+        )
+        output_amount = handle_select(query)
+        
+        if output_amount >= 2: return False
+        return True
 
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
