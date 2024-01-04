@@ -3,6 +3,7 @@ from QuerySettings import *
 
 class Schedule:
     def __init__(self):
+        
         pass
 
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in, time_out):
@@ -12,6 +13,9 @@ class Schedule:
         )
         data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
         handle_transaction(query, data)
+
+    def assign_technician(self, tech_id):
+        pass        
 
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
