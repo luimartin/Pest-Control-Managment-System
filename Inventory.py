@@ -57,4 +57,3 @@ class Inventory:
         return handle_select(query)
   
 i = Inventory()
-i.stock_item(1, 100)
