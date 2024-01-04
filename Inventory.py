@@ -15,7 +15,7 @@ class Inventory:
 
     def deduct_item(self, inv_id, amount):
         output = None 
-        if self.isItemExist(inv_id):
+        if self.isItemExist(inv_id) and self.isItemAvailable(inv_id, amount):
             query = "update INVENTORY set quantity = quantity - %s WHERE item_id = %s"
             data = (amount, inv_id)
             handle_transaction(query, data)
@@ -30,6 +30,20 @@ class Inventory:
             handle_transaction(query, data)
         
         return None
+    
+    def isItemExist(self, inv_id):
+        query = "select void from INVENTORY where item_id =  {}".format(inv_id)
+        output = handle_select(query)[0][0] # Retrieve either 1 or 0 (0 means the item exists in DB, not void)  
+
+        if not output: return True
+        return False 
+    
+    def isItemAvailable(self, inv_id, amount):
+        query = "select void from INVENTORY where item_id = {} and quantity >= {}".format(inv_id, amount)
+        output = handle_select(query)[0][0] # Retrieve either 1 or 0 (0 means the item exists in DB, not void)
+        
+        if not output: return True
+        return False
 
     def edit_inv_info(self, inv_id, categ, new_input):
         temp = "update INVENTORY set {} = ".format(categ) 
@@ -41,10 +55,6 @@ class Inventory:
         query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
-
-    def isItemExist(self, inv_id):
-        query = "select void from INVENTORY where item_id =  {}".format(inv_id)
-        output = handle_select(query)[0][0] # Retriev from List and Tuple
-
-        if not output: return True
-        return False 
+  
+i = Inventory()
+i.stock_item(1, 100)
