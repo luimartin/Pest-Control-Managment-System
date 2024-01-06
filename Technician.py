@@ -43,10 +43,10 @@ class Technician:
         if self.isAssignedItemAvailable(tech_id, inv_id, return_amount):
             query = (
                 "update TECHNICIAN_ITEM, INVENTORY "
-                "set TECHNICIAN_ITEM.quantity = TECHNICIAN_ITEM.quantity - %s"
-                ", INVENTORY.quantity = INVENTORY.quantity + %s "
+                "set TECHNICIAN_ITEM.quantity = TECHNICIAN_ITEM.quantity - %s, "
+                "INVENTORY.quantity = INVENTORY.quantity + %s "
                 "where TECHNICIAN_ITEM.item_id = %s and TECHNICIAN_ITEM.item_id = %s"
-            )
+            )                                                                   
             data = (return_amount, return_amount, inv_id, tech_id)
             handle_transaction(query, data)
 
@@ -61,7 +61,7 @@ class Technician:
         return False
     
     def isTechnicianExist(self, tech_id):
-        query = "select void from TECHNICIAN where technician_id =  {}".format(tech_id)
+        query = "select void from TECHNICIAN where technician_id = {}".format(tech_id)
         output = handle_select(query)[0][0] # Retrieve either 1 or 0 (0 means the item exists in DB, not void)  
 
         if not output: return True

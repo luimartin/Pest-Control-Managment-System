@@ -26,3 +26,4 @@ class Contract:
         temp = "select {} from CONTRACT ".format(categ)
         query = temp + "where contract_id = {} and client_id = {}".format(cont_id, ref_id)
         handle_select(query)
+    
