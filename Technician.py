@@ -27,7 +27,7 @@ class Technician:
         
         return None
 
-    def accounted_item(self, tech_id):
+    def show_accounted_item(self, tech_id):
         query = (
             "select TECHNICIAN.technician_id, TECHNICIAN.first_name, TECHNICIAN.last_name, "
             "INVENTORY.item_name, INVENTORY.item_type, TECHNICIAN_ITEM.quantity, date_acquired "
@@ -69,11 +69,13 @@ class Technician:
 
     def isTechnicianAvailable(self, tech_id):
         query = (
-            "select count(schedule_id) from SCHEDULE"
+            "select count(schedule_id) from SCHEDULE "
             "inner join TECHNICIAN on TECHNICIAN.technician_id = {}".format(tech_id)
         )
-        output_amount = handle_select(query)
+        output_amount = handle_select(query)[0][0]
         
+        # The number of rows determines the number of accounted clients 
+        # (Max. 2 only, otherwise not available)
         if output_amount >= 2: return False
         return True
 

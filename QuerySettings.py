@@ -12,7 +12,7 @@ def handle_transaction(query, data):
 
 # Use to handle SELECT queries
 def handle_select(query):
-    output = None
+    output = 0
     try:
         mycursor.execute(query)
         output = mycursor.fetchall()
