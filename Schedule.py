@@ -1,3 +1,5 @@
+from datetime import datetime, date, timedelta
+
 from Database import *
 from QuerySettings import *
 
@@ -7,13 +9,31 @@ class Schedule:
     def __init__(self):
         self.Technician = Technician()
         
-    def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in, time_out):
-        query = (
-            "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
-            "values (%s, %s, %s, %s, %s, %s)"
-        )
-        data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
-        handle_transaction(query, data)
+    def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
+        if sched_type == 'Posting':
+            self.posting_schedulizer(ref_id, start_date, end_date)
+        elif sched_type == 'Default':
+            query = (
+                "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
+                "values (%s, %s, %s, %s, %s, %s)"
+            )
+            data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
+            handle_transaction(query, data)            
+
+    def posting_schedulizer(self, ref_id, start_date, end_date):
+        ref_date = start_date
+        
+        while(True):
+            query = (
+                "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
+                "values (%s, %s, %s, %s, %s, %s)"
+            )
+            data = (ref_id, 'posting', ref_date, end_date, '09:00:00', '17:00:00')
+            handle_transaction(query, data)
+
+            ref_date = ref_date +  timedelta(days = 1)
+            if ref_date == end_date:
+                break  
 
     def assign_technician(self, sched_id, client_id, tech_id):
         isTechnicianExist = self.Technician.isTechnicianExist(tech_id)
