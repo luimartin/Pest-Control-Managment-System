@@ -1,8 +1,8 @@
 from Database import *
 from QuerySettings import *
 
-from Contract import Contract
-from Schedule import Schedule
+import Contract as Contract
+import Schedule
 
 class ClientInfo:
     def __init__(self):
@@ -31,3 +31,7 @@ class ClientInfo:
     def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+
+c = ClientInfo()
+c.add_client_info('Bowie Company', 'bowie@example.com', '12345678912', 'San Juan')
+print(c.search('Bowie Company'))

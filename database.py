@@ -5,7 +5,7 @@ from mysql.connector import Error
 mydb = mysql.connector.connect(
 	host = 'localhost',
 	user = 'bowie',
-	passwd = 'BowieShendi#7',
+	passwd = '030709',
 	database = 'mansys'
 )
 mycursor = mydb.cursor()
