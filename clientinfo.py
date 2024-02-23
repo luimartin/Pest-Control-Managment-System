@@ -12,7 +12,7 @@ class ClientInfo:
     def add_client_info(self, name, email, phone_num, address):
         query = (
             "insert into CLIENT(name, email, phone_num, address, status, void)"
-            "values (%s, %s, %s, %s, %s, %s,)"
+            "values (%s, %s, %s, %s, %s, %s)"
         )
         data = (name, email, phone_num, address, 'New', 0)
         handle_transaction(query, data)
@@ -31,4 +31,5 @@ class ClientInfo:
     def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+
 

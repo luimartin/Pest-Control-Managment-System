@@ -55,6 +55,15 @@ mycursor = mydb.cursor()
         CONSTRAINT fk_client_sched FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
 		CONSTRAINT fk_technician FOREIGN KEY (technician_id) REFERENCES TECHNICIAN(technician_id)
 	);
+
+    3.1 DONE (VALIDATED)
+    create table SCHEDULIZER(
+		schedulizer_id int not null auto_increment,
+        schedule_id int,
+        single_date date not null,
+        PRIMARY KEY (schedulizer_id),
+        CONSTRAINT fk_schedizer FOREIGN KEY (schedule_id) REFERENCES SCHEDULE(schedule_id)
+	);
 	
     4. DONE (VALIDATED)
 	create table TECHNICIAN(        

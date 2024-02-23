@@ -23,5 +23,8 @@ class Contract:
     def get_data(self, cont_id, ref_id, categ):
         temp = "select {} from CONTRACT ".format(categ)
         query = temp + "where contract_id = {} and client_id = {}".format(cont_id, ref_id)
-        handle_select(query)
-    
+        return handle_select(query)
+
+    def search(self, input):
+        query = "select * from CONTRACT where problem = {}".format("\'"+input+"\'")
+        return handle_select(query)   

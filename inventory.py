@@ -56,4 +56,3 @@ class Inventory:
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
   
-i = Inventory()
