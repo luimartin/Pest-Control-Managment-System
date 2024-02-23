@@ -1,11 +1,9 @@
-from Database import *
-from QuerySettings import *
+from database import *
+from query_settings import *
 
-from ClientInfo import ClientInfo
 
 class Contract:
     def __init__(self):
-        self.ClientInfo = ClientInfo()
         pass
 
     def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):

@@ -1,4 +1,4 @@
-from Database import *
+from database import *
 
 # Use to handle insert, update, and delete queries
 def handle_transaction(query, data):

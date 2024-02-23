@@ -1,7 +1,7 @@
-from Database import *
-from QuerySettings import *
+from database import *
+from query_settings import *
 
-from Inventory import Inventory
+from inventory import Inventory
 
 class Technician:
     def __init__(self):

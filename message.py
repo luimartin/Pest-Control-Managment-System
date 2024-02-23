@@ -1,5 +1,5 @@
-from Database import *
-from QuerySettings import *
+from database import *
+from query_settings import *
 
 class Message:
     def __init__(self):

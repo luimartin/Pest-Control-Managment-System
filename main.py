@@ -1,7 +1,8 @@
-from ClientInfo import ClientInfo
-from Technician import Technician
-from Inventory import Inventory
-import Database
+from clientinfo import ClientInfo
+from technician import Technician
+from inventory import Inventory
+
+import database
 import time
 
 def main():

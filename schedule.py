@@ -1,9 +1,9 @@
 from datetime import datetime, date, timedelta
 
-from Database import *
-from QuerySettings import *
+from database import *
+from query_settings import *
 
-from Technician import Technician
+from technician import Technician
 
 class Schedule:
     def __init__(self):
