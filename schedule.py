@@ -20,40 +20,38 @@ class Schedule:
         if sched_type == 'Posting':
             temp_query = "select last_insert_id()"
             sched_id = handle_select(temp_query)[0][0]
-
+            
             self.posting_schedulizer(sched_id, start_date, end_date)
 
     def posting_schedulizer(self, sched_id, start_date, end_date):
         ref_sched = start_date
+        day_tester = None
 
         while(True):
-            if ref_sched is not None:
-                
+            temp_query = "select dayname({})".format("\'"+ref_sched+"\'")
+            day_tester = handle_select(temp_query)[0][0]
 
+            if day_tester != 'Sunday':
                 query = (
                     "insert into SCHEDULIZER (schedule_id, single_date)"
                     "values (%s, %s)"                
                 )
                 data = (sched_id, ref_sched)
                 handle_transaction(query, data)
-                
+
             if ref_sched == end_date: break
             ref_sched = self.modifyDate(ref_sched)        
        
     def modifyDate(self, ref_sched):
-        output = None
-
-        temp_query = "select dayname({})".format(ref_sched)
-        day_tester = handle_select(temp_query)[0][0]
-
-        if day_tester != 'Sunday':
-            date = datetime.strptime(ref_sched,  '%Y-%m-%d')
-            modified_date = date + timedelta(days = 1)
-            output = datetime.strftime(modified_date, '%Y-%m-%d')
+        date = datetime.strptime(ref_sched,  '%Y-%m-%d')
+        modified_date = date + timedelta(days = 1)
         
-        return output
+        return datetime.strftime(modified_date, '%Y-%m-%d')
     
     def posting_modifier(self):
+        query = (
+
+        )
         pass
 
     def assign_technician(self, sched_id, client_id, tech_id):
@@ -92,4 +90,4 @@ class Schedule:
         handle_select(query)
 
 s = Schedule()
-s.add_schedule(1, 'Posting', '2023-01-01', '2023-01-05', '08:00:00', '10:00:00')
+s.add_schedule(1, 'Posting', '2024-02-24', '2024-02-28', '08:00:00', '10:00:00')
