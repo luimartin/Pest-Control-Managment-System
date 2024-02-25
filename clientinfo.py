@@ -26,10 +26,8 @@ class ClientInfo:
     def get_data(self, ref_id, categ):
         temp = "select {} from CLIENT ".format(categ)
         query = temp + "where client_id = {}".format(ref_id)
-        return handle_select(query)
+        return handle_select(query)[0][0]
         
     def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
         return handle_select(query)   
-
-

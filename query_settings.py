@@ -16,6 +16,7 @@ def handle_select(query):
     try:
         mycursor.execute(query)
         output = mycursor.fetchall()
+        print("Retrieval Success")
     except Error as error:
         print("Error type: {}".format(error))
 
