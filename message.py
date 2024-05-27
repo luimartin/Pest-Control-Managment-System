@@ -1,9 +1,34 @@
 from database import *
 from query_settings import *
 
+import re
+
 class Message:
     def __init__(self):
-        pass
+        self.tokens = {
+            "cn" : "select name from CLIENT where client_id = ",
+            "csd" : "select start_date from SCHEDULE where schedule_id = ",
+            "ced" : "select end_date from SCHEDULE where schedule_id = ",
+            "cti" : "select time_in from SCHEDULE where schedule_id = ",
+            "cto" : "select time_out from SCHEDULE where schedule_id = ",
+            "tn" : "select first_name from TECHNICIAN where technician_id = "
+        }
+
+    def convert_msg(self, ref_id,  msg_content):
+        converted_token = []
+        
+        pattern = r'@(\w+)'
+        captured_tokens = re.findall(pattern, msg_content)
+        
+        for token in captured_tokens:
+            temp = self.tokens[token]
+            query = temp + "%s"
+            data = (ref_id)
+            value = handle_transaction(query, data)
+            converted_token.append(value)
+        
+        result = re.sub(pattern, lambda match: converted_token[int(match.group(1)) - 1])
+        ###### THIS WHERE THE ARDUINO BEGINS ######
     
     def add_message(self, msg_categ, msg_format):
         query = "insert into MESSAGE (message_category, message, void) values (%s, %s, %s)"

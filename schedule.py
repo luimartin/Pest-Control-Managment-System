@@ -120,4 +120,4 @@ class Schedule:
 
 s = Schedule()
 #s.add_schedule(1, 'Posting', '2024-02-23', '2024-02-28', '09:00:00', '17:00:00')
-s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
+#s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
