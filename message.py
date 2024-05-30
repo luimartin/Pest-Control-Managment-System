@@ -6,13 +6,15 @@ import re
 class Message:
     def __init__(self):
         temp_client = "select CLIENT.name from CLIENT where client_id = "
+        temp_tech = "select first_name from TECHNICIAN where technician_id = "
+
         self.tokens = {
             "cn" : (temp_client + "(SELECT client_id FROM SCHEDULE where schedule_id = {})"),
             "csd" : "select start_date from SCHEDULE where schedule_id = {}",
             "ced" : "select end_date from SCHEDULE where schedule_id = {}",
             "cti" : "select time_in from SCHEDULE where schedule_id = {}",
             "cto" : "select time_out from SCHEDULE where schedule_id = {}",
-            "tn" : "select first_name from TECHNICIAN where technician_id = {}"
+            "tn" : (temp_tech + "(SELECT technician_id FROM SCHEDULE where schedule_id = {})")
         }
         self.converted_token = []
 
