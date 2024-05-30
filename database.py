@@ -132,7 +132,7 @@ mycursor = mydb.cursor()
         user_id int not null auto_increment,
 		username varchar(20) not null UNIQUE KEY,
 		password char(32) not null,  
+		void tinyint(1) not null,
 		PRIMARY KEY (user_id)
-    );
-	
+    );	 
 """
