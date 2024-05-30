@@ -5,34 +5,48 @@ import re
 
 class Message:
     def __init__(self):
+        temp_client = "select CLIENT.name from CLIENT where client_id = "
         self.tokens = {
-            "cn" : "select name from CLIENT where client_id = ",
-            "csd" : "select start_date from SCHEDULE where schedule_id = ",
-            "ced" : "select end_date from SCHEDULE where schedule_id = ",
-            "cti" : "select time_in from SCHEDULE where schedule_id = ",
-            "cto" : "select time_out from SCHEDULE where schedule_id = ",
-            "tn" : "select first_name from TECHNICIAN where technician_id = "
+            "cn" : (temp_client + "(SELECT client_id FROM SCHEDULE where schedule_id = {})"),
+            "csd" : "select start_date from SCHEDULE where schedule_id = {}",
+            "ced" : "select end_date from SCHEDULE where schedule_id = {}",
+            "cti" : "select time_in from SCHEDULE where schedule_id = {}",
+            "cto" : "select time_out from SCHEDULE where schedule_id = {}",
+            "tn" : "select first_name from TECHNICIAN where technician_id = {}"
         }
+        self.converted_token = []
 
     def convert_msg(self, ref_id,  msg_content):
-        converted_token = []
-        
+        placeholders = ["cn", "csd", "ced", "cti", "cto", "tn"]
+
         pattern = r'@(\w+)'
         captured_tokens = re.findall(pattern, msg_content)
         
         for token in captured_tokens:
-            temp = self.tokens[token]
-            query = temp + "%s"
-            data = (ref_id)
-            value = handle_transaction(query, data)
-            converted_token.append(value)
+            query = self.tokens[token].format(ref_id)
+            value = handle_select(query)[0][0]
+
+            if type(value) is not str: # if the value is DATE
+                value = value.strftime('%Y-%m-%d')
+
+            self.converted_token.append(value)
         
-        result = re.sub(pattern, lambda match: converted_token[int(match.group(1)) - 1])
+        # Supporting Function
+        def get_value(placeholder):
+            try:
+                index = placeholders.index(placeholder)
+                return self.converted_token[index]
+            except ValueError:
+                return placeholder
+
+        result = re.sub(pattern, lambda match: get_value(match.group(1)), msg_content)
         ###### THIS WHERE THE ARDUINO BEGINS ######
+        return result
     
+
     def add_message(self, msg_categ, msg_format):
-        query = "insert into MESSAGE (message_category, message, void) values (%s, %s, %s)"
-        data = (msg_categ, msg_format, 0)
+        query = "insert into MESSAGE (message_category, message) values (%s, %s)"
+        data = (msg_categ, msg_format)
         handle_transaction(query, data)
     
     def edit_message(self, msg_id, new_categ, new_input):
@@ -47,3 +61,6 @@ class Message:
         return handle_select(query)
 
 m = Message()
+msg = "Hello @cn you have a service tomorrow @csd"
+print(m.convert_msg(28,msg))
+
