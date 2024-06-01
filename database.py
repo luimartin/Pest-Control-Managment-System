@@ -131,8 +131,16 @@ mycursor = mydb.cursor()
 	create table USER(
         user_id int not null auto_increment,
 		username varchar(20) not null UNIQUE KEY,
-		password char(32) not null,  
+		password varchar(32) not null,  
 		void tinyint(1) not null,
 		PRIMARY KEY (user_id)
     );	 
+
+    11. 
+    create table ACTIVITY(
+		act_id not null auto_increment,
+        act_user varchar(20) not null, 
+        activity not null,
+        PRIMARY KEY (act_id)
+	);
 """

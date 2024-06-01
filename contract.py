@@ -28,3 +28,4 @@ class Contract:
     def search(self, input):
         query = "select * from CONTRACT where problem = {}".format("\'"+input+"\'")
         return handle_select(query)   
+
