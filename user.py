@@ -34,7 +34,6 @@ class User:
         )
         data = (active_user, activity)
         handle_transaction(query, data)
-
     
     def edit_user(self, user_id, categ, new_input):
         temp = "update USER set {} = ".format(categ)
