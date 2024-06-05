@@ -35,7 +35,7 @@
    <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QWidget" name="widget" native="true">
+   <widget class="QWidget" name="moduleMenu" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -65,9 +65,9 @@ QPushButton:hover{
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>110</y>
+       <y>100</y>
        <width>131</width>
-       <height>621</height>
+       <height>918</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,1,0,1,0,1,1,1">
@@ -199,7 +199,7 @@ QPushButton:hover{
      <rect>
       <x>160</x>
       <y>20</y>
-      <width>821</width>
+      <width>831</width>
       <height>731</height>
      </rect>
     </property>
@@ -212,13 +212,17 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
       <string notr="true">QPushButton{
 	height: 30px;
 	background-color: #D9D9D9;
+}
+
+QPushButton:hover{
+	background-color: #A7A6A6
 }</string>
      </property>
      <widget class="QLabel" name="label_6">
@@ -243,7 +247,7 @@ QPushButton:hover{
        <number>3</number>
       </property>
      </widget>
-     <widget class="QTableWidget" name="tableWidget">
+     <widget class="QTableWidget" name="clientTable">
       <property name="geometry">
        <rect>
         <x>20</x>
@@ -293,13 +297,13 @@ QPushButton:hover{
        </property>
       </column>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>520</x>
         <y>100</y>
         <width>261</width>
-        <height>41</height>
+        <height>51</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -348,6 +352,9 @@ QPushButton:hover{
 	background-color: #D9D9D9;
 }
 
+QPushButton:hover{
+	background-color: #A7A6A6
+}
 </string>
      </property>
      <widget class="QLabel" name="label_10">
@@ -382,7 +389,7 @@ QPushButton:hover{
        </rect>
       </property>
      </widget>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>320</x>

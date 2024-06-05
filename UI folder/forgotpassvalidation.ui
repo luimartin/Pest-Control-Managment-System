@@ -35,11 +35,14 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: none;
+    <string notr="true">QPushButton{border: none;
 background-color: rgb(0, 255, 0);
 font-size: 14px;
+}
 
-</string>
+QPushButton:hover{
+	background-color: #5CE371
+}</string>
    </property>
    <property name="text">
     <string>Submit</string>
@@ -55,19 +58,25 @@ font-size: 14px;
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">border: none;
+    <string notr="true">
+
+
+QPushButton{
+border: none;
 background-color: #E35C5C;
 font-size: 14px;
+}
 
-
-
-</string>
+QPushButton:hover{
+	background-color: rgb(211, 79, 79);
+	
+}</string>
    </property>
    <property name="text">
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>30</x>

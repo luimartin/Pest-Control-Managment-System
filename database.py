@@ -4,7 +4,7 @@ from mysql.connector import Error
 # Connect database
 mydb = mysql.connector.connect(
 	host = 'localhost',
-	user = 'bowie',
+	user = 'root',
 	passwd = '030709',
 	database = 'mansys'
 )
@@ -49,8 +49,8 @@ mycursor = mydb.cursor()
 		schedule_type varchar(20) not null,
 		start_date date not null,
 		end_date date not null,
-		time_in datetime not null,
-		time_out datetime not null,
+		time_in time not null,
+		time_out time not null,
         PRIMARY KEY (schedule_id),
         CONSTRAINT fk_client_sched FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
 		CONSTRAINT fk_technician FOREIGN KEY (technician_id) REFERENCES TECHNICIAN(technician_id)
@@ -137,10 +137,11 @@ mycursor = mydb.cursor()
     );	 
 
     11. 
-    create table ACTIVITY(
-		act_id not null auto_increment,
-        act_user varchar(20) not null, 
-        activity not null,
+     create table ACTIVITY(
+		act_id int not null auto_increment,
+        act_user_id int not null,
+        act_user_name varchar(20) not null, 
+        activity varchar(256) not null,
         PRIMARY KEY (act_id)
-	);
+	);	
 """

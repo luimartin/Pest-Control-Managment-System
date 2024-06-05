@@ -64,5 +64,5 @@ class Message:
 
 m = Message()
 msg = "Hello @cn you have a service tomorrow @csd"
-print(m.convert_msg(28,msg))
+print(m.convert_msg(2,msg))
 

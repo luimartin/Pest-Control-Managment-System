@@ -29,3 +29,5 @@ class Contract:
         query = "select * from CONTRACT where problem = {}".format("\'"+input+"\'")
         return handle_select(query)   
 
+c = Contract()
+c.add_contract(1, "Roaches", "Misting Method", "2023-01-01", "2024-01-01", 100.00, 3, 100000)

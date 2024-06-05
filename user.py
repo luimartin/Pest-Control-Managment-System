@@ -1,6 +1,7 @@
 from database import *
 from query_settings import *
-
+import hashlib
+import os
 import bcrypt
 
 class User:
@@ -9,22 +10,41 @@ class User:
         self.isActive = True
         
     def add_user(self, uname, pword):
-        hashed_password = bcrypt.hashpw(pword.encode('utf-8'), bcrypt.gensalt())
-
+        # Create a new SHA-256 hash object
+        sha256 = hashlib.sha256()
+        
+        # Hash the password with a salt
+        salt = os.urandom(16)
+        sha256.update(salt + pword.encode('utf-8'))
+        hashed_password = sha256.hexdigest()
+       
+        
+        # Store the salt and hashed password in the database
         query = (
-            "insert into USER(username, password, void)"
-            "values(%s, %s, %s)"
+            "insert into USER(username, salt, password, void) "
+            "values(%s, %s, %s, %s)"
         )
-        data = (uname, hashed_password, 0)
+        data = (uname, salt.hex(), hashed_password, 0)
         handle_transaction(query, data)
 
     def validate_user(self, input_id, input_pwd):
-        # This is the place where user's id and password will be validated
-        query = "select password from USER where user_id = {}".format(input_id)
-        user_pwd = handle_select(query)[0][0]
+        # Retrieve the user's salt and hashed password from the database
+        query = "select salt, password from USER where user_id = {}".format(input_id)
+        result = handle_select(query)
+        if not result:
+            return False
 
-        if user_pwd is not None: return bcrypt.checkpw(input_pwd.encode('utf-8'), user_pwd.encode('utf-8'))
-        else: return False
+        stored_salt, stored_hashed_password = result[0]
+
+        # Create a new SHA-256 hash object
+        sha256 = hashlib.sha256()
+
+        # Hash the input password with the stored salt
+        sha256.update(bytes.fromhex(stored_salt) + input_pwd.encode('utf-8'))
+        input_hashed_password = sha256.hexdigest()
+
+        # Compare the stored hashed password with the input hashed password
+        return stored_hashed_password == input_hashed_password
 
     def add_activity(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
@@ -48,4 +68,4 @@ class User:
     
 u = User()
 #u.add_user('neille', '123456')
-#print(u.validate_user(24000, '030709'))
+print(u.validate_user(1, '123456'))
