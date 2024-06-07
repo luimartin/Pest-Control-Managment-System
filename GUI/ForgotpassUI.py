@@ -1,12 +1,13 @@
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designforgotpassUI import Ui_forgotPassword
 from GUI.changepassUI import ChangePass
+from user import User
 class ForgotPass(QDialog, Ui_forgotPassword):
     
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
+        self.User = User()
         self.forgotPassCancelBtn.clicked.connect(self.forgotcancelHandler)
         self.forgotPassSubmitBtn.clicked.connect(self.forgotpassHandler)
 
@@ -27,10 +28,19 @@ class ForgotPass(QDialog, Ui_forgotPassword):
                 noInput.setText("Please input Admin ID or Username")
                 noInput.exec()
 
-        else: 
+        elif self.User.cp_validate_user(adminID, username):
             #validation here 
-            changepass = ChangePass()
+            self.hide()
+            changepass = ChangePass(adminID)
             changepass.exec()
-
+            
+            self.close()
+        else:
+                noInput = QMessageBox()
+                noInput.setWindowTitle("Error")
+                noInput.setIcon(QMessageBox.Icon.Warning)
+                noInput.setText("Invalid Username or Admin ID")
+                noInput.exec()
+             
 
 

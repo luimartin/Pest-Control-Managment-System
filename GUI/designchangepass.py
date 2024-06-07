@@ -11,11 +11,14 @@ class Ui_changePassword(object):
         changePassword.setSizeGripEnabled(False)
         self.changePassSubmitBtn_2 = QtWidgets.QPushButton(parent=changePassword)
         self.changePassSubmitBtn_2.setGeometry(QtCore.QRect(210, 250, 111, 31))
-        self.changePassSubmitBtn_2.setStyleSheet("border: none;\n"
+        self.changePassSubmitBtn_2.setStyleSheet("QPushButton{border: none;\n"
 "background-color: rgb(0, 255, 0);\n"
 "font-size: 14px;\n"
+"}\n"
 "\n"
-"")
+"QPushButton:hover{\n"
+"    background-color: #5CE371\n"
+"}")
         self.changePassSubmitBtn_2.setObjectName("changePassSubmitBtn_2")
         self.layoutWidget = QtWidgets.QWidget(parent=changePassword)
         self.layoutWidget.setGeometry(QtCore.QRect(30, 30, 291, 192))
@@ -45,7 +48,8 @@ class Ui_changePassword(object):
         self.confirmpassword = QtWidgets.QLineEdit(parent=self.layoutWidget)
         self.confirmpassword.setObjectName("confirmpassword")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.confirmpassword)
-
+        self.newpassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.confirmpassword.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.retranslateUi(changePassword)
         QtCore.QMetaObject.connectSlotsByName(changePassword)
 

@@ -43,12 +43,33 @@ class User:
         # Compare the stored hashed password with the input hashed password
         return stored_hashed_password == input_hashed_password
 
+    # Changing of password
+    def new_pass(self, user_id, new_pass, confirm_pass):
+        if new_pass == confirm_pass:
+            print("yun")
+            sha256 = hashlib.sha256()
+        
+            salt = os.urandom(16)
+            sha256.update(salt + new_pass.encode('utf-8'))
+            hashed_password = sha256.hexdigest()
+        
+            query = (
+                "update USER set password = %s, salt = %s"
+                " where user_id = %s"
+            )
+            data = (hashed_password, salt.hex(), user_id)
+            handle_transaction(query, data)
+            return True
+        else:
+            False
+
+    # Validation of account based from the input userid and username for changing of password
     def cp_validate_user(self, user_id, username):
         query = "select user_id, username from USER where user_id = {}".format(user_id)
         uid = handle_select(query)[0][0]
         uname = handle_select(query)[0][1]
 
-        if uid == user_id and uname == username:
+        if uid == int(user_id) and uname == username:
             return True
         
         return False
@@ -77,8 +98,8 @@ class User:
         return handle_select(query)[0][0]
 
     
-u = User()
+#u = User()
 #u.add_user('bianca', 'gojo')
 #print(u.validate_user(24002, 'yuta'))
 #print(u.cp_validate_user(24002, 'yuta'))
-#u.new_pass(24002, 'yuta', 'yuta')
+#u.new_pass(24002, 'yuta', 'yuta')``
