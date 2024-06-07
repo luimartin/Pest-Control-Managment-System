@@ -2,7 +2,6 @@ from database import *
 from query_settings import *
 import hashlib
 import os
-import bcrypt
 
 class User:
     def __init__(self, username=None):
@@ -10,15 +9,12 @@ class User:
         self.isActive = True
         
     def add_user(self, uname, pword):
-        # Create a new SHA-256 hash object
         sha256 = hashlib.sha256()
         
-        # Hash the password with a salt
         salt = os.urandom(16)
         sha256.update(salt + pword.encode('utf-8'))
         hashed_password = sha256.hexdigest()
        
-        
         # Store the salt and hashed password in the database
         query = (
             "insert into USER(username, salt, password, void) "
@@ -36,7 +32,6 @@ class User:
 
         stored_salt, stored_hashed_password = result[0]
 
-        # Create a new SHA-256 hash object
         sha256 = hashlib.sha256()
 
         # Hash the input password with the stored salt
@@ -65,7 +60,8 @@ class User:
         temp = "select {} from USER ".format(categ)
         query = temp + "where user_id = {}".format(ref_id)
         return handle_select(query)[0][0]
+
     
-u = User()
-#u.add_user('neille', '123456')
-print(u.validate_user(1, '123456'))
+#u = User()
+#u.add_user('Bowie', 'Shendi')
+#print(u.validate_user(1, '123456'))

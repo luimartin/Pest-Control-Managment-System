@@ -62,7 +62,7 @@ class Message:
         query = temp + "where message_id = {}".format(msg_id)
         return handle_select(query)
 
-m = Message()
-msg = "Hello @cn you have a service tomorrow @csd"
-print(m.convert_msg(2,msg))
+#m = Message()
+#msg = "Hello @cn you have a service tomorrow @csd"
+#print(m.convert_msg(2,msg))
 

@@ -110,9 +110,11 @@ mycursor = mydb.cursor()
 	8.  
 	create table SALES(
         sale_id int not null auto_increment,
+        client_id int,
 		figure decimal(10, 2) not null,
         sale_date date not null,
-		PRIMARY KEY (sale_id)
+		PRIMARY KEY (sale_id),
+        CONSTRAINT fk_sale FOREIGN KEY (client_id) REFERENCES CLIENT(client_id)
 	);
 	
 	9. DONE (Validated) 

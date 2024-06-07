@@ -21,4 +21,4 @@ class Message:
         query = temp + "where message_id = {}".format(msg_id)
         return handle_select(query)
 
-m = Message()
+#m = Message()

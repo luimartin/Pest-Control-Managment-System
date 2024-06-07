@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
-from designforgotpassUI import Ui_forgotPassword
-from changepassUI import ChangePass
+from GUI.designforgotpassUI import Ui_forgotPassword
+from GUI.changepassUI import ChangePass
 class ForgotPass(QDialog, Ui_forgotPassword):
     
     def __init__(self):
@@ -18,7 +18,7 @@ class ForgotPass(QDialog, Ui_forgotPassword):
     def forgotpassHandler(self):
         adminID = self.adminIDInput.text()
         username = self.usernameInput.text()
-
+        
         if (adminID and username) == "":
                 print(adminID, username, )
                 noInput = QMessageBox()

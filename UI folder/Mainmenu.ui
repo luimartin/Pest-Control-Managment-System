@@ -48,8 +48,10 @@
      <string notr="true">QWidget{
 background-color:white
 }
+
 QPushButton{
 	height: 100%;
+	width: 100%;
 	border: none
 }
 
@@ -59,49 +61,27 @@ QPushButton:checked{
 
 QPushButton:hover{
 	 	background-color: #D9D9D9;
-}</string>
+}
+</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>100</y>
+       <y>110</y>
        <width>131</width>
-       <height>918</height>
+       <height>631</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,1,0,1,0,1,1,1">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>Clients</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>Schedules</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="0">
        <widget class="QPushButton" name="pushButton_3">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>64</height>
+         </size>
+        </property>
         <property name="text">
          <string>Inventory</string>
         </property>
@@ -113,47 +93,14 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="text">
-         <string>Technician</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_5">
-        <property name="text">
-         <string>Sales</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_6">
-        <property name="text">
-         <string>Maintenance</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
+      <item row="6" column="0">
        <widget class="QPushButton" name="pushButton_7">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>64</height>
+         </size>
+        </property>
         <property name="text">
          <string>SMS Format</string>
         </property>
@@ -165,8 +112,109 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
-      <item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>63</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Technician</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>63</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Maintenance</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>64</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Sales</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QPushButton" name="pushButton_9">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>63</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>About</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>63</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Schedules</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
        <widget class="QPushButton" name="pushButton_8">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>63</height>
+         </size>
+        </property>
         <property name="text">
          <string>Help</string>
         </property>
@@ -178,10 +226,16 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_9">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButton">
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>64</height>
+         </size>
+        </property>
         <property name="text">
-         <string>About</string>
+         <string>Clients</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -199,7 +253,7 @@ QPushButton:hover{
      <rect>
       <x>160</x>
       <y>20</y>
-      <width>831</width>
+      <width>841</width>
       <height>731</height>
      </rect>
     </property>
@@ -212,7 +266,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -383,16 +437,16 @@ QPushButton:hover{
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>160</y>
-        <width>771</width>
-        <height>551</height>
+        <y>230</y>
+        <width>791</width>
+        <height>481</height>
        </rect>
       </property>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>320</x>
+        <x>340</x>
         <y>100</y>
         <width>441</width>
         <height>51</height>
@@ -470,19 +524,80 @@ QPushButton:hover{
      </widget>
     </widget>
     <widget class="QWidget" name="maintenancePage">
-     <widget class="QLabel" name="label_4">
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+	height: 30px;
+	background-color: #D9D9D9;
+}
+
+QPushButton:hover{
+	background-color: #A7A6A6
+}</string>
+     </property>
+     <widget class="QTableWidget" name="tableWidget_3">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>60</y>
-        <width>71</width>
-        <height>41</height>
+        <x>20</x>
+        <y>160</y>
+        <width>791</width>
+        <height>551</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QLabel" name="label_11">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>281</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
       <property name="text">
-       <string>maintenance</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Maintenance&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
       </property>
      </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>100</y>
+        <width>241</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <property name="spacing">
+        <number>14</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="addAdminBtn">
+         <property name="text">
+          <string>Add Admin</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="userLogBtn">
+         <property name="text">
+          <string>User Logs</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <zorder>layoutWidget</zorder>
+     <zorder>tableWidget_3</zorder>
+     <zorder>label_11</zorder>
     </widget>
     <widget class="QWidget" name="SMSformatPage">
      <widget class="QLabel" name="label_8">

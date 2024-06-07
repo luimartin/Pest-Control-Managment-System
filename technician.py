@@ -94,4 +94,4 @@ class Technician:
         query = "select * from TECHNICIAN where first_name = {}".format("\'"+input+"\'")
         return handle_select(query)   
 
-t = Technician()
+#t = Technician()

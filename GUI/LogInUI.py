@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
-from designLoginUI import Ui_login
-from ForgotpassUI import ForgotPass
-from Logic.user import User
+from GUI.designLoginUI import Ui_login
+from GUI.ForgotpassUI import ForgotPass
+from user import User
 
 class Window(QMainWindow, Ui_login):
     
@@ -16,7 +16,6 @@ class Window(QMainWindow, Ui_login):
         adminID = self.adminIDInput.text()
         username = self.usernameInput.text()
         password = self.passwordInput.text()
-        
         if (adminID and username and password) == "":
             print("wala laman")
             noInput = QMessageBox()
@@ -25,13 +24,11 @@ class Window(QMainWindow, Ui_login):
             noInput.setText("Please input Admin ID or Username or Password")
             noInput.exec()
 
-        else: 
+        elif self.User.validate_user(adminID, password):
             print("mayinput")
-            
-            self.User.validate_user(adminID,password)
             #validation shit here......
-
-        
+        else: 
+            print("mali input")
 
     def forgotPassHandler(self):
         forgotdialog = ForgotPass()
@@ -40,9 +37,5 @@ class Window(QMainWindow, Ui_login):
         
 
 
-app = QApplication([])
-window = Window()
 
-window.show()
-app.exec()
 
