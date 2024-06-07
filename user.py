@@ -41,6 +41,17 @@ class User:
         # Compare the stored hashed password with the input hashed password
         return stored_hashed_password == input_hashed_password
 
+    def cp_validate_user(self, user_id, username):
+        query = "select user_id, username from USER where user_id = {}".format(user_id)
+        uid = handle_select(query)[0][0]
+        uname = handle_select(query)[0][1]
+
+        if uid == user_id and uname == username:
+            return True
+        
+        return False
+
+
     def add_activity(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
         query = (
@@ -62,6 +73,7 @@ class User:
         return handle_select(query)[0][0]
 
     
-#u = User()
+u = User()
 #u.add_user('Bowie', 'Shendi')
 #print(u.validate_user(1, '123456'))
+print(u.cp_validate_user(2, 'Bowiee'))
