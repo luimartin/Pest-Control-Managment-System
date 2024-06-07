@@ -3,7 +3,7 @@ from GUI.designchangepass import Ui_changePassword
 
 class ChangePass(QDialog, Ui_changePassword):
 
-    def __init__(self):
+    def __init__(self,adminID):
         super().__init__()
         self.setupUi(self)
 

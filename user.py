@@ -41,6 +41,17 @@ class User:
         # Compare the stored hashed password with the input hashed password
         return stored_hashed_password == input_hashed_password
 
+    def new_pass(self, user_id, new_pass):
+        sha256 = hashlib.sha256()
+        
+        salt = os.urandom(16)
+        sha256.update(salt + new_pass.encode('utf-8'))
+        hashed_password = sha256.hexdigest()
+        query = (
+            "update "
+        )
+            
+
     def cp_validate_user(self, user_id, username):
         query = "select user_id, username from USER where user_id = {}".format(user_id)
         uid = handle_select(query)[0][0]
