@@ -8,7 +8,7 @@ from technician import Technician
 class Schedule:
     def __init__(self):
         self.Technician = Technician()
-        
+     
 
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
         query = (
@@ -117,7 +117,6 @@ class Schedule:
         query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
         return handle_select(query)[0][0]
 
-
-s = Schedule()
-#s.add_schedule(1, 'Posting', '2024-02-23', '2024-02-28', '09:00:00', '17:00:00')
+#s = Schedule()
+#s.add_schedule(1, 'Posting', '2024-06-07', '2024-06-10', '09:00:00', '17:00:00')
 #s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")

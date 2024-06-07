@@ -34,3 +34,6 @@ class ClientInfo:
     def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+
+#c = ClientInfo()
+#c.add_client_info("Bowie Company", "bowie@gmail.com", "09234567811", "San Juan City")
