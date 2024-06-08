@@ -131,13 +131,19 @@ mycursor = mydb.cursor()
     
 	10. DONE (VALIDATED)
 	create table USER(
-        user_id int not null auto_increment,
+        user_id bigint not null auto_increment,
 		username varchar(20) not null UNIQUE KEY,
 		password varchar(256) not null,  
 		void tinyint(1) not null,
         salt varchar(256),
+        question1 varchar(256),
+        answer1 varchar(256),
+        question2 varchar(256),
+        answer2 varchar(256),
 		PRIMARY KEY (user_id)
     );	 
+
+    ALTER table USER auto_increment = 24000;
 
     11. 
      create table ACTIVITY(
