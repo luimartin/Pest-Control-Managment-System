@@ -133,8 +133,9 @@ mycursor = mydb.cursor()
 	create table USER(
         user_id int not null auto_increment,
 		username varchar(20) not null UNIQUE KEY,
-		password varchar(32) not null,  
+		password varchar(256) not null,  
 		void tinyint(1) not null,
+        salt varchar(256),
 		PRIMARY KEY (user_id)
     );	 
 
