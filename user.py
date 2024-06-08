@@ -46,6 +46,7 @@ class User:
     # Changing of password
     def new_pass(self, user_id, new_pass, confirm_pass):
         if new_pass == confirm_pass:
+            print("Successfully Changed")
             sha256 = hashlib.sha256()
         
             salt = os.urandom(16)
