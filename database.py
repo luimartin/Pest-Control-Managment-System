@@ -116,7 +116,16 @@ mycursor = mydb.cursor()
 		PRIMARY KEY (sale_id),
         CONSTRAINT fk_sale FOREIGN KEY (client_id) REFERENCES CLIENT(client_id)
 	);
-	
+    
+    create table HISTORY_SALE(
+		h_sale_id int not null auto_increment,
+        sale_date date not null,
+        monthly_total_sale decimal(10,2) not null, 
+        monthly_avg_sale decimal(10,2) not null,
+        PRIMARY KEY (h_sale_id)
+    );
+    
+
 	9. DONE (Validated) 
     create table MESSAGE(
         message_id int not null auto_increment,
@@ -153,4 +162,7 @@ mycursor = mydb.cursor()
         activity varchar(256) not null,
         PRIMARY KEY (act_id)
 	);	
+    
+
+   
 """
