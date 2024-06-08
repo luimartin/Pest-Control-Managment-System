@@ -4,12 +4,27 @@ import hashlib
 import os
 
 class User:
+    security_question = [
+            "What is the name of your pet?",
+            "What is your favorite food of all time?",
+            "What was the first game you played?",
+            "What is the toy/stuffed animal you like the most as a kind?",
+            "What was your dream job?",
+            "What was the first thing  you learned to cook?",
+            "What is your most listened song ever?",
+            "Who is your favorite actor/actress?",
+            "Who is your favorite cartoon/anime character?",
+            "How did you met your crush?"
+    ]
+
     def __init__(self, username=None):
         self.username = username
         self.isActive = True
+
+       
     
     # Add the admin account with SHA256 password encrypting and decryption
-    def add_user(self, uname, pword):
+    def add_user(self, uname, pword, q1, a1, q2, a2):
         sha256 = hashlib.sha256()
         
         salt = os.urandom(16)
@@ -18,10 +33,10 @@ class User:
        
         # Store the salt and hashed password in the database
         query = (
-            "insert into USER(username, password, void, salt) "
-            "values(%s, %s, %s, %s)"
+            "insert into USER(username, password, salt, question1, answer1, question2, answer2, void) "
+            "values(%s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (uname, hashed_password, 0, salt.hex())
+        data = (uname, hashed_password, salt.hex(), q1, a1, q2, a2, 0)
         handle_transaction(query, data)
 
     # Validate user based from input id and password
@@ -64,12 +79,17 @@ class User:
         return False
 
     # Validation of account based from the input userid and username for changing of password
-    def cp_validate_user(self, user_id, username):
-        query = "select user_id, username from USER where user_id = {}".format(user_id)
+    def cp_validate_user(self, user_id, username, q1, a1, q2, a2):
+        query = "select user_id, username, question1, answer1, question2, answer2 from USER where user_id = {}".format(user_id)
+        
         uid = handle_select(query)[0][0]
         uname = handle_select(query)[0][1]
+        quest1 = handle_select(query)[0][2]
+        answer1 = handle_select(query)[0][3]
+        quest2 = handle_select(query)[0][4]
+        answer2 = handle_select(query)[0][5]
 
-        if uid == int(user_id) and uname == username:
+        if uid == int(user_id) and uname == username and quest1 == q1 and answer1 == a1 and quest2 == q2 and answer2 == a2:
             return True
         
         return False
@@ -98,8 +118,8 @@ class User:
         return handle_select(query)[0][0]
 
     
-#u = User()
-#u.add_user('bianca', 'gojo')
+u = User()
+#u.add_user('bowie', 'shendi', "What is the name of your pet?", "Fallfee", "Who is your favorite cartoon/anime character?", "Naruto")
 #print(u.validate_user(24002, 'yuta'))
-#print(u.cp_validate_user(24002, 'yuta'))
+#print(u.cp_validate_user(24000, 'bowie', 'What is the name of your pet?', "Fallfee", "Who is your favorite cartoon/anime character?", "Naruto"))
 #u.new_pass(24002, 'yuta', 'yuta')``
