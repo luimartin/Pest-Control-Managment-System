@@ -46,7 +46,6 @@ class User:
     # Changing of password
     def new_pass(self, user_id, new_pass, confirm_pass):
         if new_pass == confirm_pass:
-            print("yun")
             sha256 = hashlib.sha256()
         
             salt = os.urandom(16)
@@ -60,8 +59,8 @@ class User:
             data = (hashed_password, salt.hex(), user_id)
             handle_transaction(query, data)
             return True
-        else:
-            False
+        
+        return False
 
     # Validation of account based from the input userid and username for changing of password
     def cp_validate_user(self, user_id, username):
