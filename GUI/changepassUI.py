@@ -25,7 +25,6 @@ class ChangePass(QDialog, Ui_changePassword):
             noInput.setIcon(QMessageBox.Icon.Information)
             noInput.setText("Password Updated")
             noInput.exec()
-            self.hide()
             self.close()
         else:
             noInput = QMessageBox()
