@@ -8,6 +8,8 @@ class ChangePass(QDialog, Ui_changePassword):
         self.setupUi(self)
         self.User = User()
         self.adminID = adminID
+        self.User = User()
+        self.adminID = adminID
         self.changePassSubmitBtn_2.clicked.connect(self.changepassHandler)
     
     def changepassHandler(self):

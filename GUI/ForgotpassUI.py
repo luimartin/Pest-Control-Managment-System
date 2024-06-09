@@ -2,11 +2,13 @@ from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designforgotpassUI import Ui_forgotPassword
 from GUI.changepassUI import ChangePass
 from user import User
+from user import User
 class ForgotPass(QDialog, Ui_forgotPassword):
     
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.User = User()
         self.User = User()
         self.forgotPassCancelBtn.clicked.connect(self.forgotcancelHandler)
         self.forgotPassSubmitBtn.clicked.connect(self.forgotpassHandler)
@@ -30,6 +32,8 @@ class ForgotPass(QDialog, Ui_forgotPassword):
 
         elif self.User.cp_validate_user(adminID, username):
             #validation here 
+            self.hide()
+            changepass = ChangePass(adminID)
             self.hide()
             changepass = ChangePass(adminID)
             changepass.exec()

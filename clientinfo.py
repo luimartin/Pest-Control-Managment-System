@@ -24,6 +24,14 @@ class ClientInfo:
         data = (new_input, ref_id)
         handle_transaction(query, data)
 
+    def select_all_clients(self):
+        query = "select name, phone_num, status from CLIENT where void = 0"
+        return handle_select(query)
+    
+    def select_all_clients_void(self):
+        query = "select name, phone_num, address, email from CLIENT where void = 1"
+        return handle_select(query)
+
 
     def get_data(self, ref_id, categ):
         temp = "select {} from CLIENT ".format(categ)
@@ -36,4 +44,5 @@ class ClientInfo:
         return handle_select(query)   
 
 #c = ClientInfo()
+#print(c.select_all_clients())
 #c.add_client_info("Bowie Company", "bowie@gmail.com", "09234567811", "San Juan City")
