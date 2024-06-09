@@ -32,4 +32,3 @@ class ChangePass(QDialog, Ui_changePassword):
             noInput.setIcon(QMessageBox.Icon.Warning)
             noInput.setText("Password Mismatch")
             noInput.exec()
-            
