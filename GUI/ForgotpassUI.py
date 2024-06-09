@@ -41,6 +41,6 @@ class ForgotPass(QDialog, Ui_forgotPassword):
                 noInput.setIcon(QMessageBox.Icon.Warning)
                 noInput.setText("Invalid Username or Admin ID")
                 noInput.exec()
-             
+           
 
 
