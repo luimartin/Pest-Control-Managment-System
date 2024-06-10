@@ -26,8 +26,22 @@ class Contract:
         return handle_select(query)
 
     def search(self, input):
-        query = "select * from CONTRACT where problem = {}".format("\'"+input+"\'")
-        return handle_select(query)   
+        query = f"""
+            select * from CONTRACT 
+            where (
+            contract_id LIKE '%{input}%'
+            OR client_id LIKE '%{input}%'
+            OR problem LIKE '%{input}%' 
+            OR service_type LIKE '%{input}%' 
+            OR start_date LIKE '%{input}%' 
+            OR end_date LIKE '%{input}%'
+            OR square_meter LIKE '%{input}%'
+            OR unit LIKE '%{input}%'
+            OR price LIKE '%{input}%'
+            ) 
+        """
+        return handle_select(query)    
 
-#c = Contract()
+c = Contract()
 #c.add_contract(1, "Roaches", "Misting Method", "2023-01-01", "2024-01-01", 100.00, 3, 100000)
+print(c.search("Roaches"))

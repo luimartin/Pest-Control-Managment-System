@@ -40,10 +40,28 @@ class ClientInfo:
         return handle_select(query)[0][0]
         
         
-    def search(self, input):
+    """def search(self, input):
         query = "select * from CLIENT where name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+    """
 
-#c = ClientInfo()
+    def search(self, input):
+        query = f"""
+            select * from CLIENT 
+            where (
+            client_id LIKE '%{input}%'
+            OR name LIKE '%{input}%'
+            OR email LIKE '%{input}%' 
+            OR phone_num LIKE '%{input}%' 
+            OR address LIKE '%{input}%' 
+            OR status LIKE '%{input}%'
+            ) 
+            and void = 0
+        """
+        return handle_select(query)     
+
+c = ClientInfo()
 #print(c.select_all_clients())
 #c.add_client_info("Bowie Company", "bowie@gmail.com", "09234567811", "San Juan City")
+print(c.search())
+

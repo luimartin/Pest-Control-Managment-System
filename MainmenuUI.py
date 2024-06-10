@@ -12,6 +12,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.voidBackBtn.clicked.connect(self.switch_to_ClientsPage)
         self.populate_table1()
         # for sidebar menu
+        self.pushButton.toggled(True)
         self.pushButton.clicked.connect(self.switch_to_ClientsPage)
         self.pushButton_2.clicked.connect(self.switch_to_SchedulePage)
         self.pushButton_3.clicked.connect(self.switch_to_InventoryPage)
@@ -54,7 +55,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.clientsTable.verticalHeader().hide()
         a.setStretchLastSection(True)  
         clients = self.c.select_all_clients()
-        print(clients)
         if clients:
             self.clientsTable.setRowCount(len(clients))
             self.clientsTable.setColumnCount(7)
@@ -78,7 +78,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
     def viewschedule(self, client_id):
         #print("tite", client_id)
+        self.pushButton_2.toggled(True)
         self.switch_to_SchedulePage()
+        
   #wlang buttons sa table
 
     def void_populate_table(self):
