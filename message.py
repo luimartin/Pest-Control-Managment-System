@@ -61,6 +61,19 @@ class Message:
         temp = "select {} from MESSAGE ".format(categ)
         query = temp + "where message_id = {}".format(msg_id)
         return handle_select(query)
+    
+    def search(self, input):
+        query = f"""
+            select * from MESSAGE 
+            where (
+            message_id LIKE '%{input}%'
+            OR client_id LIKE '%{input}%'
+            OR technician_id LIKE '%{input}%' 
+            OR message_category LIKE '%{input}%' 
+            OR message LIKE '%{input}%' 
+            ) and void = 0
+        """
+        return handle_select(query) 
 
 """m = Message()
 msg = "Hello @cn you have a service tomorrow @csd"

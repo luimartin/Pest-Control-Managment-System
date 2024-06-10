@@ -93,6 +93,19 @@ class Sales:
         query = temp + "where sale_id = {}".format(sale_id)
         return handle_select(query)[0][0]
 
+    def search(self, input):
+        query = f"""
+            select * from SALES 
+            where ( sale_id LIKE '%{input}%'
+            OR client_id LIKE '%{input}%'
+            OR figure LIKE '%{input}%' 
+            OR sale_date LIKE '%{input}%' 
+            )
+        """
+        return handle_select(query) 
+
 '''s = Sales()
 s.add_sale(1, 30000)
 print(s.sale_trend())'''
+s = Sales()
+print(s.search("10000"))

@@ -93,5 +93,19 @@ class Technician:
     def search(self, input):
         query = "select * from TECHNICIAN where first_name = {}".format("\'"+input+"\'")
         return handle_select(query)   
+    
+    def search(self, input):
+        query = f"""
+            select * from TECHNICIAN 
+            where (
+            first_name LIKE '%{input}%'
+            OR last_name LIKE '%{input}%'
+            OR phone_num LIKE '%{input}%' 
+            OR address LIKE '%{input}%' 
+            ) and void = 0
+        """
+        return handle_select(query)
 
-#t = Technician()
+t = Technician()
+#t.add_technician("Mora", "Jeremy", "09154847877", "Pasig City")
+#print(t.search("Mor"))

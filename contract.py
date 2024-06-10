@@ -44,4 +44,4 @@ class Contract:
 
 c = Contract()
 #c.add_contract(1, "Roaches", "Misting Method", "2023-01-01", "2024-01-01", 100.00, 3, 100000)
-print(c.search("Roaches"))
+print(c.search(""))

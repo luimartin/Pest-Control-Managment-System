@@ -116,7 +116,23 @@ class Schedule:
         temp = "select {} from SCHEDULE ".format(categ)
         query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
         return handle_select(query)[0][0]
+    
+    def search(self, input):
+        query = f"""
+            select * from SCHEDULE 
+            where (
+            schedule_id LIKE '%{input}%'
+            OR client_id LIKE '%{input}%'
+            OR technician_id LIKE '%{input}%' 
+            OR schedule_type LIKE '%{input}%' 
+            OR start_date LIKE '%{input}%' 
+            OR time_in LIKE '%{input}%'
+            OR time_out LIKE '%{input}%'
+            ) and void = 0
+        """
+        return handle_select(query) 
 
-#s = Schedule()
+s = Schedule()
 #s.add_schedule(1, 'Posting', '2024-06-07', '2024-06-10', '09:00:00', '17:00:00')
 #s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
+print(s.search("Posting"))

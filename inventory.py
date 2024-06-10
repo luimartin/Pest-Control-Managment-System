@@ -55,6 +55,21 @@ class Inventory:
         query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
+    
+    def search(self, input):
+        query = f"""
+            select * from INVENTORY 
+            where (
+            item_id LIKE '%{input}%'
+            OR item_name LIKE '%{input}%'
+            OR item_type LIKE '%{input}%' 
+            OR quantity LIKE '%{input}%' 
+            OR expiration LIKE '%{input}%' 
+            OR description LIKE '%{input}%'
+            ) and void = 0
+        """
+        return handle_select(query) 
   
 i = Inventory()
-i.edit_inv_info(3, "Expiration", "2025-01-01")
+#i.edit_inv_info(3, "Expiration", "2025-01-01")
+#print(i.search("X"))

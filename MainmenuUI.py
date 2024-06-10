@@ -12,7 +12,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.voidBackBtn.clicked.connect(self.switch_to_ClientsPage)
         self.populate_table1()
         # for sidebar menu
-        self.pushButton.toggled(True)
+        #self.pushButton.toggled(True)
         self.pushButton.clicked.connect(self.switch_to_ClientsPage)
         self.pushButton_2.clicked.connect(self.switch_to_SchedulePage)
         self.pushButton_3.clicked.connect(self.switch_to_InventoryPage)
