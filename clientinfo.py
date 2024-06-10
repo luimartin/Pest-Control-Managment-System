@@ -25,8 +25,9 @@ class ClientInfo:
         handle_transaction(query, data)
 
     def select_all_clients(self):
-        query = "select name, phone_num, status from CLIENT where void = 0"
+        query = "select client_id, name, phone_num, status from CLIENT where void = 0"
         return handle_select(query)
+
     
     def select_all_clients_void(self):
         query = "select name, phone_num, address, email from CLIENT where void = 1"

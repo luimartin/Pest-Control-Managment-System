@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox,QTableWidget,QTableWidgetItem,QHeaderView
+from PyQt6.QtWidgets import QApplication, QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton
 from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
 from GUI.addclientUI import addClient
@@ -10,7 +10,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addClientBtn.clicked.connect(self.addclient)
         self.voidedClientButton.clicked.connect(self.voidpage)
         self.voidBackBtn.clicked.connect(self.switch_to_ClientsPage)
-        self.populate_table()
+        self.populate_table1()
         # for sidebar menu
         self.pushButton.clicked.connect(self.switch_to_ClientsPage)
         self.pushButton_2.clicked.connect(self.switch_to_SchedulePage)
@@ -45,24 +45,41 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ######################################################################
 
 # clientspage
-    def populate_table(self):
+
+    #may buttons sa table
+    def populate_table1(self):
         #stretch the header
         a = self.clientsTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
-        a.setStretchLastSection(True)
+        self.clientsTable.verticalHeader().hide()
+        a.setStretchLastSection(True)  
         clients = self.c.select_all_clients()
+        print(clients)
         if clients:
             self.clientsTable.setRowCount(len(clients))
-            self.clientsTable.setColumnCount(5)
-            self.clientsTable.setHorizontalHeaderLabels(['Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details'])
-
+            self.clientsTable.setColumnCount(7)
+            self.clientsTable.setHorizontalHeaderLabels(['Client ID','Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details',' '])
             
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
+                    #print(type(row_idx))
+                    #print(clients[row_idx][0])
+                    
+                    client_id = clients[row_idx][0]
+                    #print(client_id)
+                    self.clientsTable.setStyleSheet("font-size: 14px;")
                     self.clientsTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                button = QPushButton('Action')
+                button.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
+                self.clientsTable.setCellWidget(row_idx, 4, button)
         else:
             self.clientsTable.setRowCount(0)
             self.clientsTable.setColumnCount(0)
+
+    def viewschedule(self, client_id):
+        #print("tite", client_id)
+        self.switch_to_SchedulePage()
+  #wlang buttons sa table
 
     def void_populate_table(self):
         #stretch the header
@@ -86,7 +103,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def addclient(self):
         addclient = addClient()
         addclient.exec()
-        self.populate_table()
+        self.populate_table1()
     def voidpage(self):
         self.void_populate_table()
         self.stackedWidget.setCurrentIndex(9)

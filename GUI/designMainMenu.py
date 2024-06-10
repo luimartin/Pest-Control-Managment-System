@@ -1,6 +1,6 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-
+import GUI.rc_icons
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

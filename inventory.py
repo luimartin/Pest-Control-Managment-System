@@ -5,7 +5,7 @@ class Inventory:
     def __init__(self):
         pass
 
-    def add_item(self, name, item_type, quant, expir, desc):
+    def add_item(self, name, item_type, quant, desc, expir=None):
         query = (
             "insert into INVENTORY (item_name, item_type, quantity, expiration, description, void)"
             "values (%s, %s, %s, %s, %s, %s)"
@@ -56,3 +56,5 @@ class Inventory:
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
   
+i = Inventory()
+i.edit_inv_info(3, "Expiration", "2025-01-01")
