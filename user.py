@@ -118,7 +118,7 @@ class User:
         return handle_select(query)[0][0]
 
     
-u = User()
+#u = User()
 #u.add_user('bowie', 'shendi', "What is the name of your pet?", "Fallfee", "Who is your favorite cartoon/anime character?", "Naruto")
 #print(u.validate_user(24002, 'yuta'))
 #print(u.cp_validate_user(24000, 'bowie', 'What is the name of your pet?', "Fallfee", "Who is your favorite cartoon/anime character?", "Naruto"))

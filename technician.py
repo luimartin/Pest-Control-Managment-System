@@ -119,7 +119,7 @@ class Technician:
         """
         return handle_select(query)
 
-t = Technician()
+#t = Technician()
 #t.add_technician("Mora", "Jeremy", "09154847877", "Pasig City")
-print(t.show_assigned_client(1))
+#print(t.show_assigned_client(1))
 #print(t.search("Mor"))

@@ -75,7 +75,7 @@ class Inventory:
         """
         return handle_select(query) 
   
-i = Inventory()
+#i = Inventory()
 #i.add_item("Mouse Trap", "Material", 10, "Trap the mouse")
 #i.edit_inv_info(3, "Expiration", "2025-01-01")
 #print(i.choose_category("Chemical"))

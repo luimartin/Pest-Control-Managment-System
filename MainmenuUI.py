@@ -3,6 +3,7 @@ from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
 from inventory import Inventory
 from GUI.addclientUI import addClient
+from GUI.editclientUI import editClients
 class MainMenu(QMainWindow, Ui_MainWindow):
     def __init__(self, AdminID):
         super().__init__()
@@ -90,7 +91,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(client):
                     #print(type(row_idx))
                     #print(clients[row_idx][0])
-                    
                     client_id = clients[row_idx][0]
                     #print(client_id)
                     self.clientsTable.setStyleSheet("font-size: 14px;")
@@ -105,14 +105,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 self.clientsTable.setCellWidget(row_idx, 5, contractview)
 
                 edit = QPushButton('Edit')
-                #button.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
+                edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
                 self.clientsTable.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Delete')
-                #button.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
+                delete.clicked.connect(lambda _, id=client_id: self.deleteclient(id))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
-
-                
         else:
             self.clientsTable.setRowCount(0)
             self.clientsTable.setColumnCount(0)
@@ -121,7 +119,25 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         print("tite", client_id)
         self.pushButton_2.setChecked(True)#toggle button without click
         self.switch_to_SchedulePage()
+        
+    def editclient(self, id):
+        bago = editClients(id)
+        bago.exec()
+        self.populate_table1()
     
+    def deleteclient(self, id):
+        noInput = QMessageBox()
+        noInput.setWindowTitle("Error")
+        noInput.setIcon(QMessageBox.Icon.Warning)
+        noInput.setText("Are you sure you want to delete the client?")
+        noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        yes = noInput.exec()
+        if yes == QMessageBox.StandardButton.Yes:
+            self.c.edit_personal_info(id, "void", 1)
+        else:
+            noInput.close()
+        self.populate_table1()
+
     def void_populate_table(self):
         #stretch the header
         a = self.voidclientsTable.horizontalHeader()

@@ -169,9 +169,9 @@ class Schedule:
         """
         return handle_select(query) 
 
-s = Schedule()
+#s = Schedule()
 #s.add_schedule(1, 'Default', '2024-06-11', '2024-06-11', '08:00:00', '13:00:00')
 #s.assign_technician(12, 1, 1)
 #s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
 #print(s.search("Posting"))
-print(s.earliest_deadline_first())
+#print(s.earliest_deadline_first())
