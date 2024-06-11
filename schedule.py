@@ -12,10 +12,10 @@ class Schedule:
 
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
         query = (
-            "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out)"
-            "values (%s, %s, %s, %s, %s, %s)"
+            "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out, void, status)"
+            "values (%s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (ref_id, sched_type, start_date, end_date, time_in, time_out)
+        data = (ref_id, sched_type, start_date, end_date, time_in, time_out, 0, "Idle")
         handle_transaction(query, data)    
 
         if sched_type == 'Posting':
@@ -24,6 +24,32 @@ class Schedule:
 
             self.posting_schedulizer(sched_id, start_date, end_date)
 
+    def earliest_deadline_first(self):
+        today = date.today()
+        
+        query1 = """ 
+                select schedule_id, start_date, time_in, time_out from schedule 
+                where start_date like '{}%'
+                and schedule_type = 'Default'
+                union
+                select schedule_id, single_date, "09:00:00", "17:00:00" from schedulizer
+                where single_date like '{}%'
+                order by time_in, time_out ASC
+            """.format(today, today)    
+
+        query2 = (
+            "update schedule set status = 'Progress' "
+            "where schedule_id in {}"
+        )
+
+        return handle_select(query1)
+    
+    def update_state_when_done(self, client_id, sched_id):
+        query = (
+            "update schedule set status = 'Done' "
+            "where client_id = %s and schedule_id = %s"
+        )
+        data = (client_id, sched_id)
 
     def posting_schedulizer(self, sched_id, start_date, end_date):
         ref_sched = start_date
@@ -82,15 +108,25 @@ class Schedule:
     def assign_technician(self, sched_id, client_id, tech_id):
         isTechnicianExist = self.Technician.isTechnicianExist(tech_id)
         isTechnicianAvailable = self.Technician.isTechnicianAvailable(tech_id)
-        
+        print(isTechnicianExist)
+        print(isTechnicianAvailable)
+
         if isTechnicianExist and isTechnicianAvailable:
             query = (
                 "update SCHEDULE "
-                "set technician_id = %s "
+                "set technician_id = %s"
                 "where schedule_id = %s and client_id = %s"
             )
             data = (tech_id, sched_id, client_id)
-            handle_transaction(query, data)      
+            handle_transaction(query, data)     
+
+            query = (
+                "update TECHNICIAN "
+                "set state = 'Active' "
+                "where technician_id = %s"
+            )
+            data = (tech_id)
+            handle_transaction(query, data)  
 
 
     def show_accounted_technician(self, sched_id, client_id, tech_id):
@@ -103,7 +139,7 @@ class Schedule:
                 where SCHEDULE.schedule_id = {}
             """.format(client_id, tech_id, sched_id)
         return handle_select(query)[0][0]
-
+    
 
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
@@ -117,6 +153,7 @@ class Schedule:
         query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
         return handle_select(query)[0][0]
     
+
     def search(self, input):
         query = f"""
             select * from SCHEDULE 
@@ -133,6 +170,8 @@ class Schedule:
         return handle_select(query) 
 
 s = Schedule()
-#s.add_schedule(1, 'Posting', '2024-06-07', '2024-06-10', '09:00:00', '17:00:00')
+#s.add_schedule(1, 'Default', '2024-06-11', '2024-06-11', '08:00:00', '13:00:00')
+#s.assign_technician(12, 1, 1)
 #s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
-print(s.search("Posting"))
+#print(s.search("Posting"))
+print(s.earliest_deadline_first())

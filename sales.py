@@ -107,5 +107,5 @@ class Sales:
 '''s = Sales()
 s.add_sale(1, 30000)
 print(s.sale_trend())'''
-s = Sales()
-print(s.search("10000"))
+#s = Sales()
+#print(s.search("10000"))

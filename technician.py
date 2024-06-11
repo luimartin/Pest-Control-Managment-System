@@ -9,11 +9,14 @@ class Technician:
     
     def add_technician(self, f_name, l_name, phone_num, address):
         query = (
-            "insert into TECHNICIAN (first_name, last_name, phone_num, address, void)"
+            "insert into TECHNICIAN (first_name, last_name, phone_num, address, void, state)"
             "values (%s, %s, %s, %s, %s)"
         )
-        data = (f_name, l_name, phone_num, address, 0)
+        data = (f_name, l_name, phone_num, address, 0, "Idle")
         handle_transaction(query, data)
+
+    def round_robin(self):
+        pass
     
     def assign_item(self, tech_id, item_id, quantity, date_acquired):
         isItemValid = self.Inventory.deduct_item(item_id, quantity)
@@ -26,6 +29,15 @@ class Technician:
             handle_transaction(query, data)
         
         return None
+    
+    def show_assigned_client(self, tech_id):
+        query = (
+            "select SCHEDULE.client_id, CLIENT.name, SCHEDULE.start_date, SCHEDULE.end_date, SCHEDULE.time_in, SCHEDULE.time_out "
+            "from SCHEDULE "
+            "inner join CLIENT on CLIENT.client_id = SCHEDULE.client_id "
+            "inner join TECHNICIAN on TECHNICIAN.technician_id = {}".format(tech_id)
+        )  
+        return handle_select(query)
 
     def show_accounted_item(self, tech_id):
         query = (
@@ -70,9 +82,10 @@ class Technician:
     def isTechnicianAvailable(self, tech_id):
         query = (
             "select count(schedule_id) from SCHEDULE "
-            "inner join TECHNICIAN on TECHNICIAN.technician_id = {}".format(tech_id)
+            "where technician_id = {}".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
+        print(output_amount)
         
         # The number of rows determines the number of accounted clients 
         # (Max. 2 only, otherwise not available)
@@ -108,4 +121,5 @@ class Technician:
 
 t = Technician()
 #t.add_technician("Mora", "Jeremy", "09154847877", "Pasig City")
+print(t.show_assigned_client(1))
 #print(t.search("Mor"))

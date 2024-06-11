@@ -4,7 +4,11 @@ from query_settings import *
 class Inventory:
     def __init__(self):
         pass
-
+    
+    def select_inventory(self):
+        query = "select item_id,item_name, item_type, quantity, expiration, description from Inventory"
+        return handle_select(query)
+    
     def add_item(self, name, item_type, quant, desc, expir=None):
         query = (
             "insert into INVENTORY (item_name, item_type, quantity, expiration, description, void)"
@@ -52,8 +56,9 @@ class Inventory:
         handle_transaction(query, data)
 
     def choose_category(self, item_type):
-        query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
-        description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
+        """query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
+        description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")"""
+        query = "select item_id,item_name, item_type, quantity, expiration, description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
     
     def search(self, input):
@@ -71,5 +76,6 @@ class Inventory:
         return handle_select(query) 
   
 i = Inventory()
+#i.add_item("Mouse Trap", "Material", 10, "Trap the mouse")
 #i.edit_inv_info(3, "Expiration", "2025-01-01")
-#print(i.search("X"))
+#print(i.choose_category("Chemical"))
