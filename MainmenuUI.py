@@ -4,6 +4,7 @@ from clientinfo import ClientInfo
 from inventory import Inventory
 from GUI.addclientUI import addClient
 from GUI.editclientUI import editClients
+from GUI.designadditemUI import AddItem
 class MainMenu(QMainWindow, Ui_MainWindow):
     def __init__(self, AdminID):
         super().__init__()
@@ -49,16 +50,20 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.matmaterialsBtn.clicked.connect(self.switch_to_MaterialsPage)
         self.eqmaterialsBtn.clicked.connect(self.switch_to_MaterialsPage)
         self.materialsBtn.clicked.connect(self.switch_to_MaterialsPage)
-
+        self.equipmentAddBtn.clicked.connect(lambda: self.addInventory(2))
+        self.materialsAddBtn.clicked.connect(lambda: self.addInventory(1))
+        self.chemicalsAddBtn.clicked.connect(lambda: self.addInventory(0))
  ##########################################################################################
 
     #for sidebar menu      
     def switch_to_ClientsPage(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.populate_table1()
     def switch_to_SchedulePage(self):
         self.stackedWidget.setCurrentIndex(1)
     def switch_to_InventoryPage(self):
-        self.populate_inventory(0, self.inventoryTable)
+        self.reload = self.populate_inventory(0, self.inventoryTable)
+        self.reload
         self.stackedWidget.setCurrentIndex(2)
     def switch_to_TechnicianPage(self):
         self.stackedWidget.setCurrentIndex(3)
@@ -109,7 +114,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 self.clientsTable.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Delete')
-                delete.clicked.connect(lambda _, id=client_id: self.deleteclient(id))
+                delete.clicked.connect(lambda _, id=client_id: self.delete(id, self.c.edit_personal_info))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
@@ -125,19 +130,25 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         bago.exec()
         self.populate_table1()
     
-    def deleteclient(self, id):
+    #for clients and inventory
+    def delete(self, id, func):
         noInput = QMessageBox()
         noInput.setWindowTitle("Error")
         noInput.setIcon(QMessageBox.Icon.Warning)
-        noInput.setText("Are you sure you want to delete the client?")
+        noInput.setText("Are you sure you want to delete ?")
         noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
-            self.c.edit_personal_info(id, "void", 1)
+            func(id, "void", 1)
         else:
             noInput.close()
-        self.populate_table1()
 
+        self.populate_table1()
+        self.populate_inventory(1, self.chemicalTable)
+        self.populate_inventory(3, self.equipmentsTable)
+        self.populate_inventory(2, self.materialsTable)
+        self.populate_inventory(0, self.inventoryTable)
+        
     def void_populate_table(self):
         #stretch the header
         a = self.voidclientsTable.horizontalHeader()
@@ -167,7 +178,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ######################################################################################
 #Inventory Page
     def switch_to_ChemicalsPage(self):
-            print("yey")
             self.populate_inventory(1, self.chemicalTable)
             self.stackedWidget.setCurrentIndex(10)
             
@@ -178,20 +188,15 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.populate_inventory(2, self.materialsTable)
             self.stackedWidget.setCurrentIndex(12)
            
-
     def populate_inventory(self, type, tablename):
         a = tablename.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
         a.setStretchLastSection(True)  
-        if type == 0:
-            inventory = self.i.select_inventory()
-        elif type == 1:
-            inventory = self.i.choose_category("Chemical")
-        elif type == 2:
-            inventory = self.i.choose_category("Material")
-        else:
-            inventory = self.i.choose_category("Equipment") 
+        if type == 0: inventory = self.i.select_inventory()
+        elif type == 1: inventory = self.i.choose_category("Chemical")
+        elif type == 2: inventory = self.i.choose_category("Material")
+        else: inventory = self.i.choose_category("Equipment") 
 
         if inventory:
             tablename.setRowCount(len(inventory))
@@ -200,11 +205,30 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             
             for row_idx, inventorys in enumerate(inventory):
                 for col_idx, item in enumerate(inventorys):
-                    #item_id = inventory[row_idx][0]
+                    item_id = inventory[row_idx][0]
                     tablename.setStyleSheet("font-size: 14px;")
                     tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+
+                edit = QPushButton('Edit')
+                edit.clicked.connect(lambda _, id = item_id: self.editInevntory(id))
+                tablename.setCellWidget(row_idx, 6, edit)
+
+                delete = QPushButton('Delete')
+                delete.clicked.connect(lambda _, id = item_id: self.delete(id, self.i.edit_inv_info))
+                tablename.setCellWidget(row_idx, 7, delete)
+
+    def editInevntory(self, id):
+        print("di pa nageedit")
     
-    
+
+    def addInventory(self, index):
+        print(index)
+        add = AddItem(index)
+        add.exec()
+        if index == 0: self.switch_to_ChemicalsPage()
+        elif index == 1: self.switch_to_MaterialsPage()
+        else: self.switch_to_EquipmentsPage()
+
 app = QApplication([])
 window = MainMenu(1)
 window.show()

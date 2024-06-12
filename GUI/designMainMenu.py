@@ -12,6 +12,7 @@ class Ui_MainWindow(object):
         MainWindow.setTabletTracking(False)
         MainWindow.setAnimated(True)
         MainWindow.setTabShape(QtWidgets.QTabWidget.TabShape.Rounded)
+        #MainWindow.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.moduleMenu = QtWidgets.QWidget(parent=self.centralwidget)

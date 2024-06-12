@@ -6,10 +6,10 @@ class Inventory:
         pass
     
     def select_inventory(self):
-        query = "select item_id,item_name, item_type, quantity, expiration, description from Inventory"
+        query = "select item_id,item_name, item_type, quantity, expiration, description from Inventory where void = 0"
         return handle_select(query)
     
-    def add_item(self, name, item_type, quant, desc, expir=None):
+    def add_item(self, name, item_type, quant, desc, expir):
         query = (
             "insert into INVENTORY (item_name, item_type, quantity, expiration, description, void)"
             "values (%s, %s, %s, %s, %s, %s)"
@@ -58,7 +58,7 @@ class Inventory:
     def choose_category(self, item_type):
         """query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")"""
-        query = "select item_id,item_name, item_type, quantity, expiration, description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")
+        query = "select item_id,item_name, item_type, quantity, expiration, description from INVENTORY where void = 0 and item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
     
     def search(self, input):
