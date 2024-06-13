@@ -9,7 +9,9 @@ class Schedule:
     def __init__(self):
         self.Technician = Technician()
      
-
+    def view_sched(self):
+        query = "select client.name, schedule_type, start_date, end_date, time_in, time_out, schedule.status from schedule inner join client on schedule.client_id = client.client_id where schedule.void = 0"
+        return handle_select(query)
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
         query = (
             "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out, void, status)"

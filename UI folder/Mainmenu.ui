@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,7 +15,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1024</width>
+    <width>1209</width>
+    <height>768</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1209</width>
     <height>768</height>
    </size>
   </property>
@@ -35,12 +44,15 @@
    <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <widget class="QWidget" name="moduleMenu" native="true">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>20</y>
-      <width>131</width>
+      <width>141</width>
       <height>731</height>
      </rect>
     </property>
@@ -52,7 +64,9 @@ background-color:white
 QPushButton{
 	height: 100%;
 	width: 100%;
-	border: none
+	border: none;
+	text-align: left;
+	padding-left:10px 
 }
 
 QPushButton:checked{
@@ -70,96 +84,26 @@ QPushButton:hover{
        <x>0</x>
        <y>110</y>
        <width>131</width>
-       <height>631</height>
+       <height>621</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_3">
+      <item row="7" column="0">
+       <widget class="QPushButton" name="pushButton_8">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>129</width>
-          <height>64</height>
+          <height>57</height>
          </size>
         </property>
         <property name="text">
-         <string>Inventory</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QPushButton" name="pushButton_7">
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>64</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>SMS Format</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="pushButton_4">
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>63</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Technician</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QPushButton" name="pushButton_6">
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>63</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Maintenance</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QPushButton" name="pushButton_5">
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>64</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Sales</string>
+         <string>Help</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -171,10 +115,16 @@ QPushButton:hover{
       </item>
       <item row="8" column="0">
        <widget class="QPushButton" name="pushButton_9">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>129</width>
-          <height>63</height>
+          <height>57</height>
          </size>
         </property>
         <property name="text">
@@ -190,10 +140,16 @@ QPushButton:hover{
       </item>
       <item row="1" column="0">
        <widget class="QPushButton" name="pushButton_2">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>129</width>
-          <height>63</height>
+          <height>57</height>
          </size>
         </property>
         <property name="text">
@@ -207,16 +163,145 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QPushButton" name="pushButton_8">
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>129</width>
-          <height>63</height>
+          <height>57</height>
          </size>
         </property>
         <property name="text">
-         <string>Help</string>
+         <string>Inventory</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QPushButton" name="pushButton_10">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>52</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>52</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Logout</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>15232.png</normaloff>15232.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pushButton_5">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Sales</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QPushButton" name="pushButton_7">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>SMS Format</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Maintenance</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QPushButton" name="pushButton_4">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Technician</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -228,10 +313,16 @@ QPushButton:hover{
       </item>
       <item row="0" column="0">
        <widget class="QPushButton" name="pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
         <property name="maximumSize">
          <size>
           <width>129</width>
-          <height>64</height>
+          <height>57</height>
          </size>
         </property>
         <property name="text">
@@ -251,7 +342,7 @@ QPushButton:hover{
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>170</x>
       <y>20</y>
       <width>1021</width>
       <height>731</height>
@@ -266,7 +357,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>11</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -381,18 +472,129 @@ border-radius: 10px;</string>
      </widget>
     </widget>
     <widget class="QWidget" name="schedulePage">
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="label_16">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>60</y>
-        <width>71</width>
-        <height>41</height>
+        <x>40</x>
+        <y>20</y>
+        <width>251</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;Schedules&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="scheduleTable">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>180</y>
+        <width>981</width>
+        <height>531</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="scheduleSearch">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>130</y>
+        <width>861</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border: 1px solid black;
+border-radius: 10px;
+padding-right: 100px</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Normal</enum>
+      </property>
+      <property name="cursorPosition">
+       <number>0</number>
+      </property>
+      <property name="placeholderText">
+       <string>Search</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="schedulesearchBtn">
+      <property name="geometry">
+       <rect>
+        <x>900</x>
+        <y>130</y>
+        <width>91</width>
+        <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>schedule</string>
+       <string>Search</string>
       </property>
+      <property name="icon">
+       <iconset resource="icons.qrc">
+        <normaloff>:/newPrefix/165329.png</normaloff>:/newPrefix/165329.png</iconset>
+      </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget_5">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>40</y>
+        <width>431</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <item>
+        <widget class="QPushButton" name="scheduleBtn">
+         <property name="text">
+          <string>Schedule</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="timetableBtn">
+         <property name="text">
+          <string>Timetable</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="sendSMSBtn">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Send SMS</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="InventoryPage">
@@ -555,17 +757,36 @@ padding-right: 100px</string>
      </widget>
     </widget>
     <widget class="QWidget" name="salesPage">
-     <widget class="QLabel" name="label_3">
+     <widget class="QLabel" name="salesLabel">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>70</y>
-        <width>71</width>
-        <height>41</height>
+        <x>30</x>
+        <y>20</y>
+        <width>391</width>
+        <height>71</height>
        </rect>
       </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
       <property name="text">
-       <string>sales</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;Sales&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QTableWidget" name="clientsTable_2">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>180</y>
+        <width>981</width>
+        <height>531</height>
+       </rect>
       </property>
      </widget>
     </widget>

@@ -5,6 +5,9 @@ class Inventory:
     def __init__(self):
         pass
     
+    def select_specific_item(self, inv_id):
+        query = "select item_name, quantity, expiration, description from Inventory where void = 0 and item_id = {}".format(inv_id)
+        return handle_select(query)
     def select_inventory(self):
         query = "select item_id,item_name, item_type, quantity, expiration, description from Inventory where void = 0"
         return handle_select(query)

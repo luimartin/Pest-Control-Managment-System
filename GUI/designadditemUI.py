@@ -1,13 +1,14 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QApplication, QDialog,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton
+from PyQt6.QtWidgets import QDialog,QMessageBox
 from inventory import Inventory
+from datetime import date
 class Ui_addItem(object):
     def setupUi(self, addItem):
         addItem.setObjectName("addItem")
         addItem.resize(464, 466)
         addItem.setMouseTracking(False)
-
+        #addItem.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         addItem.setSizeGripEnabled(False)
         addItem.setModal(False)
         self.addBtn = QtWidgets.QPushButton(parent=addItem)
@@ -82,6 +83,8 @@ class AddItem(QDialog, Ui_addItem):
     def __init__(self, index):
         super().__init__()
         self.setupUi(self)
+        today = date.today()
+        self.dateEdit.setDate(today)
         self.typeInput.setCurrentIndex(index)
         self.on_combo_box_changed(index)
         self.typeInput.currentIndexChanged.connect(self.on_combo_box_changed)
@@ -99,9 +102,7 @@ class AddItem(QDialog, Ui_addItem):
         
         if (name and quantity) != "":
             if type == "Chemical":
-                print("tiye")
                 self.i.add_item(name, type, quantity, description, date)
-
             else:
                 self.i.add_item(name, type, quantity, description, None)
             
