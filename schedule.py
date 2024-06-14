@@ -10,8 +10,14 @@ class Schedule:
         self.Technician = Technician()
      
     def view_sched(self):
-        query = "select client.name, schedule_type, start_date, end_date, time_in, time_out, schedule.status from schedule inner join client on schedule.client_id = client.client_id where schedule.void = 0"
+        query = """
+        select client.name, schedule_type, start_date, end_date, time_in, 
+        time_out, schedule.status , concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
+        from schedule inner join client on schedule.client_id = client.client_id left join technician on technician.technician_id = schedule.technician_id 
+        where schedule.void = 0;
+        """
         return handle_select(query)
+    
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
         query = (
             "insert into SCHEDULE (client_id, schedule_type, start_date, end_date, time_in, time_out, void, status)"
@@ -27,7 +33,7 @@ class Schedule:
             self.posting_schedulizer(sched_id, start_date, end_date)
 
     def earliest_deadline_first(self):
-        today = date.today()
+        today = "2024-06-11"
         
         query1 = """ 
                 select schedule_id, start_date, time_in, time_out from schedule 
@@ -38,13 +44,22 @@ class Schedule:
                 where single_date like '{}%'
                 order by time_in, time_out ASC
             """.format(today, today)    
+        
+        for id in handle_select(query1):
+            query = "update SCHEDULE set status = 'Progress' where schedule_id = %s"
+            data = (id[0],)
+            handle_transaction(query, data)
+        
+    def earliest_deadline_first_show(self):
+        query = """
+        SELECT *
+        FROM SCHEDULE
+        ORDER BY
+            CASE WHEN status = 'Progress' THEN 1 ELSE 2 END,
+            start_date, time_in;
+        """
+        return handle_select(query)
 
-        query2 = (
-            "update schedule set status = 'Progress' "
-            "where schedule_id in {}"
-        )
-
-        return handle_select(query1)
     
     def update_state_when_done(self, client_id, sched_id):
         query = (
@@ -52,6 +67,7 @@ class Schedule:
             "where client_id = %s and schedule_id = %s"
         )
         data = (client_id, sched_id)
+        handle_transaction(query, data)
 
     def posting_schedulizer(self, sched_id, start_date, end_date):
         ref_sched = start_date
@@ -133,14 +149,12 @@ class Schedule:
 
     def show_accounted_technician(self, sched_id, client_id, tech_id):
         query = """
-                select SCHEDULE.schedule_id, SCHEDULE.client_id, CLIENT.name, 
-                concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name) as 'Accounted Technician' 
+                select  concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name) as 'Accounted Technician' 
                 from SCHEDULE 
-                inner join CLIENT on CLIENT.client_id = {} 
-                inner join TECHNICIAN on TECHNICIAN.technician_id = {} 
-                where SCHEDULE.schedule_id = {}
+                inner join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
+                where SCHEDULE.void = 0
             """.format(client_id, tech_id, sched_id)
-        return handle_select(query)[0][0]
+        return handle_select(query)
     
 
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
@@ -171,9 +185,4 @@ class Schedule:
         """
         return handle_select(query) 
 
-#s = Schedule()
-#s.add_schedule(1, 'Default', '2024-06-11', '2024-06-11', '08:00:00', '13:00:00')
-#s.assign_technician(12, 1, 1)
-#s.posting_modifier(1, 28, "2024-02-24", "2024-02-27")
-#print(s.search("Posting"))
-#print(s.earliest_deadline_first())
+

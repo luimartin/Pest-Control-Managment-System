@@ -1,6 +1,7 @@
 from database import *
 from query_settings import *
 
+from datetime import date
 from inventory import Inventory
 
 class Technician:
@@ -10,7 +11,7 @@ class Technician:
     def add_technician(self, f_name, l_name, phone_num, address):
         query = (
             "insert into TECHNICIAN (first_name, last_name, phone_num, address, void, state)"
-            "values (%s, %s, %s, %s, %s)"
+            "values (%s, %s, %s, %s, %s, %s)"
         )
         data = (f_name, l_name, phone_num, address, 0, "Idle")
         handle_transaction(query, data)
@@ -18,7 +19,9 @@ class Technician:
     def round_robin(self):
         pass
     
-    def assign_item(self, tech_id, item_id, quantity, date_acquired):
+    def assign_item(self, tech_id, item_id, quantity):
+        date_acquired = date.today()
+
         isItemValid = self.Inventory.deduct_item(item_id, quantity)
         if isItemValid:
             query = (
@@ -51,21 +54,21 @@ class Technician:
         )
         return handle_select(query)
 
-    def return_item(self, tech_id, inv_id, return_amount):
-        if self.isAssignedItemAvailable(tech_id, inv_id, return_amount):
+    def return_item(self, tech_item_id, tech_id, inv_id, return_amount):
+        if self.isAssignedItemAvailable(tech_item_id, tech_id, inv_id, return_amount):
             query = (
                 "update TECHNICIAN_ITEM, INVENTORY "
                 "set TECHNICIAN_ITEM.quantity = TECHNICIAN_ITEM.quantity - %s, "
                 "INVENTORY.quantity = INVENTORY.quantity + %s "
-                "where TECHNICIAN_ITEM.item_id = %s and TECHNICIAN_ITEM.item_id = %s"
+                "where TECHNICIAN_ITEM.item_id = %s and INVENTORY.item_id = %s and TECHNICIAN_ITEM.technician_item_id = %s"
             )                                                                   
-            data = (return_amount, return_amount, inv_id, tech_id)
+            data = (return_amount, return_amount, inv_id, inv_id, tech_item_id)
             handle_transaction(query, data)
 
-    def isAssignedItemAvailable(self, tech_id, inv_id, return_amount):
+    def isAssignedItemAvailable(self, tech_item_id, tech_id, inv_id, return_amount):
         query = (
             "select quantity from TECHNICIAN_ITEM "
-            "where technician_id = {} and item_id = {}".format(tech_id, inv_id)
+            "where technician_item_id = {} and technician_id = {} and item_id = {}".format(tech_item_id, tech_id, inv_id)
         )
         output = handle_select(query)[0][0]
 
@@ -119,7 +122,6 @@ class Technician:
         """
         return handle_select(query)
 
-#t = Technician()
-#t.add_technician("Mora", "Jeremy", "09154847877", "Pasig City")
-#print(t.show_assigned_client(1))
-#print(t.search("Mor"))
+t = Technician()
+t.assign_item(3, "last_name", "Cruz")
+

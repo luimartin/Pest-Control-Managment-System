@@ -1,3 +1,7 @@
+# Resource object code (Python 3)
+# Created by: object code
+# Created by: The Resource Compiler for Qt version 6.7.1
+# WARNING! All changes made in this file will be lost!
 
 from PySide6 import QtCore
 #pyside6-rcc icons.qrc -o rc_icons.py

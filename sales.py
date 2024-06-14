@@ -10,6 +10,10 @@ class Sales:
     def __init__(self):
         pass
     
+    def view_all_sales(self):
+        query = "select c.name, figure, sale_date from sales as s left join client as c on c.client_id = s.client_id;"
+        return handle_select(query)
+    
     def add_sale(self, client_id, figure):
         sale_date = date.today()
 
@@ -36,8 +40,7 @@ class Sales:
     def monthly_avg_total_sale(self):
         query = (
             "select year(sale_date), date_format(sale_date, '%M'), avg(figure) from SALES "
-            "group by year(sale_date), month(sale_date) "
-            "order by year(sale_date), month(sale_date)"
+            "group by year(sale_date), DATE_FORMAT(sale_date, '%M')"
         )
         return handle_select(query)
 
@@ -104,8 +107,3 @@ class Sales:
         """
         return handle_select(query) 
 
-'''s = Sales()
-s.add_sale(1, 30000)
-print(s.sale_trend())'''
-#s = Sales()
-#print(s.search("10000"))

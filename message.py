@@ -8,6 +8,7 @@ class Message:
         temp_client = "select CLIENT.name from CLIENT where client_id = "
         temp_tech = "select first_name from TECHNICIAN where technician_id = "
 
+        # Fix token error from Technician
         self.tokens = {
             "cn" : (temp_client + "(SELECT client_id FROM SCHEDULE where schedule_id = {})"),
             "csd" : "select start_date from SCHEDULE where schedule_id = {}",
@@ -26,7 +27,9 @@ class Message:
         
         for token in captured_tokens:
             query = self.tokens[token].format(ref_id)
+            print(query)
             value = handle_select(query)[0][0]
+            print(value)
 
             if type(value) is not str: # if the value is DATE
                 value = value.strftime('%Y-%m-%d')
@@ -43,6 +46,7 @@ class Message:
 
         result = re.sub(pattern, lambda match: get_value(match.group(1)), msg_content)
         ###### THIS WHERE THE ARDUINO BEGINS ######
+        self.converted_token = []
         return result
     
 
@@ -75,7 +79,6 @@ class Message:
         """
         return handle_select(query) 
 
-"""m = Message()
-msg = "Hello @cn you have a service tomorrow @csd"
-print(m.convert_msg(2,msg))
-"""
+
+
+

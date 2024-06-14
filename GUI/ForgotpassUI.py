@@ -30,7 +30,7 @@ class ForgotPass(QDialog, Ui_forgotPassword):
                 noInput.setText("Please input Admin ID or Username")
                 noInput.exec()
 
-        elif self.User.cp_validate_user(adminID, username):
+        elif self.User.cp_validate_user(adminID, username, "", "" , "", ""):
             #validation here 
             self.hide()
             changepass = ChangePass(adminID)

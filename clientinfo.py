@@ -61,8 +61,4 @@ class ClientInfo:
         """
         return handle_select(query)     
 
-#c = ClientInfo()
-#print(c.select_all_clients())
-#c.add_client_info("Bowie Company", "bowie@gmail.com", "09234567811", "San Juan City")
-#print(c.search())
 

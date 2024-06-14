@@ -4,6 +4,7 @@ from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
 from inventory import Inventory
 from schedule import Schedule
+from sales import Sales
 from GUI.addclientUI import addClient
 from GUI.editclientUI import editClients
 from GUI.designadditemUI import AddItem
@@ -72,6 +73,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
         # for schedulepage
         self.s = Schedule()
+
+        # for salepage
+        self.sales= Sales()
  ##########################################################################################
 
     #for sidebar menu      
@@ -82,12 +86,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(1)
         self.populate_schedule(self.scheduleTable)
     def switch_to_InventoryPage(self):
-        self.reload = self.populate_inventory(0, self.inventoryTable)
-        self.reload
+        self.populate_inventory(0, self.inventoryTable)
         self.stackedWidget.setCurrentIndex(2)
     def switch_to_TechnicianPage(self):
         self.stackedWidget.setCurrentIndex(3)
     def switch_to_SalesPage(self):
+        self.populate_sale()
         self.stackedWidget.setCurrentIndex(4)
     def switch_to_MaintenancePage(self):
         self.stackedWidget.setCurrentIndex(5)
@@ -105,6 +109,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = self.clientsTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.clientsTable.verticalHeader().hide()
+        
         a.setStretchLastSection(True)  
         clients = self.c.select_all_clients()
         if clients:
@@ -118,8 +123,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     #print(clients[row_idx][0])
                     client_id = clients[row_idx][0]
                     #print(client_id)
-                    self.clientsTable.setStyleSheet("font-size: 14px;")
-                    self.clientsTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items = QTableWidgetItem(str(item))
+                    items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
+                    self.clientsTable.setItem(row_idx, col_idx, items)
 
                 schedview = QPushButton('View')
                 schedview.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
@@ -272,6 +279,23 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
                     tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+
+# sales page
+    def populate_sale(self):
+        a = self.saleTable.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.saleTable.verticalHeader().hide()
+        a.setStretchLastSection(True)  
+        sale = self.sales.view_all_sales()
+
+        if sale:
+            self.saleTable.setRowCount(len(sale))
+            self.saleTable.setColumnCount(4)
+            self.saleTable.setHorizontalHeaderLabels(['Name','Sale Figure', 'Date', ' '])
+            
+            for row_idx, sales in enumerate(sale):
+                for col_idx, item in enumerate(sales):
+                    self.saleTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
 app = QApplication([])
 window = MainMenu(1)
 window.show()

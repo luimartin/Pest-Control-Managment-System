@@ -1,32 +1,25 @@
+from PyQt6.QtWidgets import QApplication, QTableWidget, QTableWidgetItem, QVBoxLayout, QWidget
+from PyQt6.QtCore import Qt
 import sys
-from PyQt6.QtWidgets import QApplication, QDialog, QFormLayout, QComboBox, QLineEdit,QPushButton
 
-class MaterialDialog(QDialog):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Add Material")
+app = QApplication(sys.argv)
 
-        self.layout = QFormLayout()
-        self.setLayout(self.layout)
+window = QWidget()
+layout = QVBoxLayout()
+window.setLayout(layout)
 
-        self.combo_box = QComboBox()
-        self.combo_box.addItem("Mouse Trap")
-        self.combo_box.addItem("RAt Trap")
-        self.combo_box.currentIndexChanged.connect(self.on_combo_box_changed)
-        self.layout.addRow("Material:", self.combo_box)
+table = QTableWidget(3, 3)  # 3 rows, 3 columns
 
-        self.submit_button = QPushButton("Submit")
-        self.layout.addRow("", self.submit_button)
+# Set the headers
+table.setHorizontalHeaderLabels(["Column 1", "Column 2", "Column 3"])
 
-    def on_combo_box_changed(self, index):
-        if index == 1:  # Assuming the first item is selected
-            self.quantity_edit = QLineEdit()
-            self.layout.insertRow(1, "Quantity:", self.quantity_edit)
-        else:
-            self.layout.removeRow(1)
+# Populate the table with data and set the text alignment
+for row in range(3):
+    for col in range(3):
+        item = QTableWidgetItem(f"Item {row},{col}")
+        item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+        table.setItem(row, col, item)
 
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    dialog = MaterialDialog()
-    dialog.show()
-    sys.exit(app.exec())
+layout.addWidget(table)
+window.show()
+sys.exit(app.exec())
