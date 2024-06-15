@@ -6,12 +6,22 @@ class Contract:
     def __init__(self):
         pass
 
+    def has_a_contract(self, clientid):
+        query = "select contract_id from contract where client_id= {} and void = 0".format(clientid)
+        output = handle_select(query)
+
+        if output: return True
+        return False 
+    
+    def contract_view(self, client_id):
+        query =" select problem, service_type, start_date, end_date, square_meter, unit, price from contract where client_id = {} and void = 0".format(client_id)
+        return handle_select(query)
     def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):
         query = (
-            "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price)"
+            "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price, void)"
             "values (%s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (ref_id, problem, service_type, start_date, end_date, square_meter, unit, price)
+        data = (ref_id, problem, service_type, start_date, end_date, square_meter, unit, price, 0)
         handle_transaction(query, data)
     
     def edit_contract_info(self, cont_id, ref_id, categ, new_input):
@@ -20,9 +30,9 @@ class Contract:
         data = (new_input, cont_id, ref_id)
         handle_transaction(query, data)
 
-    def get_data(self, cont_id, ref_id, categ):
+    def get_data(self, ref_id, categ):
         temp = "select {} from CONTRACT ".format(categ)
-        query = temp + "where contract_id = {} and client_id = {}".format(cont_id, ref_id)
+        query = temp + "where client_id = {}".format(ref_id)
         return handle_select(query)
 
     def search(self, input):
@@ -45,3 +55,4 @@ class Contract:
 #c = Contract()
 #c.add_contract(1, "Roaches", "Misting Method", "2023-01-01", "2024-01-01", 100.00, 3, 100000)
 #print(c.search(""))
+#print(c.has_a_contract(1))

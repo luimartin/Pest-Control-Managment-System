@@ -11,7 +11,7 @@ class Sales:
         pass
     
     def view_all_sales(self):
-        query = "select c.name, figure, sale_date from sales as s left join client as c on c.client_id = s.client_id;"
+        query = "select c.name, figure, sale_date from sales as s left join client as c on c.client_id = s.client_id where s.void = 0;"
         return handle_select(query)
     
     def add_sale(self, client_id, figure):
@@ -23,25 +23,25 @@ class Sales:
         if valid_id is not None:
             query = (
                 "insert into SALES (client_id, figure, sale_date)"
-                "values (%s, %s, %s)"
+                "values (%s, %s, %s, %s)"
             )
-            data = (valid_id, figure, sale_date)
+            data = (valid_id, figure, sale_date, 0)
             handle_transaction(query, data)
 
     def monthly_total_sale(self):
         query = (
             "select date_format(sale_date, '%Y-%m'), sum(figure) "
-            "from SALES "
+            "from SALES where void = 0"
             "group by date_format(sale_date, '%Y-%m') "
             "order by date_format(sale_date, '%Y-%m')"
         )
         return handle_select(query)
     
     def monthly_avg_total_sale(self):
-        query = (
-            "select year(sale_date), date_format(sale_date, '%M'), avg(figure) from SALES "
-            "group by year(sale_date), DATE_FORMAT(sale_date, '%M')"
-        )
+        query = """
+        select year(sale_date), date_format(sale_date, '%M'), avg(figure) from SALES  where void = 0
+            group by year(sale_date), DATE_FORMAT(sale_date, '%M');
+        """
         return handle_select(query)
 
     def sale_trend(self):
@@ -81,7 +81,7 @@ class Sales:
         query = """
             select CLIENT.name from CLIENT
             inner join SALES on SALES.client_id = {}
-            where CLIENT.client_id = {}
+            where CLIENT.client_id = {} and void = 0
         """.format(client_id)
         return handle_select(query)[0][0]
     

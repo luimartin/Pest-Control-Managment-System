@@ -21,7 +21,7 @@ class Inventory:
         handle_transaction(query, data)
 
     def deduct_item(self, inv_id, amount):
-        output = None 
+        output = None
         if self.isItemExist(inv_id) and self.isItemAvailable(inv_id, amount):
             query = "update INVENTORY set quantity = quantity - %s WHERE item_id = %s"
             data = (amount, inv_id)

@@ -3,6 +3,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QDialog,QMessageBox
 from inventory import Inventory
 from datetime import date
+# if edit tangalin yung runner dito
 class Ui_addItem(object):
     def setupUi(self, addItem):
         addItem.setObjectName("addItem")
@@ -120,16 +121,11 @@ class AddItem(QDialog, Ui_addItem):
 
     def on_combo_box_changed(self,index):
         if index == 0:
-            """self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.dateLabel)
-            self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.dateEdit)
-            self.setupUi(self)"""
+
             self.dateLabel.setVisible(True)
             self.dateEdit.setVisible(True)
         
         else:  
-            """self.formLayout.removeWidget( self.dateLabel)
-            self.formLayout.removeWidget( self.dateEdit)
-            self.setupUi(self)
-            #self.formLayout.removeRow(3)"""
+
             self.dateLabel.setVisible(False)
             self.dateEdit.setVisible(False)

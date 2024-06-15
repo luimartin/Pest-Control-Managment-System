@@ -8,14 +8,34 @@ from technician import Technician
 class Schedule:
     def __init__(self):
         self.Technician = Technician()
-     
+        
+    def show_tech(self):
+        query = """
+        select  technician_id ,concat(TECHNICIAN.first_name,
+        " ", TECHNICIAN.last_name) from TECHNICIAN
+	    where void = 0
+        """ 
+        return handle_select(query)
     def view_sched(self):
         query = """
-        select client.name, schedule_type, start_date, end_date, time_in, 
-        time_out, schedule.status , concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
-        from schedule inner join client on schedule.client_id = client.client_id left join technician on technician.technician_id = schedule.technician_id 
-        where schedule.void = 0;
+    select schedule_id ,client.name, schedule_type, start_date, end_date, time_in, 
+	time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
+    inner join client on schedule.client_id = client.client_id
+       left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
+                where SCHEDULE.void = 0;
         """
+        return handle_select(query)
+    
+    def specific_view_sched(self,id):
+        query = """
+    select schedule_id ,client.name, schedule_type, start_date, end_date, time_in, 
+	time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
+    inner join client on schedule.client_id = client.client_id
+       left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
+        where SCHEDULE.void = 0 and schedule.client_id ={};
+        """.format(id)
         return handle_select(query)
     
     def add_schedule(self, ref_id, sched_type, start_date, end_date, time_in = None, time_out = None):        
@@ -123,37 +143,38 @@ class Schedule:
         handle_transaction(query, data)
 
 
-    def assign_technician(self, sched_id, client_id, tech_id):
+    def assign_technician(self, sched_id, tech_id):
         isTechnicianExist = self.Technician.isTechnicianExist(tech_id)
         isTechnicianAvailable = self.Technician.isTechnicianAvailable(tech_id)
         print(isTechnicianExist)
         print(isTechnicianAvailable)
 
         if isTechnicianExist and isTechnicianAvailable:
-            query = (
-                "update SCHEDULE "
-                "set technician_id = %s"
-                "where schedule_id = %s and client_id = %s"
-            )
-            data = (tech_id, sched_id, client_id)
+            query = """               
+                update SCHEDULE 
+                set technician_id = %s
+                where schedule_id = %s"""
+            
+            data = (tech_id, sched_id)
             handle_transaction(query, data)     
 
-            query = (
-                "update TECHNICIAN "
-                "set state = 'Active' "
-                "where technician_id = %s"
-            )
-            data = (tech_id)
-            handle_transaction(query, data)  
+            query1 = """
+                update TECHNICIAN 
+                set state = 'Active' 
+                where technician_id = %s
+                """
+            
+            data = (tech_id,)
+            handle_transaction(query1, data)  
 
 
-    def show_accounted_technician(self, sched_id, client_id, tech_id):
+    def show_accounted_technician(self):
         query = """
                 select  concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name) as 'Accounted Technician' 
                 from SCHEDULE 
-                inner join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
+                left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
                 where SCHEDULE.void = 0
-            """.format(client_id, tech_id, sched_id)
+            """
         return handle_select(query)
     
 
@@ -185,4 +206,5 @@ class Schedule:
         """
         return handle_select(query) 
 
-
+s = Schedule()
+#print(s.search(1))

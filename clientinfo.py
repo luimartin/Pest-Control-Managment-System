@@ -17,7 +17,11 @@ class ClientInfo:
         data = (name, email, phone_num, address, 'New', 0)
         handle_transaction(query, data)
 
+    def contract_view(self, client_id):
+        query = "select name, phone_num, address, email from client where client_id  = {}".format(client_id)
+        return handle_select(query)
 
+        
     def edit_personal_info(self, ref_id, categ, new_input):
         temp = "update CLIENT set {} = ".format(categ) 
         query = temp + "%s where client_id = %s"
@@ -38,7 +42,7 @@ class ClientInfo:
     def get_data(self, ref_id, categ):
         temp = "select {} from CLIENT ".format(categ)
         query = temp + "where client_id = {}".format(ref_id)
-        return handle_select(query)[0][0]
+        return handle_select(query)
         
         
     """def search(self, input):
@@ -62,3 +66,5 @@ class ClientInfo:
         return handle_select(query)     
 
 
+#c = ClientInfo()
+#c.get_data(1, ("name, phone_num, address, email"))

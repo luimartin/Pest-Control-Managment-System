@@ -85,7 +85,7 @@ class Technician:
     def isTechnicianAvailable(self, tech_id):
         query = (
             "select count(schedule_id) from SCHEDULE "
-            "where technician_id = {}".format(tech_id)
+            "where technician_id = {} where void = 0".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
         print(output_amount)
@@ -122,6 +122,6 @@ class Technician:
         """
         return handle_select(query)
 
-t = Technician()
-t.assign_item(3, "last_name", "Cruz")
+#t = Technician()
+#t.assign_item(3, "last_name", "Cruz")
 
