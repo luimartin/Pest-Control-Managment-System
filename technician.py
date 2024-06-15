@@ -17,7 +17,13 @@ class Technician:
         handle_transaction(query, data)
 
     def round_robin(self):
-        pass
+        rr_que = [] # handling of round robin of technician
+        
+    
+
+
+            
+
     
     def assign_item(self, tech_id, item_id, quantity):
         date_acquired = date.today()
@@ -88,12 +94,21 @@ class Technician:
             "where technician_id = {}".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
-        print(output_amount)
         
         # The number of rows determines the number of accounted clients 
         # (Max. 2 only, otherwise not available)
         if output_amount >= 2: return False
         return True
+
+    def isTechnicianOnPosting(self, tech_id, sched_id):
+        query = (
+            "select schedule_type from SCHEDULE "
+            "where technician_id = {} and schedule_id = {}".format(tech_id, sched_id)
+        )
+        output = handle_select(query)[0][0]
+        
+        if output == 'Posting': return True
+        return False
 
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
@@ -121,7 +136,4 @@ class Technician:
             ) and void = 0
         """
         return handle_select(query)
-
-t = Technician()
-t.assign_item(3, "last_name", "Cruz")
-
+    
