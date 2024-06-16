@@ -7,7 +7,7 @@ from inventory import Inventory
 class Technician:
     def __init__(self):
         self.Inventory = Inventory()
-    
+
     def add_technician(self, f_name, l_name, phone_num, address):
         query = (
             "insert into TECHNICIAN (first_name, last_name, phone_num, address, void, state)"
@@ -18,6 +18,8 @@ class Technician:
 
     def round_robin(self):
         rr_que = [] # handling of round robin of technician
+        
+        
         
     
 
