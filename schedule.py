@@ -8,6 +8,7 @@ from technician import Technician
 class Schedule:
     def __init__(self):
         self.Technician = Technician()
+        self.today = date.today()
      
     def view_sched(self):
         query = """
@@ -33,7 +34,7 @@ class Schedule:
             self.posting_schedulizer(sched_id, start_date, end_date)
 
     def earliest_deadline_first(self):
-        today = date.today()
+        
         
         query1 = """ 
                 select schedule_id, start_date, time_in, time_out from SCHEDULE 
@@ -42,7 +43,7 @@ class Schedule:
                 select schedule_id, single_date, "09:00:00", "17:00:00" from SCHEDULIZER
                 where single_date like '{}%'
                 order by start_date, time_in, time_out ASC
-            """.format(today, today)    
+            """.format(self.today, self.today)    
         
         for id in handle_select(query1):
             query = "update SCHEDULE set status = 'Progress' where schedule_id = %s"
@@ -163,9 +164,43 @@ class Schedule:
             """.format(client_id, tech_id, sched_id)
         return handle_select(query)
     
-    def timetable(self):
-        pass
-    
+
+    def timetable(self, schedule_event=None):
+        query = """
+            select SCHEDULE.start_date, CLIENT.name, SCHEDULE.time_in, SCHEDULE.time_out
+            from SCHEDULE 
+            inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
+            where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            union 
+            select SCHEDULIZER.single_date, CLIENT.name, "09:00:00", "17:00:00" 
+            from SCHEDULIZER 
+            inner join SCHEDULE on SCHEDULIZER.schedule_id = SCHEDULE.schedule_id
+            inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
+            where SCHEDULIZER.single_date <= LAST_DAY("{}") and SCHEDULIZER.single_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            order by start_date ASC  
+        """.format(self.today, self.today, self.today, self.today)
+        temp_list = handle_select(query)
+
+        # Add root dict
+        for sched in temp_list:
+            date = sched[0].strftime("%Y-%m-%d")
+            if date not in schedule_event:
+                schedule_event[date] = {}
+
+        # Add nested dict from the root dict
+        for event in temp_list:
+            date = event[0].strftime("%Y-%m-%d")
+            client_name = event[1]
+            event_time = f'{event[2]} to {event[3]}'
+            
+            # Initialize the list if the client name does not exist in the date
+            if client_name not in schedule_event[date]:
+                schedule_event[date][client_name] = []
+            
+            # Append the event time to the client's list for that date
+            schedule_event[date][client_name].append(event_time)
+
+        return schedule_event
 
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
@@ -200,3 +235,5 @@ s = Schedule()
 #s.assign_technician(30, 1, 1)
 #s.earliest_deadline_first()
 #s.update_state_when_done(30, 1)
+#temp = {}
+#print(s.timetable(temp))
