@@ -8,7 +8,7 @@ from technician import Technician
 class Schedule:
     def __init__(self):
         self.Technician = Technician()
-        self.today = date.today()
+        self.today = "2024-06-16"
      
     def view_sched(self):
         query = """
@@ -34,8 +34,6 @@ class Schedule:
             self.posting_schedulizer(sched_id, start_date, end_date)
 
     def earliest_deadline_first(self):
-        
-        
         query1 = """ 
                 select schedule_id, start_date, time_in, time_out from SCHEDULE 
                 where start_date like '{}%'
@@ -202,6 +200,50 @@ class Schedule:
 
         return schedule_event
 
+    def round_robin(self):
+        rr_queue = []
+        
+        query_techs = """
+            select technician_id, concat(concat(first_name, ' '), last_name) 'Available Technician', state 
+            from TECHNICIAN 
+            where state = 'Idle'
+        """
+        idle_technicians = handle_select(query_techs)
+        
+        if not idle_technicians:
+            return "No Technicians available."
+
+        schedules_tomorrow = self.show_sched_for_tom()
+        
+        if not schedules_tomorrow:
+            return "No Schedules for tomorrow."
+        
+        for tech in idle_technicians:
+            rr_queue.append(tech[0]) 
+
+        rr_index = 0
+        num_techs = len(rr_queue)
+
+        for sched in schedules_tomorrow:
+            technician_id = rr_queue[rr_index]
+            schedule_id = sched[0] 
+            client_id = sched[1] 
+            
+            self.assign_technician(schedule_id, client_id, technician_id)
+            
+            rr_index = (rr_index + 1) % num_techs
+
+        return "Technicians assigned successfully."  
+
+            
+    def show_sched_for_tom(self):
+        query = f"""
+            select SCHEDULE.schedule_id, SCHEDULE.client_id, SCHEDULE.start_date from SCHEDULE where start_date = "2024-06-15" + interval 1 day 
+            and status = 'Idle' 
+        """
+        return handle_select(query)    
+
+
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
         query = temp + "%s where schedule_id = %s and client_id = %s"
@@ -233,7 +275,8 @@ class Schedule:
 s = Schedule()
 #s.add_schedule(1, "Default", "2024-06-17", "2024-06-17", "6:00:00", "15:00:00")
 #s.assign_technician(30, 1, 1)
-#s.earliest_deadline_first()
+s.earliest_deadline_first()
 #s.update_state_when_done(30, 1)
 #temp = {}
 #print(s.timetable(temp))
+#print(s.round_robin())

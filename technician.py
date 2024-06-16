@@ -4,9 +4,11 @@ from query_settings import *
 from datetime import date
 from inventory import Inventory
 
+
 class Technician:
     def __init__(self):
         self.Inventory = Inventory()
+        self.today = date.today()
 
     def add_technician(self, f_name, l_name, phone_num, address):
         query = (
@@ -16,17 +18,6 @@ class Technician:
         data = (f_name, l_name, phone_num, address, 0, "Idle")
         handle_transaction(query, data)
 
-    def round_robin(self):
-        rr_que = [] # handling of round robin of technician
-        
-        
-        
-    
-
-
-            
-
-    
     def assign_item(self, tech_id, item_id, quantity):
         date_acquired = date.today()
 
@@ -139,3 +130,5 @@ class Technician:
         """
         return handle_select(query)
     
+t = Technician()
+
