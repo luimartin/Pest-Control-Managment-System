@@ -357,7 +357,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -657,55 +657,6 @@ QPushButton:hover{
        <number>-1</number>
       </property>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>40</y>
-        <width>441</width>
-        <height>51</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="spacing">
-        <number>10</number>
-       </property>
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
-       <item>
-        <widget class="QPushButton" name="inventoryBtn">
-         <property name="text">
-          <string>Inventory</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="chemicalBtn">
-         <property name="text">
-          <string>Chemical</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="materialsBtn">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Materials</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="equipmentBtn">
-         <property name="text">
-          <string>Equipments</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
      <widget class="QLineEdit" name="inventorySearch">
       <property name="geometry">
        <rect>
@@ -752,6 +703,70 @@ padding-right: 100px</string>
        <iconset resource="icons.qrc">
         <normaloff>:/newPrefix/165329.png</normaloff>:/newPrefix/165329.png</iconset>
       </property>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>551</x>
+        <y>20</y>
+        <width>441</width>
+        <height>91</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QPushButton" name="inventoryBtn">
+         <property name="text">
+          <string>Inventory</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="chemicalBtn">
+         <property name="text">
+          <string>Chemical</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="materialsBtn">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Materials</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QPushButton" name="equipmentBtn">
+         <property name="text">
+          <string>Equipments</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="voiditemBtn">
+         <property name="text">
+          <string>Voided Item</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QPushButton" name="deliveryBtn">
+         <property name="text">
+          <string>Delivery</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QPushButton" name="newdeliveryBtn">
+         <property name="text">
+          <string>New Delivery</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
     <widget class="QWidget" name="technicianPage">

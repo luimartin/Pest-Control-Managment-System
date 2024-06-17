@@ -1,25 +1,24 @@
-
 from PyQt6 import QtCore, QtGui, QtWidgets
-from PyQt6.QtWidgets import QDialog,QMessageBox
-from inventory import Inventory
-from datetime import date
-# if edit tangalin yung runner dito
+
 class Ui_addItem(object):
     def setupUi(self, addItem):
         addItem.setObjectName("addItem")
-        addItem.resize(464, 466)
+        addItem.resize(479, 576)
         addItem.setMouseTracking(False)
-        #addItem.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        addItem.setStyleSheet("background-color: white;")
         addItem.setSizeGripEnabled(False)
         addItem.setModal(False)
         self.addBtn = QtWidgets.QPushButton(parent=addItem)
-        self.addBtn.setGeometry(QtCore.QRect(320, 400, 75, 24))
+        self.addBtn.setGeometry(QtCore.QRect(365, 520, 75, 24))
         self.addBtn.setObjectName("addBtn")
         self.cancelBtn = QtWidgets.QPushButton(parent=addItem)
-        self.cancelBtn.setGeometry(QtCore.QRect(205, 403, 75, 24))
+        self.cancelBtn.setGeometry(QtCore.QRect(250, 520, 75, 24))
         self.cancelBtn.setObjectName("cancelBtn")
+        self.label_7 = QtWidgets.QLabel(parent=addItem)
+        self.label_7.setGeometry(QtCore.QRect(10, 10, 181, 51))
+        self.label_7.setObjectName("label_7")
         self.widget = QtWidgets.QWidget(parent=addItem)
-        self.widget.setGeometry(QtCore.QRect(10, 50, 441, 311))
+        self.widget.setGeometry(QtCore.QRect(20, 80, 431, 401))
         self.widget.setObjectName("widget")
         self.formLayout = QtWidgets.QFormLayout(self.widget)
         self.formLayout.setContentsMargins(0, 0, 0, 0)
@@ -61,6 +60,18 @@ class Ui_addItem(object):
         self.descInput = QtWidgets.QTextEdit(parent=self.widget)
         self.descInput.setObjectName("descInput")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.ItemRole.FieldRole, self.descInput)
+        self.label_4 = QtWidgets.QLabel(parent=self.widget)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_4)
+        self.supplierInput = QtWidgets.QLineEdit(parent=self.widget)
+        self.supplierInput.setObjectName("supplierInput")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.ItemRole.FieldRole, self.supplierInput)
+        self.label_6 = QtWidgets.QLabel(parent=self.widget)
+        self.label_6.setObjectName("label_6")
+        self.formLayout.setWidget(6, QtWidgets.QFormLayout.ItemRole.LabelRole, self.label_6)
+        self.deliveryInput = QtWidgets.QDateTimeEdit(parent=self.widget)
+        self.deliveryInput.setObjectName("deliveryInput")
+        self.formLayout.setWidget(6, QtWidgets.QFormLayout.ItemRole.FieldRole, self.deliveryInput)
 
         self.retranslateUi(addItem)
         QtCore.QMetaObject.connectSlotsByName(addItem)
@@ -70,6 +81,7 @@ class Ui_addItem(object):
         addItem.setWindowTitle(_translate("addItem", "Dialog"))
         self.addBtn.setText(_translate("addItem", "Add"))
         self.cancelBtn.setText(_translate("addItem", "Cancel"))
+        self.label_7.setText(_translate("addItem", "<html><head/><body><p><span style=\" font-size:18pt;\">Add Inventory</span></p></body></html>"))
         self.label.setText(_translate("addItem", "<html><head/><body><p align=\"center\">Name</p></body></html>"))
         self.label_2.setText(_translate("addItem", "Type"))
         self.typeInput.setItemText(0, _translate("addItem", "Chemical"))
@@ -78,14 +90,20 @@ class Ui_addItem(object):
         self.label_3.setText(_translate("addItem", "Quantity"))
         self.dateLabel.setText(_translate("addItem", "Expiration Date"))
         self.label_5.setText(_translate("addItem", "Description"))
+        self.label_4.setText(_translate("addItem", "Supplier Name:"))
+        self.label_6.setText(_translate("addItem", "Delivery Date"))
 
-
+from PyQt6.QtWidgets import QDialog,QMessageBox
+from inventory import Inventory
+from datetime import date
+# if edit tangalin yung runner dito
 class AddItem(QDialog, Ui_addItem):
     def __init__(self, index):
         super().__init__()
         self.setupUi(self)
         today = date.today()
         self.dateEdit.setDate(today)
+        self.deliveryInput.setDateTime(QtCore.QDateTime.currentDateTime())
         self.typeInput.setCurrentIndex(index)
         self.on_combo_box_changed(index)
         self.typeInput.currentIndexChanged.connect(self.on_combo_box_changed)
@@ -100,12 +118,14 @@ class AddItem(QDialog, Ui_addItem):
         quantity =self.quantityInput.text()
         description = self.descInput.toPlainText()
         type = self.typeInput.currentText()
-        
+        supplier = self.supplierInput.text()
+        deliver = self.deliveryInput.dateTime()
+        deliver = deliver.toString("yyyy-MM-dd HH:mm:ss")
         if (name and quantity) != "":
             if type == "Chemical":
-                self.i.add_item(name, type, quantity, description, date)
+                self.i.add_item(name, type, quantity, description, date, supplier, deliver)
             else:
-                self.i.add_item(name, type, quantity, description, None)
+                self.i.add_item(name, type, quantity, description, None, supplier, deliver)
             
             noInput = QMessageBox()
             noInput.setIcon(QMessageBox.Icon.Information)

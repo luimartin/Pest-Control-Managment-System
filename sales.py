@@ -11,21 +11,24 @@ class Sales:
         pass
     
     def view_all_sales(self):
-        query = "select c.name, figure, sale_date from sales as s left join client as c on c.client_id = s.client_id where s.void = 0;"
+        query = "select c.name, figure, sale_date, s.sale_id from sales as s left join client as c on c.client_id = s.client_id where s.void = 0;"
         return handle_select(query)
     
-    def add_sale(self, client_id, figure):
-        sale_date = date.today()
+    def view_specific_sales(self, sale_id):
+        query = """
+        select c.name, figure, sale_date from sales as s
+        inner join client as c on c.client_id = s.client_id
+        where s.void = 0 and sale_id = {};;
+        """.format(sale_id)
+        return handle_select(query)
+    
+    def add_sale(self, client_id, figure, date):
 
-        query = "select client_id from CLIENT where client_id = {}".format(client_id)
-        valid_id = handle_select(query)[0][0]
-
-        if valid_id is not None:
             query = (
-                "insert into SALES (client_id, figure, sale_date)"
+                "insert into SALES (client_id, figure, sale_date, void)"
                 "values (%s, %s, %s, %s)"
             )
-            data = (valid_id, figure, sale_date, 0)
+            data = (client_id, figure, date, 0)
             handle_transaction(query, data)
 
     def monthly_total_sale(self):

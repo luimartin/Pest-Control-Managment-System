@@ -26,12 +26,8 @@ class editClients(QDialog,Ui_Dialog):
         email=self.emailInput.text()
         loc=self.locationInput.text()
         self.c.edit_personal_info(self.id, 'name', name)
-
-        
         self.c.edit_personal_info(self.id, 'phone_num', contact)
-        
         self.c.edit_personal_info(self.id, 'address', loc)
-        
         self.c.edit_personal_info(self.id, 'email', email)
         self.notif("Client Information")
         

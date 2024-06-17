@@ -13,6 +13,8 @@ from GUI.designadditemUI import AddItem
 from GUI.designedititemUI import Edititem
 from GUI.designaddschedule import AddSchedule
 from GUI.assigntech import AssignTech
+from GUI.designhandledeliveryUI import HandleDelivery
+from GUI.designaddsalesI import AddSales
 class MainMenu(QMainWindow, Ui_MainWindow):
     #move frameless window
     def mousePressEvent(self, event):
@@ -50,6 +52,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         
         #inventorypage
         self.i = Inventory()
+        self.voiditemBtn.clicked.connect(self.switch_to_void)
+        self.deliveryBtn.clicked.connect(self.switch_to_delivery)
+        self.newdeliveryBtn.clicked.connect(self.update_delivery)
+
         #self.populate_inventory(0, self.inventoryTable)
         self.chemicalBtn.clicked.connect(self.switch_to_ChemicalsPage)
         self.chemchemicalBtn.clicked.connect(self.switch_to_ChemicalsPage)
@@ -81,7 +87,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.scheduleBtn.clicked.connect(self.switch_to_SchedulePage)
         # for salepage
         self.sales= Sales()
-
+        self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
         #contractpage
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
 
@@ -95,7 +101,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(1)
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
     def switch_to_InventoryPage(self):
-        self.populate_inventory(0, self.inventoryTable)
+        self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
         self.stackedWidget.setCurrentIndex(2)
     def switch_to_TechnicianPage(self):
         self.stackedWidget.setCurrentIndex(3)
@@ -115,12 +121,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     #may buttons sa table
     def populate_table1(self):
         # stretch the header
-        self.contract = Contract()
         a = self.clientsTable.horizontalHeader()
-        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.clientsTable.verticalHeader().hide()
         a.setStretchLastSection(True)
-        
+        self.contract = Contract()
         clients = self.c.select_all_clients()
         if clients:
             self.clientsTable.setRowCount(len(clients))
@@ -131,7 +136,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(client):
                     client_id = clients[row_idx][0]
                     items = QTableWidgetItem(str(item))
-                    items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
                     self.clientsTable.setItem(row_idx, col_idx, items)
 
@@ -159,9 +164,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         else:
             self.clientsTable.setRowCount(0)
             self.clientsTable.setColumnCount(0)
+
     def viewschedule(self, client_id):
         self.pushButton_2.setChecked(True)#toggle button without click
         self.stackedWidget.setCurrentIndex(1)
+        #print(client_id)
         self.populate_schedule(self.scheduleTable, self.s.specific_view_sched(client_id))
         
     def editclient(self, id):
@@ -173,7 +180,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         addcontract = AddContract(id, None, "Add")
         addcontract.exec()
 
-    #view in contractpage########
+#view in contractpage######################################################
     def viewcontract(self, client_id):
         self.stackedWidget.setCurrentIndex(13)
         result = self.c.contract_view(client_id)
@@ -208,10 +215,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                                                 self.editcontract(id, cont_id))
         
         
-
-
     def editcontract(self, client_id, cont_id):
-
         edit = AddContract(client_id, cont_id, "Edit")
         edit.exec()
 
@@ -226,10 +230,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         if yes == QMessageBox.StandardButton.Yes:
             func(id, "void", 1)
             self.populate_table1()
-            self.populate_inventory(1, self.chemicalTable)
-            self.populate_inventory(3, self.equipmentsTable)
-            self.populate_inventory(2, self.materialsTable)
-            self.populate_inventory(0, self.inventoryTable)
+            self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
+            self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
+            self.populate_inventory(self.i.choose_category("Material"), self.materialsTable)
+            self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
         else:
             noInput.close()
         
@@ -264,25 +268,22 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ##################################################################################################
 #Inventory Page
     def switch_to_ChemicalsPage(self):
-            self.populate_inventory(1, self.chemicalTable)
+            self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
             self.stackedWidget.setCurrentIndex(10)
             
     def switch_to_EquipmentsPage(self):
-            self.populate_inventory(3, self.equipmentsTable)
+            self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
             self.stackedWidget.setCurrentIndex(11)
     def switch_to_MaterialsPage(self):
-            self.populate_inventory(2, self.materialsTable)
+            self.populate_inventory(self.i.choose_category("Material"), self.materialsTable)
             self.stackedWidget.setCurrentIndex(12)
            
     def populate_inventory(self, type, tablename):
         a = tablename.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        #a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
-        a.setStretchLastSection(True)  
-        if type == 0: inventory = self.i.select_inventory()
-        elif type == 1: inventory = self.i.choose_category("Chemical")
-        elif type == 2: inventory = self.i.choose_category("Material")
-        else: inventory = self.i.choose_category("Equipment") 
+        a.setStretchLastSection(True)
+        inventory = type
 
         if inventory:
             tablename.setRowCount(len(inventory))
@@ -293,7 +294,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(inventorys):
                     item_id = inventory[row_idx][0]
                     item_type = inventory[row_idx][2]
-                    tablename.setStyleSheet("font-size: 14px;")
+                    #tablename.setStyleSheet("font-size: 14px;")
                     tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
 
                 edit = QPushButton('Edit')
@@ -303,24 +304,52 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 delete = QPushButton('Void')
                 delete.clicked.connect(lambda _, id = item_id: self.delete(id, self.i.edit_inv_info))
                 tablename.setCellWidget(row_idx, 7, delete)
+        self.label_10.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Inventory</span></p></body></html>"))
 
     def editInevntory(self, id, type):
         print(id, type)
         edit = Edititem(id, type)
         edit.exec()
-        if type == "Chemical": self.populate_inventory(1, self.chemicalTable)
-        elif type == "Equipment": self.populate_inventory(3, self.equipmentsTable)
-        elif type == "Material": self.populate_inventory(2, self.materialsTable)
-        else: self.populate_inventory(0, self.inventoryTable)
+        if type == "Chemical": self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
+        elif type == "Equipment": self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
+        elif type == "Material": self.populate_inventory(self.i.choose_category("Material"), self.materialsTable)
+        else: self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
 
     def addInventory(self, index):
-        print(index)
         add = AddItem(index)
         add.exec()
         if index == 0: self.switch_to_ChemicalsPage()
         elif index == 1: self.switch_to_MaterialsPage()
         else: self.switch_to_EquipmentsPage()
 
+    def populate_delivery_and_void(self, query, categ):
+        a = self.inventoryTable.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.inventoryTable.verticalHeader().hide()
+        a.setStretchLastSection(True)
+        schedule = query
+        if schedule:
+            self.inventoryTable.setRowCount(len(schedule))
+            self.inventoryTable.setColumnCount(6)
+            if categ == 1:
+                self.inventoryTable.setHorizontalHeaderLabels(['Item ID','Name', 'Type', 'Quantity', 'Expiration', 'Description'])
+            else:
+                self.inventoryTable.setHorizontalHeaderLabels(['Delivery ID','Name', 'Quantity', 'Delivery Date', 'Expiration', 'Supplier'])
+            for row_idx, sched in enumerate(schedule):
+                for col_idx, item in enumerate(sched):
+                    self.inventoryTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+
+    def switch_to_delivery(self):
+        self.populate_delivery_and_void(self.i.select_all_delivery(), 1)
+        self.label_10.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Delivery</span></p></body></html>"))
+    
+    def switch_to_void(self):
+        self.populate_delivery_and_void(self.i.select_inventory_void(),2)
+        self.label_10.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Voided Items</span></p></body></html>"))
+
+    def update_delivery(self):
+        handol = HandleDelivery()
+        handol.exec()
 #schedule page######################################################################################################
     def populate_schedule(self, tablename, query):
         a = tablename.horizontalHeader()
@@ -344,7 +373,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     tablename.setCellWidget(row_idx, 8, assign)
                 else:
                     tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
-
+        else:
+            tablename.setRowCount(0)
+            tablename.setColumnCount(0)
     def assigntech(self, schedule_id):
         ass = AssignTech(schedule_id)
         ass.exec()
@@ -375,6 +406,17 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             for row_idx, sales in enumerate(sale):
                 for col_idx, item in enumerate(sales):
                     self.saleTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                sale_id = sale[row_idx][3]
+                #print(sale_id)
+                edit = QPushButton('Edit')
+                edit.clicked.connect(lambda _, id = sale_id: self.addsale("Edit", id))
+                self.saleTable.setCellWidget(row_idx, 3, edit)
+
+    def addsale(self, which, id):
+        addsale = AddSales(which, id)
+        addsale.exec()
+        self.populate_sale()
+
 app = QApplication([])
 window = MainMenu(1)
 window.show()

@@ -82,7 +82,7 @@ class Ui_Dialog(object):
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Quantity</p></body></html>"))
         self.dateLabel.setText(_translate("Dialog", "Expiration Date"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p align=\"center\">Description</p></body></html>"))
-
+# if eedit remove the runner dito
 from PyQt6.QtWidgets import QDialog,QMessageBox
 from PyQt6.QtCore import QDate 
 from datetime import date
@@ -110,8 +110,6 @@ class Edititem(QDialog, Ui_Dialog):
         
     def on_combo_box_changed(self,item_type):
         if item_type == "Chemical":
-            
-            
             self.dateLabel.setVisible(True)
             self.dateEdit.setVisible(True)
         else:  
