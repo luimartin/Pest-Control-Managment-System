@@ -6,6 +6,7 @@ from inventory import Inventory
 from schedule import Schedule
 from sales import Sales
 from contract import Contract
+from test import CalendarScheduler
 from GUI.addcontractUI import AddContract
 from GUI.addclientUI import addClient
 from GUI.editclientUI import editClients
@@ -85,9 +86,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.s = Schedule()
         self.addschedBtn.clicked.connect(self.schedAdd)
         self.scheduleBtn.clicked.connect(self.switch_to_SchedulePage)
+        self.timetableBtn.clicked.connect(self.timetable)
         # for salepage
         self.sales= Sales()
         self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
+        self.salesBtn.clicked.connect(self.switch_to_SalesPage)
+        self.revenueBtn.clicked.connect(lambda: self.populate_sale(self.sales.monthly_total_sale(), 0))
+        self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 0))        
         #contractpage
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
 
@@ -106,7 +111,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def switch_to_TechnicianPage(self):
         self.stackedWidget.setCurrentIndex(3)
     def switch_to_SalesPage(self):
-        self.populate_sale()
+        self.populate_sale(self.sales.view_all_sales(), None)
         self.stackedWidget.setCurrentIndex(4)
     def switch_to_MaintenancePage(self):
         self.stackedWidget.setCurrentIndex(5)
@@ -359,7 +364,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         schedule = query
         if schedule:
             tablename.setRowCount(len(schedule))
-            tablename.setColumnCount(9)
+            tablename.setColumnCount(10)
             tablename.setHorizontalHeaderLabels(['Schedule ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician'])
 
             for row_idx, sched in enumerate(schedule):
@@ -373,9 +378,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     tablename.setCellWidget(row_idx, 8, assign)
                 else:
                     tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
+                edit = QPushButton('Edit')
+                #edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
+                tablename.setCellWidget(row_idx, 9, edit)
         else:
             tablename.setRowCount(0)
             tablename.setColumnCount(0)
+
     def assigntech(self, schedule_id):
         ass = AssignTech(schedule_id)
         ass.exec()
@@ -390,32 +399,43 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         addSchedule = AddSchedule()
         addSchedule.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
+
+    def timetable(self):
+        mainWin = CalendarScheduler()
+        mainWin.exec()
 # sales page ###################################################################################
-    def populate_sale(self):
+    def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.saleTable.verticalHeader().hide()
         a.setStretchLastSection(True)  
-        sale = self.sales.view_all_sales()
+        sale = query
 
         if sale:
             self.saleTable.setRowCount(len(sale))
-            self.saleTable.setColumnCount(4)
-            self.saleTable.setHorizontalHeaderLabels(['Name','Sale Figure', 'Date', ' '])
+            if which is None:
+                self.saleTable.setColumnCount(4)
+                self.saleTable.setHorizontalHeaderLabels(['Name','Sale Figure', 'Date', ' '])
+            else:
+                self.saleTable.setColumnCount(3)
+                self.saleTable.setHorizontalHeaderLabels(['Year','Month', 'Amount'])
             
             for row_idx, sales in enumerate(sale):
                 for col_idx, item in enumerate(sales):
                     self.saleTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
-                sale_id = sale[row_idx][3]
-                #print(sale_id)
-                edit = QPushButton('Edit')
-                edit.clicked.connect(lambda _, id = sale_id: self.addsale("Edit", id))
-                self.saleTable.setCellWidget(row_idx, 3, edit)
+                if which is None:
+                    sale_id = sale[row_idx][3]
+                    #print(sale_id)
+                    edit = QPushButton('Edit')
+                    edit.clicked.connect(lambda _, id = sale_id: self.addsale("Edit", id))
+                    self.saleTable.setCellWidget(row_idx, 3, edit)
+
 
     def addsale(self, which, id):
         addsale = AddSales(which, id)
         addsale.exec()
-        self.populate_sale()
+        self.populate_sale(self.sales.view_all_sales(), None)
+
 
 app = QApplication([])
 window = MainMenu(1)

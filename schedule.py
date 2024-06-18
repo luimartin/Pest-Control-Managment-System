@@ -2,13 +2,15 @@ from datetime import datetime, date, timedelta
 
 from database import *
 from query_settings import *
-
+from datetime import date
 from technician import Technician
+
+import random
 
 class Schedule:
     def __init__(self):
         self.Technician = Technician()
-        
+        self.today = date.today()
     def show_tech(self):
         query = """
         select  technician_id ,concat(TECHNICIAN.first_name,
@@ -151,26 +153,64 @@ class Schedule:
 
 
     def assign_technician(self, sched_id, tech_id):
+        # Check if the technician exists and is available
         isTechnicianExist = self.Technician.isTechnicianExist(tech_id)
         isTechnicianAvailable = self.Technician.isTechnicianAvailable(tech_id)
 
         if isTechnicianExist and isTechnicianAvailable:
+            # Get the time_in, time_out, and start_date for the new schedule
+            query_schedule_time = """
+                SELECT time_in, time_out, start_date, technician_id
+                FROM SCHEDULE
+                WHERE schedule_id = {}
+            """.format(sched_id)
+            schedule_time = handle_select(query_schedule_time)
+
+            if not schedule_time:
+                return "Schedule not found."
+
+            new_time_in, new_time_out, new_start_date, assigned_tech_id = schedule_time[0]
+            print(new_time_in, new_time_out, new_start_date)
+
+            # Check if the technician is already assigned to this schedule
+            if assigned_tech_id == tech_id:
+                return "Technician is already assigned to this schedule. [Already Assigned]"
+
+            # Check for scheduling conflicts on the same date
+            query_conflicts = """
+                SELECT time_in, time_out 
+                FROM SCHEDULE 
+                WHERE technician_id = {} 
+                AND start_date = '{}' 
+                AND ((time_in < '{}' AND time_out > '{}') OR (time_in < '{}' AND time_out > '{}') OR (time_in >= '{}' AND time_out <= '{}'))
+            """.format(tech_id, new_start_date, new_time_out, new_time_in, new_time_in, new_time_out, new_time_in, new_time_out)
+            existing_schedules = handle_select(query_conflicts)
+            print(existing_schedules)
+
+            if existing_schedules:
+                return "Technician has a scheduling conflict on the same day."
+
+            # If no conflicts, proceed with assignment
             query = """               
-                update SCHEDULE 
-                set technician_id = %s
-                where schedule_id = %s"""
-            
+                UPDATE SCHEDULE 
+                SET technician_id = %s
+                WHERE schedule_id = %s
+            """
             data = (tech_id, sched_id)
             handle_transaction(query, data)     
 
             query1 = """
-                update TECHNICIAN 
-                set state = 'Active' 
-                where technician_id = %s
-                """
-            
+                UPDATE TECHNICIAN 
+                SET state = 'Assigned' 
+                WHERE technician_id = %s
+            """
             data = (tech_id,)
-            handle_transaction(query1, data)  
+            handle_transaction(query1, data)
+
+            return "Technician assigned successfully."
+        else:
+            return "Technician not available or does not exist."
+
 
 
     def show_accounted_technician(self):
@@ -224,7 +264,7 @@ class Schedule:
         rr_queue = []
 
         query_techs = """
-            SELECT technician_id, CONCAT(CONCAT(first_name, ' '), last_name) AS 'Available Technician', state 
+            SELECT technician_id, CONCAT(first_name, ' ', last_name) AS 'Available Technician', state 
             FROM TECHNICIAN 
             WHERE state = 'Idle'
         """
@@ -235,6 +275,9 @@ class Schedule:
         for tech in idle_technicians:
             rr_queue.append(tech[0])  # Assuming the first element is technician_id
 
+        # Shuffle the queue to randomize the starting point
+        random.shuffle(rr_queue)
+
         schedules_tomorrow = self.show_sched_for_tom()
         if not schedules_tomorrow:
             return "No Schedules for tomorrow."
@@ -242,64 +285,81 @@ class Schedule:
         rr_index = 0
         num_techs = len(rr_queue)
         for sched in schedules_tomorrow:
-            technician_id = rr_queue[rr_index]
-            schedule_id = sched[0] # Schedule ID
-            client_id = sched[1]  # Client ID
+            schedule_id = sched[0]  # Schedule ID
+            sched_time_in = sched[2]
+            sched_time_out = sched[3]
             
-            query_type = """
-                SELECT schedule_type
-                FROM SCHEDULE
-                WHERE schedule_id = {}
-            """.format(schedule_id)
-            schedule_type = handle_select(query_type)[0][0]
+            # Keep track of how many technicians we've checked
+            technicians_checked = 0
+            assigned = False
 
-            # Check if the technician can be assigned based on the schedule type
-            if schedule_type == "Posting":
-                # Assign the technician to the schedule
-                self.assign_technician(schedule_id, client_id, technician_id)
-                # Remove the technician from the round robin queue
-                rr_queue.pop(rr_index)
-                num_techs -= 1
-                # Adjust the round robin index if necessary
-                if rr_index >= num_techs:
-                    rr_index = 0
-            else:  # Default schedule type
-                # Check if the technician has been assigned less than twice
-                query_count = """
-                    SELECT COUNT(*)
-                    FROM SCHEDULE
-                    WHERE technician_id = {} AND schedule_type = 'Default'
-                """.format(technician_id)
-                tech_assign_count = handle_select(query_count)[0][0]
+            while technicians_checked < num_techs:
+                technician_id = rr_queue[rr_index]
 
-                if tech_assign_count < 2:
-                    # Assign the technician to the schedule
-                    self.assign_technician(schedule_id, client_id, technician_id)
-                    # Update round robin index
-                    rr_index = (rr_index + 1) % num_techs
-                else:
-                    # Remove the technician from the round robin queue if they are over-assigned
-                    rr_queue.pop(rr_index)
-                    num_techs -= 1
-                    # Adjust the round robin index if necessary
-                    if rr_index >= num_techs:
-                        rr_index = 0
+                # Check for scheduling conflicts
+                query_conflicts = """
+                    SELECT time_in, time_out 
+                    FROM SCHEDULE 
+                    WHERE technician_id = {} 
+                    AND ((time_in < '{}' AND time_out > '{}') OR 
+                        (time_in < '{}' AND time_out > '{}') OR 
+                        (time_in >= '{}' AND time_out <= '{}'))
+                """.format(technician_id, sched_time_out, sched_time_in, sched_time_in, sched_time_out, sched_time_in, sched_time_out)
+                existing_schedules = handle_select(query_conflicts)
 
-            if num_techs == 0:
-                break
+                if not existing_schedules:
+                    query_type = """
+                        SELECT schedule_type
+                        FROM SCHEDULE
+                        WHERE schedule_id = {}
+                    """.format(schedule_id)
+                    schedule_type = handle_select(query_type)[0][0]
+
+                    # Check if the technician can be assigned based on the schedule type
+                    if schedule_type == "Posting":
+                        # Assign the technician to the schedule
+                        self.assign_technician(schedule_id, technician_id)
+                        # Remove the technician from the round robin queue
+                        rr_queue.pop(rr_index)
+                        num_techs -= 1
+                        assigned = True
+                    else:  # Default schedule type
+                        # Check if the technician has been assigned less than twice
+                        query_count = """
+                            SELECT COUNT(*)
+                            FROM SCHEDULE
+                            WHERE technician_id = {} AND schedule_type = 'Default'
+                        """.format(technician_id)
+                        tech_assign_count = handle_select(query_count)[0][0]
+
+                        if tech_assign_count < 2:
+                            # Assign the technician to the schedule
+                            self.assign_technician(schedule_id, technician_id)
+                            assigned = True
+
+                    if assigned:
+                        break  # Exit the while loop to move on to the next schedule
+
+                # Move to the next technician in the queue
+                rr_index = (rr_index + 1) % num_techs
+                technicians_checked += 1
+
+            if not assigned:
+                return "Could not assign all schedules due to conflicts."
 
         return "Technicians assigned successfully."
+
             
     def show_sched_for_tom(self):
         query = f"""
-            select schedule_id, client_id, start_date
-            from SCHEDULE
-            where start_date = "2024-06-15" + interval 1 day and status = 'Idle'
+            select schedule_id, start_date, time_in, time_out 
+            from SCHEDULE 
+            where start_date = "2024-06-10" + interval 1 day and status = 'Idle' 
             union 
-            select SCHEDULIZER.schedule_id, SCHEDULE.client_id, SCHEDULIZER.single_date 
+            select SCHEDULIZER.schedule_id, SCHEDULIZER.single_date, SCHEDULE.time_in, SCHEDULE.time_out 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
-            where SCHEDULIZER.single_date = "2024-06-15" + interval 1 day and SCHEDULE.status = 'Idle' 
+            where SCHEDULIZER.single_date = "2024-06-10" + interval 1 day and SCHEDULE.status = 'Idle' 
         """
         return handle_select(query)    
 
@@ -333,8 +393,8 @@ class Schedule:
         return handle_select(query)
 
 s = Schedule()
-#s.add_schedule(1, "Default", "2024-06-17", "2024-06-17", "6:00:00", "15:00:00")
-#s.assign_technician(30, 1, 1)
+#s.add_schedule(1, "Posting", "2024-06-11", "2024-06-22", "09:00:00", "17:00:00")
+#print(s.assign_technician(14, 1))
 #s.earliest_deadline_first()
 #s.update_state_when_done(29, 1)
 #temp = {}

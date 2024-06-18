@@ -21,7 +21,7 @@ class ScheduleDialog(QDialog):
         layout.addWidget(self.schedule_text)
         self.setLayout(layout)
 
-class CalendarScheduler(QMainWindow):
+class CalendarScheduler(QDialog):
     def __init__(self):
         super().__init__()
 
@@ -29,7 +29,9 @@ class CalendarScheduler(QMainWindow):
         self.setGeometry(100, 100, 900, 600)
 
         self.central_widget = QWidget()
-        self.setCentralWidget(self.central_widget)
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.central_widget)
+        #self.setCentralWidget(self.central_widget)
 
         self.layout = QVBoxLayout(self.central_widget)
 
@@ -51,7 +53,7 @@ class CalendarScheduler(QMainWindow):
         weeks_in_month = (days_in_month + start_day_of_week - 1 + 6) // 7
 
         # Set the table size dynamically based on weeks
-        table_width = 1000
+        table_width = 1200
         table_height = 700
         self.calendar_table = QTableWidget(weeks_in_month, 7, self)
         self.calendar_table.setFixedSize(table_width, table_height)
@@ -105,8 +107,3 @@ class CalendarScheduler(QMainWindow):
         dialog = ScheduleDialog(client_name, schedule, self)
         dialog.exec()
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    mainWin = CalendarScheduler()
-    mainWin.show()
-    sys.exit(app.exec())

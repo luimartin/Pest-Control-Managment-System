@@ -32,17 +32,17 @@ class Sales:
             handle_transaction(query, data)
 
     def monthly_total_sale(self):
-        query = (
-            "select date_format(sale_date, '%Y-%m'), sum(figure) "
-            "from SALES where void = 0"
-            "group by date_format(sale_date, '%Y-%m') "
-            "order by date_format(sale_date, '%Y-%m')"
-        )
+        query = """
+select year(sale_date), date_format(sale_date, '%M'), sum(figure) 
+            from SALES where void = 0
+            group by year(sale_date) ,date_format(sale_date, '%M') 
+            order by date_format(sale_date, '%M') desc;
+        """
         return handle_select(query)
     
     def monthly_avg_total_sale(self):
         query = """
-        select year(sale_date), date_format(sale_date, '%M'), avg(figure) from SALES  where void = 0
+                    select year(sale_date), date_format(sale_date, '%M'), cast(avg(figure) as decimal(10,2)) from SALES  where void = 0
             group by year(sale_date), DATE_FORMAT(sale_date, '%M');
         """
         return handle_select(query)

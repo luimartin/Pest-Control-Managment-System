@@ -101,6 +101,8 @@ class HandleDelivery(QDialog, Ui_Dialog):
         self.typeInput.setEnabled(False)
         self.descInput.setEnabled(False)
         self.deliveryInput.setDateTime(QtCore.QDateTime.currentDateTime())
+        #####ibahin to if needed
+        self.deliveryInput.setEnabled(False)
         self.dateEdit.setDate(QtCore.QDate.currentDate())
         # Populate the QComboBox
         for item_id, item_name, _, _, _, _, _, _ in data:
