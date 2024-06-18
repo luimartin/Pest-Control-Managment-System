@@ -1,6 +1,8 @@
 from database import *
 from query_settings import *
 
+import datetime
+
 import re
 
 class Message:
@@ -15,31 +17,31 @@ class Message:
             "ced" : "select end_date from SCHEDULE where schedule_id = {}",
             "cti" : "select time_in from SCHEDULE where schedule_id = {}",
             "cto" : "select time_out from SCHEDULE where schedule_id = {}",
-            "tn" : (temp_tech + "(SELECT technician_id FROM SCHEDULE where schedule_id = {})")
+            "tn" : (temp_tech + "(select technician_id from SCHEDULE where schedule_id = {})")
         }
         self.converted_token = []
 
     def convert_msg(self, ref_id,  msg_content):
-        placeholders = ["cn", "csd", "ced", "cti", "cto", "tn"]
-
+        # The msg_content should be retreived from database
         pattern = r'@(\w+)'
         captured_tokens = re.findall(pattern, msg_content)
         
         for token in captured_tokens:
             query = self.tokens[token].format(ref_id)
-            print(query)
             value = handle_select(query)[0][0]
-            print(value)
-
-            if type(value) is not str: # if the value is DATE
+            
+            if type(value) is datetime.date:
                 value = value.strftime('%Y-%m-%d')
-
+            
+            if type(value) is datetime.timedelta:
+                value = str(value)
+        
             self.converted_token.append(value)
         
         # Supporting Function
         def get_value(placeholder):
             try:
-                index = placeholders.index(placeholder)
+                index = captured_tokens.index(placeholder)
                 return self.converted_token[index]
             except ValueError:
                 return placeholder
@@ -48,7 +50,6 @@ class Message:
         ###### THIS WHERE THE ARDUINO BEGINS ######
         self.converted_token = []
         return result
-    
 
     def add_message(self, msg_categ, msg_format):
         query = "insert into MESSAGE (message_category, message) values (%s, %s)"
@@ -64,7 +65,7 @@ class Message:
     def get_data(self, msg_id, categ):
         temp = "select {} from MESSAGE ".format(categ)
         query = temp + "where message_id = {}".format(msg_id)
-        return handle_select(query)
+        return handle_select(query)[0][0]
     
     def search(self, input):
         query = f"""
@@ -79,6 +80,5 @@ class Message:
         """
         return handle_select(query) 
 
-
-
-
+#m = Message()
+#print(m.convert_msg(28, m.get_data(1, 'message')))

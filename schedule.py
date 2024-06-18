@@ -53,41 +53,48 @@ class Schedule:
             self.posting_schedulizer(sched_id, start_date, end_date)
 
     def earliest_deadline_first(self):
-        today = "2024-06-11"
-        
         query1 = """ 
-                select schedule_id, start_date, time_in, time_out from schedule 
+                select schedule_id, start_date, time_in, time_out from SCHEDULE 
                 where start_date like '{}%'
-                and schedule_type = 'Default'
                 union
-                select schedule_id, single_date, "09:00:00", "17:00:00" from schedulizer
+                select schedule_id, single_date, "09:00:00", "17:00:00" from SCHEDULIZER
                 where single_date like '{}%'
-                order by time_in, time_out ASC
-            """.format(today, today)    
+                order by start_date, time_in, time_out ASC
+            """.format(self.today, self.today)    
         
         for id in handle_select(query1):
             query = "update SCHEDULE set status = 'Progress' where schedule_id = %s"
+            query1 = (
+                "update TECHNICIAN set state = 'Active' "
+                "where technician_id = (select technician_id from SCHEDULE where schedule_id = %s)"
+            )
             data = (id[0],)
             handle_transaction(query, data)
+            handle_transaction(query1, data)  
         
     def earliest_deadline_first_show(self):
         query = """
-        SELECT *
-        FROM SCHEDULE
-        ORDER BY
-            CASE WHEN status = 'Progress' THEN 1 ELSE 2 END,
-            start_date, time_in;
+        select *
+        from SCHEDULE
+        order by
+            case when status = 'Progress' then 1 else 2 end,
+            case when status = 'Done' then 3 end,
+            start_date, time_in, time_out;
         """
         return handle_select(query)
 
     
-    def update_state_when_done(self, client_id, sched_id):
+    def update_state_when_done(self, sched_id, client_id):
         query = (
-            "update schedule set status = 'Done' "
-            "where client_id = %s and schedule_id = %s"
+            "update TECHNICIAN, SCHEDULE "
+            "set SCHEDULE.status = 'Done', TECHNICIAN.state = 'Idle', SCHEDULE.technician_id = NULL "
+            "where SCHEDULE.technician_id = TECHNICIAN.technician_id "
+            "and SCHEDULE.client_id = %s and SCHEDULE.schedule_id = %s and "
+            "TECHNICIAN.technician_id = (select technician_id from SCHEDULE where client_id = %s and schedule_id = %s)"
         )
-        data = (client_id, sched_id)
+        data = (client_id, sched_id, client_id, sched_id) 
         handle_transaction(query, data)
+        
 
     def posting_schedulizer(self, sched_id, start_date, end_date):
         ref_sched = start_date
@@ -146,8 +153,6 @@ class Schedule:
     def assign_technician(self, sched_id, tech_id):
         isTechnicianExist = self.Technician.isTechnicianExist(tech_id)
         isTechnicianAvailable = self.Technician.isTechnicianAvailable(tech_id)
-        print(isTechnicianExist)
-        print(isTechnicianAvailable)
 
         if isTechnicianExist and isTechnicianAvailable:
             query = """               
@@ -178,6 +183,127 @@ class Schedule:
         return handle_select(query)
     
 
+    def timetable(self, schedule_event=None):
+        query = """
+            select SCHEDULE.start_date, CLIENT.name, SCHEDULE.time_in, SCHEDULE.time_out
+            from SCHEDULE 
+            inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
+            where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            union 
+            select SCHEDULIZER.single_date, CLIENT.name, "09:00:00", "17:00:00" 
+            from SCHEDULIZER 
+            inner join SCHEDULE on SCHEDULIZER.schedule_id = SCHEDULE.schedule_id
+            inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
+            where SCHEDULIZER.single_date <= LAST_DAY("{}") and SCHEDULIZER.single_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            order by start_date ASC  
+        """.format(self.today, self.today, self.today, self.today)
+        temp_list = handle_select(query)
+
+        # Add root dict
+        for sched in temp_list:
+            date = sched[0].strftime("%Y-%m-%d")
+            if date not in schedule_event:
+                schedule_event[date] = {}
+
+        # Add nested dict from the root dict
+        for event in temp_list:
+            date = event[0].strftime("%Y-%m-%d")
+            client_name = event[1]
+            event_time = f'{event[2]} to {event[3]}'
+            
+            # Initialize the list if the client name does not exist in the date
+            if client_name not in schedule_event[date]:
+                schedule_event[date][client_name] = []
+            
+            # Append the event time to the client's list for that date
+            schedule_event[date][client_name].append(event_time)
+
+        return schedule_event
+
+    def round_robin(self):
+        rr_queue = []
+
+        query_techs = """
+            SELECT technician_id, CONCAT(CONCAT(first_name, ' '), last_name) AS 'Available Technician', state 
+            FROM TECHNICIAN 
+            WHERE state = 'Idle'
+        """
+        idle_technicians = handle_select(query_techs)
+        if not idle_technicians:
+            return "No Technicians available."
+
+        for tech in idle_technicians:
+            rr_queue.append(tech[0])  # Assuming the first element is technician_id
+
+        schedules_tomorrow = self.show_sched_for_tom()
+        if not schedules_tomorrow:
+            return "No Schedules for tomorrow."
+
+        rr_index = 0
+        num_techs = len(rr_queue)
+        for sched in schedules_tomorrow:
+            technician_id = rr_queue[rr_index]
+            schedule_id = sched[0] # Schedule ID
+            client_id = sched[1]  # Client ID
+            
+            query_type = """
+                SELECT schedule_type
+                FROM SCHEDULE
+                WHERE schedule_id = {}
+            """.format(schedule_id)
+            schedule_type = handle_select(query_type)[0][0]
+
+            # Check if the technician can be assigned based on the schedule type
+            if schedule_type == "Posting":
+                # Assign the technician to the schedule
+                self.assign_technician(schedule_id, client_id, technician_id)
+                # Remove the technician from the round robin queue
+                rr_queue.pop(rr_index)
+                num_techs -= 1
+                # Adjust the round robin index if necessary
+                if rr_index >= num_techs:
+                    rr_index = 0
+            else:  # Default schedule type
+                # Check if the technician has been assigned less than twice
+                query_count = """
+                    SELECT COUNT(*)
+                    FROM SCHEDULE
+                    WHERE technician_id = {} AND schedule_type = 'Default'
+                """.format(technician_id)
+                tech_assign_count = handle_select(query_count)[0][0]
+
+                if tech_assign_count < 2:
+                    # Assign the technician to the schedule
+                    self.assign_technician(schedule_id, client_id, technician_id)
+                    # Update round robin index
+                    rr_index = (rr_index + 1) % num_techs
+                else:
+                    # Remove the technician from the round robin queue if they are over-assigned
+                    rr_queue.pop(rr_index)
+                    num_techs -= 1
+                    # Adjust the round robin index if necessary
+                    if rr_index >= num_techs:
+                        rr_index = 0
+
+            if num_techs == 0:
+                break
+
+        return "Technicians assigned successfully."
+            
+    def show_sched_for_tom(self):
+        query = f"""
+            select schedule_id, client_id, start_date
+            from SCHEDULE
+            where start_date = "2024-06-15" + interval 1 day and status = 'Idle'
+            union 
+            select SCHEDULIZER.schedule_id, SCHEDULE.client_id, SCHEDULIZER.single_date 
+            from SCHEDULIZER 
+            inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
+            where SCHEDULIZER.single_date = "2024-06-15" + interval 1 day and SCHEDULE.status = 'Idle' 
+        """
+        return handle_select(query)    
+
+
     def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
         query = temp + "%s where schedule_id = %s and client_id = %s"
@@ -204,7 +330,13 @@ class Schedule:
             OR time_out LIKE '%{input}%'
             ) and void = 0
         """
-        return handle_select(query) 
+        return handle_select(query)
 
 s = Schedule()
-#print(s.search(1))
+#s.add_schedule(1, "Default", "2024-06-17", "2024-06-17", "6:00:00", "15:00:00")
+#s.assign_technician(30, 1, 1)
+#s.earliest_deadline_first()
+#s.update_state_when_done(29, 1)
+#temp = {}
+#print(s.timetable(temp))
+print(s.round_robin())

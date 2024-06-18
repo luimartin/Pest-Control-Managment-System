@@ -4,10 +4,12 @@ from query_settings import *
 from datetime import date
 from inventory import Inventory
 
+
 class Technician:
     def __init__(self):
         self.Inventory = Inventory()
-    
+        self.today = date.today()
+
     def add_technician(self, f_name, l_name, phone_num, address):
         query = (
             "insert into TECHNICIAN (first_name, last_name, phone_num, address, void, state)"
@@ -16,9 +18,6 @@ class Technician:
         data = (f_name, l_name, phone_num, address, 0, "Idle")
         handle_transaction(query, data)
 
-    def round_robin(self):
-        pass
-    
     def assign_item(self, tech_id, item_id, quantity):
         date_acquired = date.today()
 
@@ -88,12 +87,22 @@ class Technician:
             "where technician_id = {}".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
-        print(tech_id)
         print(output_amount)
+        
         # The number of rows determines the number of accounted clients 
         # (Max. 2 only, otherwise not available)
         if output_amount >= 2: return False
         return True
+
+    def isTechnicianOnPosting(self, tech_id, sched_id):
+        query = (
+            "select schedule_type from SCHEDULE "
+            "where technician_id = {} and schedule_id = {}".format(tech_id, sched_id)
+        )
+        output = handle_select(query)[0][0]
+        
+        if output == 'Posting': return True
+        return False
 
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
