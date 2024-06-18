@@ -85,11 +85,11 @@ class Technician:
     def isTechnicianAvailable(self, tech_id):
         query = (
             "select count(schedule_id) from SCHEDULE "
-            "where technician_id = {} where void = 0".format(tech_id)
+            "where technician_id = {}".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
+        print(tech_id)
         print(output_amount)
-        
         # The number of rows determines the number of accounted clients 
         # (Max. 2 only, otherwise not available)
         if output_amount >= 2: return False
