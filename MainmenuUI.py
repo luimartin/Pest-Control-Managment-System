@@ -87,6 +87,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addschedBtn.clicked.connect(self.schedAdd)
         self.scheduleBtn.clicked.connect(self.switch_to_SchedulePage)
         self.timetableBtn.clicked.connect(self.timetable)
+        
         # for salepage
         self.sales= Sales()
         self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
@@ -95,6 +96,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 0))        
         #contractpage
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
+        self.roundrobinBtn.clicked.connect(self.roundrobin)
 
  ##########################################################################################
 
@@ -365,7 +367,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         if schedule:
             tablename.setRowCount(len(schedule))
             tablename.setColumnCount(10)
-            tablename.setHorizontalHeaderLabels(['Schedule ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician'])
+            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' '])
 
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
@@ -379,7 +381,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 else:
                     tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
                 edit = QPushButton('Edit')
-                #edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
+                edit.clicked.connect(lambda _, id=schedule_id: self.schedEdit(id))
                 tablename.setCellWidget(row_idx, 9, edit)
         else:
             tablename.setRowCount(0)
@@ -396,13 +398,35 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
 
     def schedAdd(self):
-        addSchedule = AddSchedule()
+        addSchedule = AddSchedule(None, None)
         addSchedule.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
 
+    def schedEdit(self, id):
+        editsched = AddSchedule("Edit", id)
+        editsched.exec()
+        self.populate_schedule(self.scheduleTable, self.s.view_sched())
     def timetable(self):
         mainWin = CalendarScheduler()
         mainWin.exec()
+
+    def roundrobin(self):
+        round_robin = self.s.round_robin()
+        self.notif(QMessageBox.Icon.Information, round_robin)
+        s = self.s.view_sched()
+        for row_idx in range(self.scheduleTable.rowCount()):
+            schedule_id = s[row_idx][0]
+            print(self.scheduleTable.rowCount())
+            print(schedule_id)
+            if self.scheduleTable.item(row_idx, 0).text() == str(schedule_id):
+                self.scheduleTable.removeCellWidget(row_idx, 8)
+        self.populate_schedule(self.scheduleTable, self.s.view_sched())
+
+    def notif(self, type, message):
+        noInput = QMessageBox()
+        noInput.setIcon(type)
+        noInput.setText(message)
+        noInput.exec()
 # sales page ###################################################################################
     def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()

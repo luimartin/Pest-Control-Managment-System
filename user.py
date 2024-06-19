@@ -123,9 +123,11 @@ class User:
         return handle_select(query)
 
     
-#u = User()
+u = User()
 #print(u.get_data(4, ("question1, question2")))
 #print(u.cp_questions(4,"Human", "Sugar Baby"))
-#u.add_user("Lui", "030709", "", "", "", "")
-
+#u.add_user("joy", "030709", "What is the name of your pet?", "fallfee", "What is your favorite food of all time?", "sinigang")
+#u.add_user("cris", "030709", "What was the first game you played?", "jackstone", "What is the toy/stuffed animal you like the most as a kid?", "giraffe")
+#u.add_user("doctora", "030709", "What was your dream job?", "doctor", "What was the first thing you learned to cook?", "hotdog")
+#u.add_user("gil", "030709", "What is your most listened song ever?", "supershy", "What is the toy/stuffed animal you like the most as a kid?", "dog")
 

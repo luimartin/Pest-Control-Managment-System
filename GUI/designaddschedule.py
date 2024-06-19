@@ -1,6 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
-
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -137,16 +136,20 @@ from clientinfo import ClientInfo
 from schedule import Schedule
 # if edit tangalin yung runner dito
 class AddSchedule(QDialog, Ui_Dialog):
-    def __init__(self):
+    def __init__(self, which, sched_id):
         super().__init__()
         self.setupUi(self)
         self.on_combo_box_changed(0)
+        self.sched_id = sched_id
+        self.which = which
+
+
         self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)
         self.cancelBtn.clicked.connect(lambda: self.close())
         self.confirmBtn.clicked.connect(self.add)
         self.c = ClientInfo()
         self.s = Schedule()
-
+        
         self.startInput.setDate(date.today())
         self.endInput.setDate(date.today())
         self.dayinput.setDate(date.today())
@@ -154,20 +157,32 @@ class AddSchedule(QDialog, Ui_Dialog):
         self.timeoutInput.setTime(QTime.currentTime())
         clients = self.c.select_all_clients()
         self.clientComboBox.clear()
+
         for client_id, name, phone_num, status in clients:
             self.clientComboBox.addItem(f"{name}", client_id)
 
+        if which == "Edit":
+            placeholder = self.s.placeholder_sched(sched_id)
+            self.clientComboBox.setEnabled(False)
+            self.clientComboBox.setCurrentText(placeholder[0][0])
+            self.comboBox.setCurrentText(placeholder[0][1])
+            self.startInput.setDate(QtCore.QDate.fromString(str(placeholder[0][2]), "yyyy-MM-dd"))
+            self.endInput.setDate(QtCore.QDate.fromString(str(placeholder[0][3]), "yyyy-MM-dd"))
+            self.dayinput.setDate(QtCore.QDate.fromString(str(placeholder[0][2]), "yyyy-MM-dd"))
+            self.timeinInput.setTime(QtCore.QTime.fromString(str(placeholder[0][4]), "HH:mm:ss"))
+            self.timeoutInput.setTime(QtCore.QTime.fromString(str(placeholder[0][5]), "HH:mm:ss"))
     def add(self):
         treatment =self.comboBox.currentText()
         id = self.clientComboBox.currentData()
-        print(id)
-        print(treatment)
+        if self.which == "Edit":
+            pass
         if treatment == "Posting":
             start_date = self.startInput.date()
             start_date= start_date.toString("yyyy-MM-dd")
             end_date = self.endInput.date()
             end_date = end_date.toString("yyyy-MM-dd")
             if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
+            elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
             else: 
                 self.s.add_schedule(id, treatment, start_date, end_date, "09:00:00", "17:00:00")
                 self.notif(QMessageBox.Icon.Information, "Schedule Added" )

@@ -24,13 +24,21 @@ class AssignTech(QDialog, Ui_dialog):
         tech_id = self.techbox.currentData()
         if self.technicians.isTechnicianAvailable(tech_id):
             
-            self.sched.assign_technician(self.sched_id, tech_id)
-            noInput = QMessageBox()
-            noInput.setWindowTitle("Notification")
-            noInput.setIcon(QMessageBox.Icon.Information)
-            noInput.setText("Assign Technician")
-            noInput.exec()
-            self.close()
+            if self.sched.assign_technician(self.sched_id, tech_id) == "Technician has a scheduling conflict on the same day.":
+                noInput = QMessageBox()
+                noInput.setWindowTitle("Notification")
+                noInput.setIcon(QMessageBox.Icon.Warning)
+                noInput.setText("Technician Unavailable")
+                noInput.exec()
+                self.close()
+            
+            else: 
+                noInput = QMessageBox()
+                noInput.setWindowTitle("Notification")
+                noInput.setIcon(QMessageBox.Icon.Information)
+                noInput.setText("Assign Technician")
+                noInput.exec()
+                self.close()
 
         else:
             noInput = QMessageBox()

@@ -11,6 +11,7 @@ class Schedule:
     def __init__(self):
         self.Technician = Technician()
         self.today = date.today()
+
     def show_tech(self):
         query = """
         select  technician_id ,concat(TECHNICIAN.first_name,
@@ -18,14 +19,18 @@ class Schedule:
 	    where void = 0
         """ 
         return handle_select(query)
+    
     def view_sched(self):
         query = """
-    select schedule_id ,client.name, schedule_type, start_date, end_date, time_in, 
-	time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
-    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
-    inner join client on schedule.client_id = client.client_id
-       left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
-                where SCHEDULE.void = 0;
+ select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+	time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+    inner join client as c on s.client_id = c.client_id
+       left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
+                where s.void = 0 order by
+            case when s.status = 'Progress' then 1 else 2 end,
+            case when s.status = 'Done' then 3 end,
+            start_date, time_in, time_out; 
         """
         return handle_select(query)
     
@@ -312,6 +317,7 @@ class Schedule:
                         SELECT schedule_type
                         FROM SCHEDULE
                         WHERE schedule_id = {}
+                        order by start_date, time_in, time_out ASC
                     """.format(schedule_id)
                     schedule_type = handle_select(query_type)[0][0]
 
@@ -354,27 +360,28 @@ class Schedule:
         query = f"""
             select schedule_id, start_date, time_in, time_out 
             from SCHEDULE 
-            where start_date = "2024-06-10" + interval 1 day and status = 'Idle' 
+            where start_date = "2024-06-18" + interval 1 day and status = 'Idle' 
             union 
             select SCHEDULIZER.schedule_id, SCHEDULIZER.single_date, SCHEDULE.time_in, SCHEDULE.time_out 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
-            where SCHEDULIZER.single_date = "2024-06-10" + interval 1 day and SCHEDULE.status = 'Idle' 
+            where SCHEDULIZER.single_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' 
+            order by start_date, time_in, time_out ASC
         """
         return handle_select(query)    
 
 
-    def edit_schedule_info(self, sched_id, ref_id, categ, new_input):
+    def edit_schedule_info(self, sched_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
-        query = temp + "%s where schedule_id = %s and client_id = %s"
-        data = (new_input, sched_id, ref_id)
+        query = temp + "%s where schedule_id = %s and "
+        data = (new_input, sched_id)
         handle_transaction(query, data)
 
 
-    def get_data(self, sched_id, ref_id, categ):
+    def get_data(self, sched_id, categ):
         temp = "select {} from SCHEDULE ".format(categ)
-        query = temp + "where schedule_id = {} and client_id = {}".format(sched_id, ref_id)
-        return handle_select(query)[0][0]
+        query = temp + "where schedule_id = {} and void = 0".format(sched_id)
+        return handle_select(query)
     
 
     def search(self, input):
@@ -391,12 +398,24 @@ class Schedule:
             ) and void = 0
         """
         return handle_select(query)
+    def placeholder_sched(self, sched_id):
+        query = """
+        select c.name, schedule_type, start_date, end_date, 
+        time_in, time_out from schedule as s inner join 
+        client as c on s.client_id = c.client_id where schedule_id = {};
+        """.format(sched_id)
+        return handle_select(query)
 
-s = Schedule()
-#s.add_schedule(1, "Posting", "2024-06-11", "2024-06-22", "09:00:00", "17:00:00")
+#s = Schedule()
+#s.earliest_deadline_first()
+#print(s.earliest_deadline_first_show())
+#print(s.get_data(28, "client_id, schedule_type, start_date, end_date, time_in, time_out"))
+#print(s.placeholder_sched(28))
+#s.earliest_deadline_first
+#s.add_schedule(1, "Default", "2024-06-11", "2024-06-22", "20:30:00", "21:00:00")
 #print(s.assign_technician(14, 1))
 #s.earliest_deadline_first()
 #s.update_state_when_done(29, 1)
 #temp = {}
 #print(s.timetable(temp))
-print(s.round_robin())
+#print(s.round_robin())

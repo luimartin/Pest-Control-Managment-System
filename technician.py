@@ -131,6 +131,11 @@ class Technician:
         """
         return handle_select(query)
 
-#t = Technician()
+t = Technician()
+#t.add_technician("Robert", "Santos", "09452842467", "Balong Bato, San Juan City")
+#t.add_technician("John", "Timado", "09760040362", "West Crame San Juan City")
+#t.add_technician("Lawrence", "Buena", "09452842467", "Pacita, Laguna")
+#t.add_technician("Ijah", "Buena", "09760040362", "Pacita Laguna")
+#t.add_technician("Johnny", "Mora", "09452842467", "Pasig City")
 #t.assign_item(3, "last_name", "Cruz")
 

@@ -557,9 +557,9 @@ padding-right: 100px</string>
      <widget class="QWidget" name="layoutWidget_5">
       <property name="geometry">
        <rect>
-        <x>550</x>
+        <x>480</x>
         <y>40</y>
-        <width>431</width>
+        <width>501</width>
         <height>51</height>
        </rect>
       </property>
@@ -570,6 +570,13 @@ padding-right: 100px</string>
        <property name="sizeConstraint">
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
+       <item>
+        <widget class="QPushButton" name="schedtomBtn">
+         <property name="text">
+          <string>Upcoming Schdule</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="scheduleBtn">
          <property name="text">
@@ -585,12 +592,12 @@ padding-right: 100px</string>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="sendSMSBtn">
+        <widget class="QPushButton" name="roundrobinBtn">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Send SMS</string>
+          <string>Round Robin</string>
          </property>
         </widget>
        </item>

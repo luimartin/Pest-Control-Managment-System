@@ -16,10 +16,12 @@ class Contract:
     def contract_view(self, client_id):
         query =" select problem, service_type, start_date, end_date, square_meter, unit, price from contract where client_id = {} and void = 0".format(client_id)
         return handle_select(query)
+    
+    
     def add_contract(self, ref_id, problem, service_type, start_date, end_date, square_meter, unit, price):
         query = (
             "insert into CONTRACT (client_id, problem, service_type, start_date, end_date, square_meter, unit, price, void)"
-            "values (%s, %s, %s, %s, %s, %s, %s, %s)"
+            "values (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
         data = (ref_id, problem, service_type, start_date, end_date, square_meter, unit, price, 0)
         handle_transaction(query, data)
