@@ -130,8 +130,30 @@ class Technician:
             ) and void = 0
         """
         return handle_select(query)
+    
+    def select_all_tech(self):
+        query = """
+        select technician_id,concat(TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
+        , phone_num, address, null ,state, null, null from technician where void = 0;
+        """
+        return(handle_select(query))
+    
+    def select_all_tech_void(self):
+        query = """
+        select technician_id,concat(TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
+        , phone_num, address, null ,state, null, null from technician where void = 1;
+        """
+        return(handle_select(query))
+
+    def select_specific_tech(self, techid):
+        query = """
+        select first_name, last_name, phone_num, address from technician
+        where void = 0 and technician_id = {};
+        """.format(techid)
+        return handle_select(query)
 
 t = Technician()
+print(t.select_specific_tech(10))
 #t.add_technician("Robert", "Santos", "09452842467", "Balong Bato, San Juan City")
 #t.add_technician("John", "Timado", "09760040362", "West Crame San Juan City")
 #t.add_technician("Lawrence", "Buena", "09452842467", "Pacita, Laguna")

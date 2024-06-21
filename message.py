@@ -21,13 +21,13 @@ class Message:
         }
         self.converted_token = []
 
-    def convert_msg(self, ref_id,  msg_content):
+    def convert_msg(self, sched_id,  msg_content):
         # The msg_content should be retreived from database
         pattern = r'@(\w+)'
         captured_tokens = re.findall(pattern, msg_content)
         
         for token in captured_tokens:
-            query = self.tokens[token].format(ref_id)
+            query = self.tokens[token].format(sched_id)
             value = handle_select(query)[0][0]
             
             if type(value) is datetime.date:
@@ -51,9 +51,9 @@ class Message:
         self.converted_token = []
         return result
 
-    def add_message(self, msg_categ, msg_format):
-        query = "insert into MESSAGE (message_category, message) values (%s, %s)"
-        data = (msg_categ, msg_format)
+    def add_message(self, msg_categ, msg_title, msg_format):
+        query = "insert into MESSAGE (message_category, message) values (%s, %s, %s)"
+        data = (msg_categ, msg_format, msg_title)
         handle_transaction(query, data)
     
     def edit_message(self, msg_id, new_categ, new_input):
