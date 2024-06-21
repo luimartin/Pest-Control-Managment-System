@@ -16,7 +16,10 @@ from GUI.designaddschedule import AddSchedule
 from GUI.assigntech import AssignTech
 from GUI.designhandledeliveryUI import HandleDelivery
 from GUI.designaddsalesI import AddSales
+from GUI.forecastUI import SaleTrendDialog
+import matplotlib.pyplot as plt
 class MainMenu(QMainWindow, Ui_MainWindow):
+
     #move frameless window
     def mousePressEvent(self, event):
         self.dragPos = event.globalPosition().toPoint()
@@ -97,6 +100,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         #contractpage
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
         self.roundrobinBtn.clicked.connect(self.roundrobin)
+        self.pushButton_12.clicked.connect(self.graphforecast)
 
  ##########################################################################################
 
@@ -357,6 +361,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def update_delivery(self):
         handol = HandleDelivery()
         handol.exec()
+        
 #schedule page######################################################################################################
     def populate_schedule(self, tablename, query):
         a = tablename.horizontalHeader()
@@ -427,6 +432,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         noInput.setIcon(type)
         noInput.setText(message)
         noInput.exec()
+
 # sales page ###################################################################################
     def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()
@@ -460,6 +466,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         addsale.exec()
         self.populate_sale(self.sales.view_all_sales(), None)
 
+    def graphforecast(self):
+        #graph = SaleTrendDialog()
+        #graph.exec()
+        print("may error dito")
 
 app = QApplication([])
 window = MainMenu(1)

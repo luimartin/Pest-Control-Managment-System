@@ -1,7 +1,7 @@
 import matplotlib
-matplotlib.use('QtAgg')  # Ensure compatibility with PyQt6
-from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+matplotlib.use('Qt5Agg')
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QMessageBox, QTableWidgetItem, QHeaderView, QPushButton, QDialog
+from PyQt6 import QtCore
 import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -16,15 +16,20 @@ class SaleTrendDialog(QDialog):
         layout = QVBoxLayout()
         self.setLayout(layout)
 
-        self.plot_widget = SaleTrendWidget()
+        self.plot_widget = SaleTrendWidget(self)
         layout.addWidget(self.plot_widget)
 
-class SaleTrendWidget(FigureCanvas):
-    def __init__(self):
+class SaleTrendWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.fig, self.ax = plt.subplots(figsize=(10, 6))
+        self.canvas = matplotlib.backends.backend_qt5agg.FigureCanvasQTAgg(self.fig)
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+        layout.addWidget(self.canvas)
+
         self.sale = Sales()
         data = self.sale.monthly_total_sale()
-        self.fig, self.ax = plt.subplots(figsize=(10, 6))
-        super().__init__(self.fig)
 
         # Convert the month names to month numbers
         month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -61,10 +66,3 @@ class SaleTrendWidget(FigureCanvas):
         self.ax.legend()
 
         self.fig.tight_layout()
-
-if __name__ == '__main__':
-    import sys
-    app = QApplication(sys.argv)
-    dialog = SaleTrendDialog()
-    dialog.show()
-    sys.exit(app.exec())

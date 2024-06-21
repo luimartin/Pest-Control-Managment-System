@@ -164,6 +164,7 @@ class AddSchedule(QDialog, Ui_Dialog):
         if which == "Edit":
             placeholder = self.s.placeholder_sched(sched_id)
             self.clientComboBox.setEnabled(False)
+            self.comboBox.setEnabled(False)
             self.clientComboBox.setCurrentText(placeholder[0][0])
             self.comboBox.setCurrentText(placeholder[0][1])
             self.startInput.setDate(QtCore.QDate.fromString(str(placeholder[0][2]), "yyyy-MM-dd"))
@@ -174,30 +175,43 @@ class AddSchedule(QDialog, Ui_Dialog):
     def add(self):
         treatment =self.comboBox.currentText()
         id = self.clientComboBox.currentData()
+        start_date = self.startInput.date()
+        start_date= start_date.toString("yyyy-MM-dd")
+        end_date = self.endInput.date()
+        day = self.dayinput.date()
+        day = day.toString("yyyy-MM-dd")
+        time_in = self.timeinInput.time()
+        time_in = time_in.toString("HH:mm:ss")
+        time_out = self.timeoutInput.time()
+        time_out = time_out.toString("HH:mm:ss")
+        end_date = end_date.toString("yyyy-MM-dd")
+
         if self.which == "Edit":
-            pass
-        if treatment == "Posting":
-            start_date = self.startInput.date()
-            start_date= start_date.toString("yyyy-MM-dd")
-            end_date = self.endInput.date()
-            end_date = end_date.toString("yyyy-MM-dd")
-            if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
-            elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
-            else: 
-                self.s.add_schedule(id, treatment, start_date, end_date, "09:00:00", "17:00:00")
-                self.notif(QMessageBox.Icon.Information, "Schedule Added" )
+            if treatment == "Posting":
+                print(treatment, id, self.sched_id)
+                self.s.edit_schedule_info(self.sched_id, 'start_date', start_date)
+                self.s.edit_schedule_info(self.sched_id, 'end_date', end_date)
+            else:
+                self.s.edit_schedule_info(self.sched_id, 'start_date', day)
+                self.s.edit_schedule_info(self.sched_id, 'end_date', day)
+                self.s.edit_schedule_info(self.sched_id, 'time_in', time_in)
+                self.s.edit_schedule_info(self.sched_id, 'time_out', time_out)
         else:
-            day = self.dayinput.date()
-            day = day.toString("yyyy-MM-dd")
-            time_in = self.timeinInput.time()
-            time_in = time_in.toString("HH:mm:ss")
-            time_out = self.timeoutInput.time()
-            time_out = time_out.toString("HH:mm:ss")
+            if treatment == "Posting":
+
+                if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
+                elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
             
-            if time_in == time_out: self.notif(QMessageBox.Icon.Warning, "Start Time and End Time is the Same!")
-            else: 
-                self.s.add_schedule(id, treatment, day, day, time_in, time_out)
-                self.notif(QMessageBox.Icon.Information, "Schedule Added" )
+                else: 
+                    self.s.add_schedule(id, treatment, start_date, end_date, "09:00:00", "17:00:00")
+                    self.notif(QMessageBox.Icon.Information, "Schedule Added" )
+            else:
+
+                if time_in == time_out: self.notif(QMessageBox.Icon.Warning, "Start Time and End Time is the Same!")
+                elif time_in > time_out: self.notif(QMessageBox.Icon.Warning, "Time in cannot be greater than Time out")
+                else: 
+                    self.s.add_schedule(id, treatment, day, day, time_in, time_out)
+                    self.notif(QMessageBox.Icon.Information, "Schedule Added" )
         
     def notif(self, type, message):
         noInput = QMessageBox()

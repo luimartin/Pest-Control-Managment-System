@@ -373,7 +373,7 @@ class Schedule:
 
     def edit_schedule_info(self, sched_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
-        query = temp + "%s where schedule_id = %s and "
+        query = temp + "%s where schedule_id = %s"
         data = (new_input, sched_id)
         handle_transaction(query, data)
 
