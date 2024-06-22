@@ -770,10 +770,37 @@ class Ui_MainWindow(object):
         self.assgnBrn.setGeometry(QtCore.QRect(750, 70, 101, 41))
         self.assgnBrn.setObjectName("assgnBrn")
         self.stackedWidget.addWidget(self.assignItemPage)
+        self.servicePage = QtWidgets.QWidget()
+        self.servicePage.setObjectName("servicePage")
+        self.serviceTable = QtWidgets.QTableWidget(parent=self.servicePage)
+        self.serviceTable.setGeometry(QtCore.QRect(20, 180, 981, 531))
+        self.serviceTable.setObjectName("serviceTable")
+        self.serviceTable.setColumnCount(0)
+        self.serviceTable.setRowCount(0)
+        self.label_22 = QtWidgets.QLabel(parent=self.servicePage)
+        self.label_22.setGeometry(QtCore.QRect(40, 30, 361, 71))
+        self.label_22.setLineWidth(0)
+        self.label_22.setScaledContents(False)
+        self.label_22.setIndent(3)
+        self.label_22.setObjectName("label_22")
+        self.servicebackBtn = QtWidgets.QPushButton(parent=self.servicePage)
+        self.servicebackBtn.setGeometry(QtCore.QRect(880, 70, 101, 38))
+        self.servicebackBtn.setStyleSheet("QPushButton{\n"
+"border: none;\n"
+"background-color: #E35C5C;\n"
+"font-size: 14px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(211, 79, 79);\n"
+"    \n"
+"}")
+        self.servicebackBtn.setObjectName("servicebackBtn")
+        self.stackedWidget.addWidget(self.servicePage)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(15)
+        self.stackedWidget.setCurrentIndex(16)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -871,3 +898,5 @@ class Ui_MainWindow(object):
         self.label_21.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Assigned Item</span></p></body></html>"))
         self.itembackBtn.setText(_translate("MainWindow", "Back"))
         self.assgnBrn.setText(_translate("MainWindow", "Assign"))
+        self.label_22.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Service</span></p></body></html>"))
+        self.servicebackBtn.setText(_translate("MainWindow", "Back"))

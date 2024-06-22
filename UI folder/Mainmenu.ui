@@ -357,7 +357,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>15</number>
+     <number>16</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -1986,6 +1986,65 @@ QPushButton:hover{
       </property>
       <property name="text">
        <string>Assign</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="servicePage">
+     <widget class="QTableWidget" name="serviceTable">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>180</y>
+        <width>981</width>
+        <height>531</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_22">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>30</y>
+        <width>361</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:28pt;&quot;&gt;Service&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="servicebackBtn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>70</y>
+        <width>101</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+border: none;
+background-color: #E35C5C;
+font-size: 14px;
+}
+
+QPushButton:hover{
+	background-color: rgb(211, 79, 79);
+	
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
       </property>
      </widget>
     </widget>

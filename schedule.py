@@ -92,15 +92,28 @@ class Schedule:
 
     
     def update_state_when_done(self, sched_id, client_id):
-        query = (
-            "update TECHNICIAN, SCHEDULE "
-            "set SCHEDULE.status = 'Done', TECHNICIAN.state = 'Idle', SCHEDULE.technician_id = NULL "
-            "where SCHEDULE.technician_id = TECHNICIAN.technician_id "
-            "and SCHEDULE.client_id = %s and SCHEDULE.schedule_id = %s and "
-            "TECHNICIAN.technician_id = (select technician_id from SCHEDULE where client_id = %s and schedule_id = %s)"
-        )
-        data = (client_id, sched_id, client_id, sched_id) 
+
+        query1 = """
+        UPDATE TECHNICIAN
+        SET state = 'Idle'
+        WHERE technician_id = (
+            SELECT technician_id
+            FROM SCHEDULE
+            WHERE client_id = %s AND schedule_id = %s
+        );
+        """
+
+        data1 = (client_id, sched_id) 
+        handle_transaction(query1, data1)
+
+        query = """
+        UPDATE SCHEDULE
+        SET status = 'Done', technician_id = NULL
+        WHERE client_id = %s AND schedule_id = %s ;
+        """
+        data = (client_id, sched_id) 
         handle_transaction(query, data)
+
         
 
     def posting_schedulizer(self, sched_id, start_date, end_date):
@@ -415,7 +428,7 @@ class Schedule:
 #s.add_schedule(1, "Default", "2024-06-11", "2024-06-22", "20:30:00", "21:00:00")
 #print(s.assign_technician(14, 1))
 #s.earliest_deadline_first()
-#s.update_state_when_done(29, 1)
+#s.update_state_when_done(28, 9)
 #temp = {}
 #print(s.timetable(temp))
 #print(s.round_robin())

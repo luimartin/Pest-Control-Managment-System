@@ -1,7 +1,10 @@
+import sys
 import matplotlib
-matplotlib.use('QtAgg')  # Ensure compatibility with PyQt6
+matplotlib.use('QtAgg')
+
+from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
 import matplotlib.pyplot as plt
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -15,11 +18,11 @@ class SaleTrendDialog(QDialog):
         self.sale = Sales()
         layout = QVBoxLayout()
         self.setLayout(layout)
-
         self.plot_widget = SaleTrendWidget()
         layout.addWidget(self.plot_widget)
+        #self.show()
 
-class SaleTrendWidget(FigureCanvas):
+class SaleTrendWidget(FigureCanvasQTAgg):
     def __init__(self):
         self.sale = Sales()
         data = self.sale.monthly_total_sale()
@@ -61,10 +64,6 @@ class SaleTrendWidget(FigureCanvas):
         self.ax.legend()
 
         self.fig.tight_layout()
+        
 
-if __name__ == '__main__':
-    import sys
-    app = QApplication(sys.argv)
-    dialog = SaleTrendDialog()
-    dialog.show()
-    sys.exit(app.exec())
+

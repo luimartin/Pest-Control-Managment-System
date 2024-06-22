@@ -108,8 +108,6 @@ class Inventory:
         handle_transaction(query, data)
 
     def choose_category(self, item_type):
-        """query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
-        description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")"""
         query = "select item_id, item_name, item_type, quantity, expiration, description from INVENTORY where void = 0 and item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
 

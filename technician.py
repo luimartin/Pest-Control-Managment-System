@@ -32,13 +32,14 @@ class Technician:
             return "Item Assign"
         return "Invalid"
     
-    def show_assigned_client(self, tech_id):
-        query = (
-            "select SCHEDULE.client_id, CLIENT.name, SCHEDULE.start_date, SCHEDULE.end_date, SCHEDULE.time_in, SCHEDULE.time_out "
-            "from SCHEDULE "
-            "inner join CLIENT on CLIENT.client_id = SCHEDULE.client_id "
-            "inner join TECHNICIAN on TECHNICIAN.technician_id = {}".format(tech_id)
-        )  
+    def show_assigned_client(self):
+        query = """
+            select concat(TECHNICIAN.first_name, ' ',TECHNICIAN.last_name), CLIENT.name, SCHEDULE.start_date, SCHEDULE.end_date, SCHEDULE.time_in, SCHEDULE.time_out, 
+            SCHEDULE.schedule_id, CLIENT.client_id from SCHEDULE 
+            inner join CLIENT on CLIENT.client_id = SCHEDULE.client_id 
+            inner join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id;
+
+        """
         return handle_select(query)
 
     def show_accounted_item(self, tech_id):
@@ -156,6 +157,7 @@ class Technician:
     
 
 #t = Technician()
+#print(t.show_assigned_client())
 #print(t.show_accounted_item(10))
 #print(t.select_specific_tech(10))
 #t.add_technician("Robert", "Santos", "09452842467", "Balong Bato, San Juan City")

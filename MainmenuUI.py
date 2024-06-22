@@ -19,6 +19,7 @@ from GUI.designhandledeliveryUI import HandleDelivery
 from GUI.designaddsalesI import AddSales
 from GUI.designaddtechUI import AddTechnician
 from GUI.designassignitemUI import AssignItem
+from asd import SaleTrendDialog
 class MainMenu(QMainWindow, Ui_MainWindow):
 
     #move frameless window
@@ -108,6 +109,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.voidedTechnicianBtn.clicked.connect(self.switch_to_voidtechPage)
         self.techvoidBackBtn.clicked.connect(self.switch_to_TechnicianPage)
         self.itembackBtn.clicked.connect(self.switch_to_TechnicianPage)
+        self.servicebackBtn.clicked.connect(self.switch_to_TechnicianPage)
+        self.serviceBtn.clicked.connect(self.switch_to_servicePage)
  ##########################################################################################
 
     #for sidebar menu      
@@ -476,9 +479,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.populate_sale(self.sales.view_all_sales(), None)
 
     def graphforecast(self):
-        #graph = SaleTrendDialog()
-        #graph.exec()
-        print("may error dito")
+        graph =     ()
+        graph.exec()
+        #print("may error dito")
 
 ####### Technician PAGE #############################################################
     def populate_tech(self):
@@ -531,7 +534,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             else:
                 table.setColumnCount(7)
                 table.setHorizontalHeaderLabels(['Assigned ID', 'Name', 'Item Name', 'Item Type', 'Quantity', 'Date Acquired', ''])
-
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
@@ -609,7 +611,47 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.populate_tech_void(self.tech.show_accounted_item(id), 1, self.assignitemTable)
         self.assgnBrn.disconnect()
 
+##service page
+    def populate_service(self):
+        a = self.serviceTable.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.serviceTable.verticalHeader().hide()
+        a.setStretchLastSection(True)
+        service = self.tech.show_assigned_client()
+        if service:
+            self.serviceTable.setRowCount(len(service))
+            self.serviceTable.setColumnCount(7)
+            self.serviceTable.setHorizontalHeaderLabels(['Technician', 'Client', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Report Update'])
 
+            for row_idx, sched in enumerate(service):
+                for col_idx, item in enumerate(sched):
+                    self.serviceTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                client_id = service[row_idx][7]
+                sched_id = service[row_idx][6]
+                update = QPushButton('Update')
+                update.clicked.connect(lambda _, cid = client_id, sid = sched_id:
+                                        self.updatesched(sid, cid))
+                self.serviceTable.setCellWidget(row_idx, 6, update)
+        else:
+            self.serviceTable.setRowCount(0)
+            self.serviceTable.setColumnCount(0)
+
+    def switch_to_servicePage(self):
+        self.populate_service()
+        self.stackedWidget.setCurrentIndex(16)
+
+    def updatesched(self, sched, client):
+        print(sched, client)
+        noInput = QMessageBox()
+        noInput.setWindowTitle("Update")
+        noInput.setIcon(QMessageBox.Icon.Information)
+        noInput.setText("Are you sure to update the schedule to done?")
+        noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        yes = noInput.exec()
+        if yes == QMessageBox.StandardButton.Yes:
+            self.s.update_state_when_done(sched, client)
+            self.switch_to_servicePage()
+        else: noInput.close()
 
 app = QApplication([])
 window = MainMenu(1)
