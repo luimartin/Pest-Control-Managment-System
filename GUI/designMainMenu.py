@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'Mainmenu.ui'
+# Form implementation generated from reading ui file 'MainMenu.ui'
 #
 # Created by: PyQt6 UI code generator 6.7.0
 #
@@ -7,7 +7,7 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
-import GUI.rc_icons
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -739,10 +739,41 @@ class Ui_MainWindow(object):
         self.voidtechnicianTable.setColumnCount(0)
         self.voidtechnicianTable.setRowCount(0)
         self.stackedWidget.addWidget(self.voidtechnician)
+        self.assignItemPage = QtWidgets.QWidget()
+        self.assignItemPage.setObjectName("assignItemPage")
+        self.label_21 = QtWidgets.QLabel(parent=self.assignItemPage)
+        self.label_21.setGeometry(QtCore.QRect(40, 20, 311, 81))
+        self.label_21.setLineWidth(0)
+        self.label_21.setScaledContents(False)
+        self.label_21.setIndent(3)
+        self.label_21.setObjectName("label_21")
+        self.assignitemTable = QtWidgets.QTableWidget(parent=self.assignItemPage)
+        self.assignitemTable.setGeometry(QtCore.QRect(20, 180, 981, 531))
+        self.assignitemTable.setLineWidth(-1)
+        self.assignitemTable.setObjectName("assignitemTable")
+        self.assignitemTable.setColumnCount(0)
+        self.assignitemTable.setRowCount(0)
+        self.itembackBtn = QtWidgets.QPushButton(parent=self.assignItemPage)
+        self.itembackBtn.setGeometry(QtCore.QRect(880, 70, 101, 38))
+        self.itembackBtn.setStyleSheet("QPushButton{\n"
+"border: none;\n"
+"background-color: #E35C5C;\n"
+"font-size: 14px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(211, 79, 79);\n"
+"    \n"
+"}")
+        self.itembackBtn.setObjectName("itembackBtn")
+        self.assgnBrn = QtWidgets.QPushButton(parent=self.assignItemPage)
+        self.assgnBrn.setGeometry(QtCore.QRect(750, 70, 101, 41))
+        self.assgnBrn.setObjectName("assgnBrn")
+        self.stackedWidget.addWidget(self.assignItemPage)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(14)
+        self.stackedWidget.setCurrentIndex(15)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -837,3 +868,6 @@ class Ui_MainWindow(object):
         self.techvoidBackBtn.setText(_translate("MainWindow", "Back"))
         self.voidtechnicianSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.label_20.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Void Technician</span></p></body></html>"))
+        self.label_21.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Assigned Item</span></p></body></html>"))
+        self.itembackBtn.setText(_translate("MainWindow", "Back"))
+        self.assgnBrn.setText(_translate("MainWindow", "Assign"))

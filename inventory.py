@@ -14,7 +14,7 @@ class Inventory:
         return handle_select(query)
     
     def select_inventory_void(self):
-        query = "select item_id,item_name, item_type, quantity, expiration, description from Inventory where void = 1"
+        query = "select item_id, item_name, item_type, quantity, expiration, description from Inventory where void = 1"
         return handle_select(query)
 
     def select_all_delivery(self):
@@ -110,9 +110,9 @@ class Inventory:
     def choose_category(self, item_type):
         """query = "select item_name, quantity, date_format(expiration, '%m/%d/%y'), \
         description from INVENTORY where item_type = {}".format("\'"+item_type+"\'")"""
-        query = "select item_id,item_name, item_type, quantity, expiration, description from INVENTORY where void = 0 and item_type = {}".format("\'"+item_type+"\'")
+        query = "select item_id, item_name, item_type, quantity, expiration, description from INVENTORY where void = 0 and item_type = {}".format("\'"+item_type+"\'")
         return handle_select(query)
-    
+
     def search(self, input):
         query = f"""
             select * from INVENTORY 
@@ -126,7 +126,11 @@ class Inventory:
             ) and void = 0
         """
         return handle_select(query) 
-  
+    
+    def select_inventory_assigntech(self):
+        query = "select item_id,item_name, item_type from Inventory where void = 0"
+        return handle_select(query)
+    
 #i = Inventory()
 #print(i.for_delivery("Duster", "Material", "Aling Nena", '2024-06-16 18:52:03')[0][0])
 #i.add_item("Mouse Trap", "Material", 10, "Trap the mouse")

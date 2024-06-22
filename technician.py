@@ -29,8 +29,8 @@ class Technician:
             )
             data = (tech_id, item_id, quantity, date_acquired)
             handle_transaction(query, data)
-        
-        return None
+            return "Item Assign"
+        return "Invalid"
     
     def show_assigned_client(self, tech_id):
         query = (
@@ -42,19 +42,21 @@ class Technician:
         return handle_select(query)
 
     def show_accounted_item(self, tech_id):
-        query = (
-            "select TECHNICIAN.technician_id, TECHNICIAN.first_name, TECHNICIAN.last_name, "
-            "INVENTORY.item_name, INVENTORY.item_type, TECHNICIAN_ITEM.quantity, date_acquired "
-            "from TECHNICIAN_ITEM "
-            "inner join INVENTORY "
-            "on INVENTORY.item_id = TECHNICIAN_ITEM.item_id "
-            "inner join TECHNICIAN "
-            "on TECHNICIAN.technician_id = {}".format(tech_id)
-        )
+        query = """
+        select technician_item_id, concat(TECHNICIAN.first_name, ' ',TECHNICIAN.last_name), 
+        INVENTORY.item_name, INVENTORY.item_type, TECHNICIAN_ITEM.quantity, date_acquired 
+        , inventory.item_id, TECHNICIAN.technician_id from TECHNICIAN_ITEM 
+        inner join INVENTORY 
+        on INVENTORY.item_id = TECHNICIAN_ITEM.item_id 
+        inner join TECHNICIAN 
+        on TECHNICIAN.technician_id = TECHNICIAN_ITEM.technician_id
+        where TECHNICIAN_ITEM.technician_id = {};
+        """.format(tech_id)
+        
         return handle_select(query)
 
-    def return_item(self, tech_item_id, tech_id, inv_id, return_amount):
-        if self.isAssignedItemAvailable(tech_item_id, tech_id, inv_id, return_amount):
+    def return_item(self, tech_item_id, inv_id, return_amount):
+        if self.isAssignedItemAvailable(tech_item_id, return_amount):
             query = (
                 "update TECHNICIAN_ITEM, INVENTORY "
                 "set TECHNICIAN_ITEM.quantity = TECHNICIAN_ITEM.quantity - %s, "
@@ -64,10 +66,10 @@ class Technician:
             data = (return_amount, return_amount, inv_id, inv_id, tech_item_id)
             handle_transaction(query, data)
 
-    def isAssignedItemAvailable(self, tech_item_id, tech_id, inv_id, return_amount):
+    def isAssignedItemAvailable(self, tech_item_id, return_amount):
         query = (
             "select quantity from TECHNICIAN_ITEM "
-            "where technician_item_id = {} and technician_id = {} and item_id = {}".format(tech_item_id, tech_id, inv_id)
+            "where technician_item_id = {} ".format(tech_item_id)
         )
         output = handle_select(query)[0][0]
 
@@ -134,7 +136,7 @@ class Technician:
     def select_all_tech(self):
         query = """
         select technician_id,concat(TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
-        , phone_num, address, null ,state, null, null from technician where void = 0;
+        , phone_num, address ,state, null, null, null from technician where void = 0;
         """
         return(handle_select(query))
     
@@ -151,13 +153,15 @@ class Technician:
         where void = 0 and technician_id = {};
         """.format(techid)
         return handle_select(query)
+    
 
-t = Technician()
-print(t.select_specific_tech(10))
+#t = Technician()
+#print(t.show_accounted_item(10))
+#print(t.select_specific_tech(10))
 #t.add_technician("Robert", "Santos", "09452842467", "Balong Bato, San Juan City")
 #t.add_technician("John", "Timado", "09760040362", "West Crame San Juan City")
 #t.add_technician("Lawrence", "Buena", "09452842467", "Pacita, Laguna")
 #t.add_technician("Ijah", "Buena", "09760040362", "Pacita Laguna")
 #t.add_technician("Johnny", "Mora", "09452842467", "Pasig City")
 #t.assign_item(3, "last_name", "Cruz")
-
+#print(t.get_data(10, 'concat(TECHNICIAN.first_name, " ", TECHNICIAN.last_name)'))

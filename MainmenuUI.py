@@ -18,6 +18,7 @@ from GUI.assigntech import AssignTech
 from GUI.designhandledeliveryUI import HandleDelivery
 from GUI.designaddsalesI import AddSales
 from GUI.designaddtechUI import AddTechnician
+from GUI.designassignitemUI import AssignItem
 class MainMenu(QMainWindow, Ui_MainWindow):
 
     #move frameless window
@@ -106,7 +107,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addTechnicianBtn.clicked.connect(lambda: self.addtechnician(None))
         self.voidedTechnicianBtn.clicked.connect(self.switch_to_voidtechPage)
         self.techvoidBackBtn.clicked.connect(self.switch_to_TechnicianPage)
-
+        self.itembackBtn.clicked.connect(self.switch_to_TechnicianPage)
  ##########################################################################################
 
     #for sidebar menu      
@@ -119,9 +120,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def switch_to_InventoryPage(self):
         self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
         self.stackedWidget.setCurrentIndex(2)
+
     def switch_to_TechnicianPage(self):
-        self.stackedWidget.setCurrentIndex(3)
         self.populate_tech()
+        self.stackedWidget.setCurrentIndex(3)
+        
     def switch_to_SalesPage(self):
         self.populate_sale(self.sales.view_all_sales(), None)
         self.stackedWidget.setCurrentIndex(4)
@@ -489,7 +492,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         if clients:
             self.technicianTable.setRowCount(len(clients))
             self.technicianTable.setColumnCount(8)
-            self.technicianTable.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address', 'Assigned Item' ,'State', '', ''])
+            self.technicianTable.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address', 'State' ,'Assigned Item', '', ''])
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
@@ -499,9 +502,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     self.technicianTable.setStyleSheet("font-size: 14px; text-align: center;")
                     self.technicianTable.setItem(row_idx, col_idx, items)
 
-                schedview = QPushButton('View')
-                #schedview.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
-                self.technicianTable.setCellWidget(row_idx, 4, schedview)
+                assignitems = QPushButton('View')
+                assignitems.clicked.connect(lambda _, id=tech_id: self.switch_to_assignedItemPage(id))
+                self.technicianTable.setCellWidget(row_idx, 5, assignitems)
 
                 edit = QPushButton('Edit')
                 edit.clicked.connect(lambda _, id=tech_id: self.edittechnician("Edit",id))
@@ -510,27 +513,61 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 void = QPushButton('Void')
                 void.clicked.connect(lambda _, id=tech_id: self.delete(id))
                 self.technicianTable.setCellWidget(row_idx, 7, void)
+            #self.editcontractBtn.disconnect()
 
-    def populate_tech_void(self):
+    def populate_tech_void(self, query, which, table):
         # stretch the header
         a = self.technicianTable.horizontalHeader()
         #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.voidtechnicianTable.verticalHeader().hide()
+        table.verticalHeader().hide()
         a.setStretchLastSection(True)
         self.tech = Technician()
-        clients = self.tech.select_all_tech_void()
+        clients = query
         if clients:
-            self.voidtechnicianTable.setRowCount(len(clients))
-            self.voidtechnicianTable.setColumnCount(4)
-            self.voidtechnicianTable.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address'])
+            table.setRowCount(len(clients))
+            if which is None:
+                table.setColumnCount(4)
+                table.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address'])
+            else:
+                table.setColumnCount(7)
+                table.setHorizontalHeaderLabels(['Assigned ID', 'Name', 'Item Name', 'Item Type', 'Quantity', 'Date Acquired', ''])
+
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
-                    tech_id = clients[row_idx][0]
+                    techitem_id = clients[row_idx][0]
+                    item_id = clients[row_idx][6]
+                    quantity = clients[row_idx][4]
+                    techid = clients[row_idx][7]
                     items = QTableWidgetItem(str(item))
                     #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.voidtechnicianTable.setStyleSheet("font-size: 14px; text-align: center;")
-                    self.voidtechnicianTable.setItem(row_idx, col_idx, items)   
+                    table.setStyleSheet("font-size: 14px; text-align: center;")
+                    table.setItem(row_idx, col_idx, items)
+                if which is not None:
+                    balik = QPushButton('Return')
+                    balik.clicked.connect(lambda _, id=techitem_id, item = item_id
+                                          , quant = quantity: self.returnitem(id, item, quant, techid))
+                    table.setCellWidget(row_idx, 6, balik)
+
+        else:
+            table.setRowCount(0)
+            table.setColumnCount(0)
+        
+    def returnitem(self,techitem_id, item_id, quantity, techid):
+        print( techitem_id, item_id, quantity)
+        noInput = QMessageBox()
+        noInput.setWindowTitle("Void")
+        noInput.setIcon(QMessageBox.Icon.Warning)
+        noInput.setText("Are you sure you want to return item in inventory?")
+        noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        yes = noInput.exec()
+        if yes == QMessageBox.StandardButton.Yes:
+            self.tech.return_item(techitem_id, item_id, quantity)
+            self.populate_tech_void(self.tech.show_accounted_item(techid), 1, self.assignitemTable)
+        else: noInput.close()
+        
+        
+
 
     def addtechnician(self, which):
         addtech = AddTechnician(which, None)
@@ -541,11 +578,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         editech = AddTechnician(which, id)
         editech.exec()
         self.populate_tech()
-
-    def switch_to_voidtechPage(self):
-        self.populate_tech_void()
-        self.stackedWidget.setCurrentIndex(14)
-
 
     def delete(self, id):
         noInput = QMessageBox()
@@ -558,6 +590,26 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.tech.edit_technician_info(id, "void", 1)
             self.populate_tech()
         else: noInput.close()
+
+#### tech item assign
+    def switch_to_voidtechPage(self):
+        self.populate_tech_void(self.tech.select_all_tech_void(), None, self.voidtechnicianTable)
+        self.stackedWidget.setCurrentIndex(14)
+
+    def switch_to_assignedItemPage(self, id):
+        self.populate_tech_void(self.tech.show_accounted_item(id), 1, self.assignitemTable)
+        self.stackedWidget.setCurrentIndex(15)
+        self.assgnBrn.clicked.connect(lambda: self.itemassign(id))
+        
+
+    def itemassign(self, id):
+        print(id, "Rawr")
+        window = AssignItem(id)
+        window.exec()
+        self.populate_tech_void(self.tech.show_accounted_item(id), 1, self.assignitemTable)
+        self.assgnBrn.disconnect()
+
+
 
 app = QApplication([])
 window = MainMenu(1)
