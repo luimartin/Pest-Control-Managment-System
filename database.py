@@ -160,6 +160,7 @@ mycursor = mydb.cursor()
         act_user_id int not null,
         act_user_name varchar(20) not null, 
         activity varchar(256) not null,
+        activity_time DATETIME,
         PRIMARY KEY (act_id)
 	);	
     
