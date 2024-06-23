@@ -371,15 +371,20 @@ class Schedule:
             
     def show_sched_for_tom(self):
         query = f"""
-            select schedule_id, start_date, time_in, time_out 
-            from SCHEDULE 
-            where start_date = "2024-06-18" + interval 1 day and status = 'Idle' 
+            select schedule_id, name ,schedule_type, start_date, end_date, time_in, time_out, SCHEDULE.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+			TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
+            from SCHEDULE inner join client on client.client_id = SCHEDULE.client_id
+            left join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id
+            where start_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' 
             union 
-            select SCHEDULIZER.schedule_id, SCHEDULIZER.single_date, SCHEDULE.time_in, SCHEDULE.time_out 
+            select SCHEDULIZER.schedule_id, name ,SCHEDULE.schedule_type ,start_date, end_date ,SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULE.status,  concat("[", TECHNICIAN.technician_id, "]", " ", 
+			TECHNICIAN.first_name, " ", TECHNICIAN.last_name) 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
+            inner join client on client.client_id = SCHEDULE.client_id
+            left join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id
             where SCHEDULIZER.single_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' 
-            order by start_date, time_in, time_out ASC
+            order by start_date, time_in, time_out ASC;
         """
         return handle_select(query)    
 
@@ -420,6 +425,7 @@ class Schedule:
         return handle_select(query)
 
 #s = Schedule()
+#print(s.show_sched_for_tom())
 #s.earliest_deadline_first()
 #print(s.earliest_deadline_first_show())
 #print(s.get_data(28, "client_id, schedule_type, start_date, end_date, time_in, time_out"))

@@ -8,6 +8,7 @@ from sales import Sales
 from contract import Contract
 from technician import Technician
 from test import CalendarScheduler
+from functools import partial
 from GUI.addcontractUI import AddContract
 from GUI.addclientUI import addClient
 from GUI.editclientUI import editClients
@@ -19,7 +20,9 @@ from GUI.designhandledeliveryUI import HandleDelivery
 from GUI.designaddsalesI import AddSales
 from GUI.designaddtechUI import AddTechnician
 from GUI.designassignitemUI import AssignItem
+from GUI.designaddadminUI import AddAdmin
 from asd import SaleTrendDialog
+
 class MainMenu(QMainWindow, Ui_MainWindow):
 
     #move frameless window
@@ -92,14 +95,16 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addschedBtn.clicked.connect(self.schedAdd)
         self.scheduleBtn.clicked.connect(self.switch_to_SchedulePage)
         self.timetableBtn.clicked.connect(self.timetable)
-        
+        self.schedtomBtn.clicked.connect(self.upcomingsched)
+        self.schedBackBtn.clicked.connect(self.switch_to_SchedulePage)
         # for salepage
         self.sales= Sales()
         self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
         self.salesBtn.clicked.connect(self.switch_to_SalesPage)
         self.revenueBtn.clicked.connect(lambda: self.populate_sale(self.sales.monthly_total_sale(), 0))
         self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 0))        
-        #contractpage
+
+
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
         self.roundrobinBtn.clicked.connect(self.roundrobin)
         self.pushButton_12.clicked.connect(self.graphforecast)
@@ -111,6 +116,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.itembackBtn.clicked.connect(self.switch_to_TechnicianPage)
         self.servicebackBtn.clicked.connect(self.switch_to_TechnicianPage)
         self.serviceBtn.clicked.connect(self.switch_to_servicePage)
+
+        #maintenance page
+        self.addAdminBtn.clicked.connect(self.addadmin)
  ##########################################################################################
 
     #for sidebar menu      
@@ -142,12 +150,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ######################################################################
 # clientspage
     #may buttons sa table
+    
     def populate_table1(self):
-        # stretch the header
+        # Stretch the header
         a = self.clientsTable.horizontalHeader()
-        #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.clientsTable.verticalHeader().hide()
         a.setStretchLastSection(True)
+        self.clientsTable.verticalHeader().hide()
+        self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
         self.contract = Contract()
         clients = self.c.select_all_clients()
         if clients:
@@ -156,37 +165,30 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details', ' ', ' '])
 
             for row_idx, client in enumerate(clients):
+                client_id = client[0]
                 for col_idx, item in enumerate(client):
-                    client_id = clients[row_idx][0]
                     items = QTableWidgetItem(str(item))
-                    #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
                     self.clientsTable.setItem(row_idx, col_idx, items)
 
                 schedview = QPushButton('View')
-                schedview.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
+                schedview.clicked.connect(partial(self.viewschedule, client_id))
                 self.clientsTable.setCellWidget(row_idx, 4, schedview)
-                
-                # for view client contract and adding if no contract
-                if self.contract.has_a_contract(client_id): 
-                    contractview = QPushButton('View')
-                    contractview.clicked.connect(lambda _, id=client_id: self.viewcontract(id))
-                    self.clientsTable.setCellWidget(row_idx, 5, contractview)
-                else:
-                    contractAdd = QPushButton('Add')
-                    contractAdd.clicked.connect(lambda _, id=client_id: self.addContract(id))
-                    self.clientsTable.setCellWidget(row_idx, 5, contractAdd)
+
+                contractview = QPushButton('View' if self.contract.has_a_contract(client_id) else 'Add')
+                contractview.clicked.connect(partial(self.viewcontract if self.contract.has_a_contract(client_id) else self.addContract, client_id))
+                self.clientsTable.setCellWidget(row_idx, 5, contractview)
 
                 edit = QPushButton('Edit')
-                edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
+                edit.clicked.connect(partial(self.editclient, client_id))
                 self.clientsTable.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Void')
-                delete.clicked.connect(lambda _, id=client_id: self.delete(id, self.c.edit_personal_info))
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
             self.clientsTable.setColumnCount(0)
+
 
     def viewschedule(self, client_id):
         self.pushButton_2.setChecked(True)#toggle button without click
@@ -413,6 +415,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 self.scheduleTable.removeCellWidget(row_idx, 8)
                 break
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
+        self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
 
     def schedAdd(self):
         addSchedule = AddSchedule(None, None)
@@ -423,6 +426,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         editsched = AddSchedule("Edit", id)
         editsched.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
+        self.populate_schedule(self.upcomingscheduleTable, self.s.show_sched_for_tom())
+    def upcomingsched(self):
+        self.stackedWidget.setCurrentIndex(17)
+        self.populate_schedule(self.upcomingscheduleTable, self.s.show_sched_for_tom())
+
     def timetable(self):
         mainWin = CalendarScheduler()
         mainWin.exec()
@@ -430,14 +438,20 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def roundrobin(self):
         round_robin = self.s.round_robin()
         self.notif(QMessageBox.Icon.Information, round_robin)
-        s = self.s.view_sched()
-        for row_idx in range(self.scheduleTable.rowCount()):
+        #self.s.view_sched()
+        #self.scheduleTable
+        self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
+        self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
+
+    def removebutton_techsched(self, query, table):
+        s = query 
+        for row_idx in range(table.rowCount()):
             schedule_id = s[row_idx][0]
-            print(self.scheduleTable.rowCount())
+            print(table.rowCount())
             print(schedule_id)
-            if self.scheduleTable.item(row_idx, 0).text() == str(schedule_id):
-                self.scheduleTable.removeCellWidget(row_idx, 8)
-        self.populate_schedule(self.scheduleTable, self.s.view_sched())
+            if table.item(row_idx, 0).text() == str(schedule_id):
+                table.removeCellWidget(row_idx, 8)
+        self.populate_schedule(table, query)
 
     def notif(self, type, message):
         noInput = QMessageBox()
@@ -479,7 +493,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.populate_sale(self.sales.view_all_sales(), None)
 
     def graphforecast(self):
-        graph =     ()
+        graph = SaleTrendDialog()
         graph.exec()
         #print("may error dito")
 
@@ -514,7 +528,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 self.technicianTable.setCellWidget(row_idx, 6, edit)
 
                 void = QPushButton('Void')
-                void.clicked.connect(lambda _, id=tech_id: self.delete(id))
+                void.clicked.connect(lambda _, id=tech_id: self.void(id))
                 self.technicianTable.setCellWidget(row_idx, 7, void)
             #self.editcontractBtn.disconnect()
 
@@ -581,7 +595,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         editech.exec()
         self.populate_tech()
 
-    def delete(self, id):
+    def void(self, id):
         noInput = QMessageBox()
         noInput.setWindowTitle("Void")
         noInput.setIcon(QMessageBox.Icon.Warning)
@@ -645,15 +659,66 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         noInput = QMessageBox()
         noInput.setWindowTitle("Update")
         noInput.setIcon(QMessageBox.Icon.Information)
-        noInput.setText("Are you sure to update the schedule to done?")
+        noInput.setText("Are you sure you want to make the client schedule status finished?")
         noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             self.s.update_state_when_done(sched, client)
             self.switch_to_servicePage()
         else: noInput.close()
-
+    
+    def addadmin(self):
+        addmin = AddAdmin()
+        addmin.exec()
 app = QApplication([])
 window = MainMenu(1)
 window.show()
 app.exec()
+
+"""
+def populate_table1(self):
+        # stretch the header
+        a = self.clientsTable.horizontalHeader()
+        #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.clientsTable.verticalHeader().hide()
+        a.setStretchLastSection(True)
+        self.contract = Contract()
+        clients = self.c.select_all_clients()
+        if clients:
+            self.clientsTable.setRowCount(len(clients))
+            self.clientsTable.setColumnCount(8)
+            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details', ' ', ' '])
+
+            for row_idx, client in enumerate(clients):
+                for col_idx, item in enumerate(client):
+                    client_id = clients[row_idx][0]
+                    items = QTableWidgetItem(str(item))
+                    #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                    self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
+                    self.clientsTable.setItem(row_idx, col_idx, items)
+
+                schedview = QPushButton('View')
+                schedview.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
+                self.clientsTable.setCellWidget(row_idx, 4, schedview)
+                
+                # for view client contract and adding if no contract
+                if self.contract.has_a_contract(client_id): 
+                    contractview = QPushButton('View')
+                    contractview.clicked.connect(lambda _, id=client_id: self.viewcontract(id))
+                    self.clientsTable.setCellWidget(row_idx, 5, contractview)
+                else:
+                    contractAdd = QPushButton('Add')
+                    contractAdd.clicked.connect(lambda _, id=client_id: self.addContract(id))
+                    self.clientsTable.setCellWidget(row_idx, 5, contractAdd)
+
+                edit = QPushButton('Edit')
+                edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
+                self.clientsTable.setCellWidget(row_idx, 6, edit)
+
+                delete = QPushButton('Void')
+                delete.clicked.connect(lambda _, id=client_id: self.delete(id, self.c.edit_personal_info))
+                self.clientsTable.setCellWidget(row_idx, 7, delete)
+        else:
+            self.clientsTable.setRowCount(0)
+            self.clientsTable.setColumnCount(0)
+"""

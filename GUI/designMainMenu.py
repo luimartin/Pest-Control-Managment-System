@@ -225,10 +225,6 @@ class Ui_MainWindow(object):
         self.timetableBtn = QtWidgets.QPushButton(parent=self.layoutWidget_5)
         self.timetableBtn.setObjectName("timetableBtn")
         self.horizontalLayout_5.addWidget(self.timetableBtn)
-        self.roundrobinBtn = QtWidgets.QPushButton(parent=self.layoutWidget_5)
-        self.roundrobinBtn.setStyleSheet("")
-        self.roundrobinBtn.setObjectName("roundrobinBtn")
-        self.horizontalLayout_5.addWidget(self.roundrobinBtn)
         self.addschedBtn = QtWidgets.QPushButton(parent=self.schedulePage)
         self.addschedBtn.setGeometry(QtCore.QRect(890, 690, 111, 31))
         self.addschedBtn.setObjectName("addschedBtn")
@@ -797,10 +793,42 @@ class Ui_MainWindow(object):
 "}")
         self.servicebackBtn.setObjectName("servicebackBtn")
         self.stackedWidget.addWidget(self.servicePage)
+        self.upcomingschedPage = QtWidgets.QWidget()
+        self.upcomingschedPage.setObjectName("upcomingschedPage")
+        self.label_23 = QtWidgets.QLabel(parent=self.upcomingschedPage)
+        self.label_23.setGeometry(QtCore.QRect(40, 20, 361, 81))
+        self.label_23.setLineWidth(0)
+        self.label_23.setScaledContents(False)
+        self.label_23.setIndent(3)
+        self.label_23.setObjectName("label_23")
+        self.upcomingscheduleTable = QtWidgets.QTableWidget(parent=self.upcomingschedPage)
+        self.upcomingscheduleTable.setGeometry(QtCore.QRect(20, 180, 981, 531))
+        self.upcomingscheduleTable.setLineWidth(-1)
+        self.upcomingscheduleTable.setObjectName("upcomingscheduleTable")
+        self.upcomingscheduleTable.setColumnCount(0)
+        self.upcomingscheduleTable.setRowCount(0)
+        self.roundrobinBtn = QtWidgets.QPushButton(parent=self.upcomingschedPage)
+        self.roundrobinBtn.setGeometry(QtCore.QRect(726, 70, 101, 38))
+        self.roundrobinBtn.setStyleSheet("")
+        self.roundrobinBtn.setObjectName("roundrobinBtn")
+        self.schedBackBtn = QtWidgets.QPushButton(parent=self.upcomingschedPage)
+        self.schedBackBtn.setGeometry(QtCore.QRect(860, 70, 101, 38))
+        self.schedBackBtn.setStyleSheet("QPushButton{\n"
+"border: none;\n"
+"background-color: #E35C5C;\n"
+"font-size: 14px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(211, 79, 79);\n"
+"    \n"
+"}")
+        self.schedBackBtn.setObjectName("schedBackBtn")
+        self.stackedWidget.addWidget(self.upcomingschedPage)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(16)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -826,7 +854,6 @@ class Ui_MainWindow(object):
         self.schedtomBtn.setText(_translate("MainWindow", "Upcoming Schdule"))
         self.scheduleBtn.setText(_translate("MainWindow", "Schedule"))
         self.timetableBtn.setText(_translate("MainWindow", "Timetable"))
-        self.roundrobinBtn.setText(_translate("MainWindow", "Round Robin"))
         self.addschedBtn.setText(_translate("MainWindow", "Add Schedule"))
         self.label_10.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Inventory</span></p></body></html>"))
         self.inventorySearch.setPlaceholderText(_translate("MainWindow", "Search"))
@@ -900,3 +927,6 @@ class Ui_MainWindow(object):
         self.assgnBrn.setText(_translate("MainWindow", "Assign"))
         self.label_22.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Service</span></p></body></html>"))
         self.servicebackBtn.setText(_translate("MainWindow", "Back"))
+        self.label_23.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Upcoming Schedules</span></p></body></html>"))
+        self.roundrobinBtn.setText(_translate("MainWindow", "Round Robin"))
+        self.schedBackBtn.setText(_translate("MainWindow", "Back"))
