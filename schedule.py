@@ -22,7 +22,7 @@ class Schedule:
     
     def view_sched(self):
         query = """
- select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+    select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
 	time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
     TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
     inner join client as c on s.client_id = c.client_id
@@ -416,6 +416,7 @@ class Schedule:
             ) and void = 0
         """
         return handle_select(query)
+    
     def placeholder_sched(self, sched_id):
         query = """
         select c.name, schedule_type, start_date, end_date, 
@@ -423,8 +424,17 @@ class Schedule:
         client as c on s.client_id = c.client_id where schedule_id = {};
         """.format(sched_id)
         return handle_select(query)
+    
+    def smsview(self):
+        query = """
+        select schedule_id, name from schedule
+        inner join 
+        client on schedule.client_id = client.client_id
+        """
+        return handle_select(query)
 
 #s = Schedule()
+#print(s.smsview())
 #print(s.show_sched_for_tom())
 #s.earliest_deadline_first()
 #print(s.earliest_deadline_first_show())

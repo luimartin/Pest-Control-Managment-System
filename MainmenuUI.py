@@ -47,8 +47,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addClientBtn.clicked.connect(self.addclient)
         self.voidedClientButton.clicked.connect(self.voidpage)
         self.voidBackBtn.clicked.connect(self.switch_to_ClientsPage)
-        self.populate_table1()
+        self.populate_table1(self.c.select_all_clients())
         self.stackedWidget.setCurrentIndex(0)
+        self.clientSearchBtn.clicked.connect(self.client_search)
+        self.voidclientSearchBtn.clicked.connect(self.voidclient_search)
+
         # for sidebar menu
         self.pushButton.setChecked(True)#toggle button without click
         self.pushButton.clicked.connect(self.switch_to_ClientsPage)
@@ -136,7 +139,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     #for sidebar menu      
     def switch_to_ClientsPage(self):
         self.stackedWidget.setCurrentIndex(0)
-        self.populate_table1()
+        self.populate_table1(self.c.select_all_clients())
     def switch_to_SchedulePage(self):
         self.stackedWidget.setCurrentIndex(1)
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
@@ -162,14 +165,14 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 # clientspage
     #may buttons sa table
     
-    def populate_table1(self):
+    def populate_table1(self, query):
         # Stretch the header
         a = self.clientsTable.horizontalHeader()
         a.setStretchLastSection(True)
         self.clientsTable.verticalHeader().hide()
         self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
         self.contract = Contract()
-        clients = self.c.select_all_clients()
+        clients = query
         if clients:
             self.clientsTable.setRowCount(len(clients))
             self.clientsTable.setColumnCount(8)
@@ -210,12 +213,18 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def editclient(self, id):
         bago = editClients(id)
         bago.exec()
-        self.populate_table1()
+        self.populate_table1(self.c.select_all_clients())
     
     def addContract(self, id):
         addcontract = AddContract(id, None, "Add")
         addcontract.exec()
 
+    def client_search(self):
+        search = self.clientSearch.text()
+        if search == "":
+            self.populate_table1(self.c.select_all_clients())
+        else:
+            self.populate_table1(self.c.search(search, 0))
 #view in contractpage######################################################
     def viewcontract(self, client_id):
         self.stackedWidget.setCurrentIndex(13)
@@ -265,7 +274,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             func(id, "void", 1)
-            self.populate_table1()
+            self.populate_table1(self.c.select_all_clients())
             self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
             self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
             self.populate_inventory(self.i.choose_category("Material"), self.materialsTable)
@@ -273,16 +282,17 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         else:
             noInput.close()
         
-    def void_populate_table(self):
+    def void_populate_table(self, query):
         #stretch the header
         a = self.voidclientsTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         a.setStretchLastSection(True)
-        clients = self.c.select_all_clients_void()
+        self.voidclientsTable.verticalHeader().hide()
+        clients = query
         if clients:
             self.voidclientsTable.setRowCount(len(clients))
             self.voidclientsTable.setColumnCount(4)
-            self.voidclientsTable.setHorizontalHeaderLabels(['Name', 'Phone Number', 'Address', 'Email'])
+            self.voidclientsTable.setHorizontalHeaderLabels(["ID ",'Name', 'Phone Number', 'Address', 'Email'])
 
             
             for row_idx, client in enumerate(clients):
@@ -295,11 +305,18 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def addclient(self):
         addclient = addClient()
         addclient.exec()
-        self.populate_table1()
+        self.populate_table1(self.c.select_all_clients())
+
     def voidpage(self):
-        self.void_populate_table()
+        self.void_populate_table(self.c.select_all_clients_void())
         self.stackedWidget.setCurrentIndex(9)
 
+    def voidclient_search(self):
+        search = self.voidclientSearch.text()
+        if search == "":
+            self.void_populate_table(self.c.select_all_clients_void())
+        else:
+            self.void_populate_table(self.c.search(search, 1))
 
 ##################################################################################################
 #Inventory Page
@@ -358,7 +375,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         elif index == 1: self.switch_to_MaterialsPage()
         else: self.switch_to_EquipmentsPage()
 
-    def populate_delivery_and_void(self, query, categ):
+    def populate_delivery_and_void(self, query, categ):  
         a = self.inventoryTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.inventoryTable.verticalHeader().hide()

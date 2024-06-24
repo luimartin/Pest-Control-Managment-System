@@ -99,6 +99,6 @@ class Message:
         return handle_select(query)
 m = Message()
 #print(m.convert_msg(28, m.get_data(1, 'message')))
-#print(m.get_data(7, 'message'))
+print(m.get_data(7, 'message'))
 #print(m.show_specific(7))
-print(m.show_all_categ('Client'))
+#print(m.show_all_categ('Client'))

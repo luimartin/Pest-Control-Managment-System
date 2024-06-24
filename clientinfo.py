@@ -35,7 +35,7 @@ class ClientInfo:
 
     
     def select_all_clients_void(self):
-        query = "select name, phone_num, address, email from CLIENT where void = 1"
+        query = "select client_id, name, phone_num, address, email from CLIENT where void = 1"
         return handle_select(query)
 
 
@@ -50,19 +50,19 @@ class ClientInfo:
         return handle_select(query)   
     """
 
-    def search(self, input):
-        query = f"""
-            select * from CLIENT 
+    def search(self, input, void):
+        query = """
+            select client_id, name, phone_num, status from CLIENT 
             where (
-            client_id LIKE '%{input}%'
-            OR name LIKE '%{input}%'
-            OR email LIKE '%{input}%' 
-            OR phone_num LIKE '%{input}%' 
-            OR address LIKE '%{input}%' 
-            OR status LIKE '%{input}%'
+            client_id LIKE '%{}%'
+            OR name LIKE '%{}%'
+            OR email LIKE '%{}%' 
+            OR phone_num LIKE '%{}%' 
+            OR address LIKE '%{}%' 
+            OR status LIKE '%{}%'
             ) 
-            and void = 0
-        """
+            and void = {}
+        """.format(input, input, input, input, input, input, void)
         return handle_select(query)     
 
 

@@ -88,107 +88,7 @@ QPushButton:hover{
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="7" column="0">
-       <widget class="QPushButton" name="pushButton_8">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Help</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QPushButton" name="pushButton_9">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>About</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Schedules</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Inventory</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
+      <item row="11" column="0">
        <widget class="QPushButton" name="pushButton_10">
         <property name="minimumSize">
          <size>
@@ -236,56 +136,6 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QPushButton" name="pushButton_7">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>SMS Format</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QPushButton" name="pushButton_6">
-        <property name="minimumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>129</width>
-          <height>57</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Maintenance</string>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0">
        <widget class="QPushButton" name="pushButton_4">
         <property name="minimumSize">
@@ -302,6 +152,56 @@ QPushButton:hover{
         </property>
         <property name="text">
          <string>Technician</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="QPushButton" name="pushButton_9">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>About</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="QPushButton" name="pushButton_8">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Help</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -336,6 +236,106 @@ QPushButton:hover{
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QPushButton" name="pushButton_3">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Inventory</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QPushButton" name="pushButton_6">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Maintenance</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Schedules</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QPushButton" name="pushButton_7">
+        <property name="minimumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>129</width>
+          <height>57</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>SMS Format</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </widget>
@@ -357,7 +357,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>6</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
