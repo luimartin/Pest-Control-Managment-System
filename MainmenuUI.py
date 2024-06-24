@@ -7,6 +7,8 @@ from schedule import Schedule
 from sales import Sales
 from contract import Contract
 from technician import Technician
+from user import User
+from message import Message
 from test import CalendarScheduler
 from functools import partial
 from GUI.addcontractUI import AddContract
@@ -22,17 +24,18 @@ from GUI.designaddtechUI import AddTechnician
 from GUI.designassignitemUI import AssignItem
 from GUI.designaddadminUI import AddAdmin
 from asd import SaleTrendDialog
-
+from GUI.designaddsmsformatUI import AddSMS
+import GUI.rc_icons
 class MainMenu(QMainWindow, Ui_MainWindow):
 
     #move frameless window
-    def mousePressEvent(self, event):
-        self.dragPos = event.globalPosition().toPoint()
+    """    def mousePressEvent(self, event):
+            self.dragPos = event.globalPosition().toPoint()
 
-    def mouseMoveEvent(self, event):
-        self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos )
-        self.dragPos = event.globalPosition().toPoint()
-        event.accept()
+        def mouseMoveEvent(self, event):
+            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos )
+            self.dragPos = event.globalPosition().toPoint()
+            event.accept()"""
 ###########################
     def __init__(self, AdminID):
         
@@ -102,7 +105,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
         self.salesBtn.clicked.connect(self.switch_to_SalesPage)
         self.revenueBtn.clicked.connect(lambda: self.populate_sale(self.sales.monthly_total_sale(), 0))
-        self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 0))        
+        self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 1))        
 
 
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
@@ -119,6 +122,15 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
         #maintenance page
         self.addAdminBtn.clicked.connect(self.addadmin)
+        self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
+        self.userlogbackBtn.clicked.connect(self.switch_to_MaintenancePage)
+
+        #SMS page
+        self.message = Message()
+        self.addSMSBtn.clicked.connect(self.add_sms)
+        self.clientSMSBtn.clicked.connect(lambda: self.populate_sms(self.message.show_all_categ('Client')))
+        self.techSMSBtn.clicked.connect(lambda: self.populate_sms(self.message.show_all_categ('Technician')))
+        #self.message.show_all()
  ##########################################################################################
 
     #for sidebar menu      
@@ -131,17 +143,16 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def switch_to_InventoryPage(self):
         self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
         self.stackedWidget.setCurrentIndex(2)
-
     def switch_to_TechnicianPage(self):
         self.populate_tech()
         self.stackedWidget.setCurrentIndex(3)
-        
     def switch_to_SalesPage(self):
         self.populate_sale(self.sales.view_all_sales(), None)
         self.stackedWidget.setCurrentIndex(4)
     def switch_to_MaintenancePage(self):
         self.stackedWidget.setCurrentIndex(5)
     def switch_to_SMSFormatPage(self):
+        self.populate_sms(self.message.show_all())
         self.stackedWidget.setCurrentIndex(6)
     def switch_to_HelpPage(self):
         self.stackedWidget.setCurrentIndex(7)
@@ -472,7 +483,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             if which is None:
                 self.saleTable.setColumnCount(4)
                 self.saleTable.setHorizontalHeaderLabels(['Name','Sale Figure', 'Date', ' '])
+            elif which == 1:
+                self.salesLabel.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Average Sales</span></p><p><br/></p></body></html>"))
+                self.saleTable.setColumnCount(3)
+                self.saleTable.setHorizontalHeaderLabels(['Year','Month', 'Amount'])
             else:
+                self.salesLabel.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Revenue</span></p><p><br/></p></body></html>"))
                 self.saleTable.setColumnCount(3)
                 self.saleTable.setHorizontalHeaderLabels(['Year','Month', 'Amount'])
             
@@ -666,10 +682,74 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.s.update_state_when_done(sched, client)
             self.switch_to_servicePage()
         else: noInput.close()
-    
+###### maintenance page #######################################################################3##3
+    def populate_userlog(self):
+        self.user = User()
+        a = self.serviceTable.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.userlogTable.verticalHeader().hide()
+        #a.setStretchLastSection(True)
+        service = self.user.show_userlog()
+        self.userlogTable.setColumnCount(4)
+        self.userlogTable.setHorizontalHeaderLabels(['ID', 'User ID', 'Name', 'Activity'])
+        if service:
+            self.userlogTable.setRowCount(len(service))
+            for row_idx, sched in enumerate(service):
+                for col_idx, item in enumerate(sched):
+                    self.userlogTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+        else:
+            self.userlogTable.setRowCount(0)
+            self.userlogTable.setColumnCount(0)
+
+    def switch_to_userlogPage(self):
+        self.populate_userlog()
+        self.stackedWidget.setCurrentIndex(18)
+
     def addadmin(self):
         addmin = AddAdmin()
         addmin.exec()
+############# SMS FORMAT ###################################################################################################
+    def populate_sms(self, query):
+        
+        a = self.serviceTable.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.smsTable.verticalHeader().hide()
+        #a.setStretchLastSection(True)
+        sms = query
+        self.smsTable.setColumnCount(6)
+        self.smsTable.setHorizontalHeaderLabels(['ID', 'Category', 'Message','Title', ' ', ' '])
+        if sms:
+            self.smsTable.setRowCount(len(sms))
+            for row_idx, sched in enumerate(sms):
+                msg_id = sms[row_idx][0]
+                for col_idx, item in enumerate(sched):
+                    self.smsTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                view = QPushButton('View')
+                view.clicked.connect(lambda _, msg_id = msg_id: self.view_msg(msg_id))
+                self.smsTable.setCellWidget(row_idx, 4, view)
+                
+                edit = QPushButton('Edit')
+                edit.clicked.connect(lambda _, msg_id = msg_id: self.edit_sms(msg_id))
+                self.smsTable.setCellWidget(row_idx, 5, edit)                    
+        else:
+            self.smsTable.setRowCount(0)
+            self.smsTable.setColumnCount(0)
+
+    def view_msg(self, id):
+        msg = self.message.get_data(id, 'message')
+        self.notif(QMessageBox.Icon.NoIcon, msg[0][0])
+
+    def add_sms(self):
+        asd = AddSMS(None, None)
+        asd.exec()
+        self.populate_sms(self.message.show_all())
+    
+    def edit_sms(self, id):
+        edit = AddSMS("Edit", id)
+        edit.exec()
+        self.populate_sms(self.message.show_all())
+
+
 app = QApplication([])
 window = MainMenu(1)
 window.show()

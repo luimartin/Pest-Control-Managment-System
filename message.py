@@ -52,20 +52,20 @@ class Message:
         return result
 
     def add_message(self, msg_categ, msg_title, msg_format):
-        query = "insert into MESSAGE (message_category, message) values (%s, %s, %s)"
+        query = "insert into MESSAGE (message_category, message, title) values (%s, %s, %s)"
         data = (msg_categ, msg_format, msg_title)
         handle_transaction(query, data)
     
-    def edit_message(self, msg_id, new_categ, new_input):
-        temp = "update MESSAGE set message_category = %s, message = %s "
+    def edit_message(self, msg_id, new_categ, new_input, title):
+        temp = "update MESSAGE set message_category = %s, message = %s, title = %s "
         query = temp + "where message_id = %s"
-        data = (new_categ, new_input, msg_id)
+        data = (new_categ, new_input, title , msg_id)
         handle_transaction(query, data)
     
     def get_data(self, msg_id, categ):
         temp = "select {} from MESSAGE ".format(categ)
         query = temp + "where message_id = {}".format(msg_id)
-        return handle_select(query)[0][0]
+        return handle_select(query)
     
     def search(self, input):
         query = f"""
@@ -80,5 +80,25 @@ class Message:
         """
         return handle_select(query) 
 
-#m = Message()
+    def show_all(self):
+        query = """
+        select * from message;
+        """
+        return handle_select(query)
+    
+    def show_all_categ(self, categ):
+        query = """
+        select * from message where message_category = '{}';
+        """.format(categ)
+        return handle_select(query)
+    
+    def show_specific(self, id):
+        query = """
+        select * from message where message_id = {}
+        """.format(id)
+        return handle_select(query)
+m = Message()
 #print(m.convert_msg(28, m.get_data(1, 'message')))
+#print(m.get_data(7, 'message'))
+#print(m.show_specific(7))
+print(m.show_all_categ('Client'))

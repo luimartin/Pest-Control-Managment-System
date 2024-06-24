@@ -121,8 +121,12 @@ class User:
         temp = "select {} from USER ".format(categ)
         query = temp + "where user_id = {}".format(ref_id)
         return handle_select(query)
-
     
+    def show_userlog(self):
+        query = """
+        select * from activity;
+    """ 
+        return handle_select(query)
 u = User()
 #print(u.get_data(4, ("question1, question2")))
 #print(u.cp_questions(4,"Human", "Sugar Baby"))
