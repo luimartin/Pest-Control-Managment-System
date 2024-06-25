@@ -5,6 +5,7 @@ from datetime import date
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import matplotlib.pyplot as plt
+import pandas as pd
 
 class Sales:
     def __init__(self):
@@ -117,6 +118,18 @@ class Sales:
             )
         """
         return handle_select(query) 
+        
+    def generate_report(self):
+        df = pd.DataFrame(self.view_all_sales())
+        
+        if df is not None:
+            # Exporting to Excel
+            df.columns = ["Name", "Figure", "SaleDate", "SaleID"]
+            #print(df)
+            df.to_excel('sales_report.xlsx', index=False )
+            return "Spreadsheet generated successfully"
+        else:
+            return "No data to export"
 
 #s = Sales()
-#s.sale_trend()
+#s.generate_report()

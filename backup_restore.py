@@ -1,53 +1,56 @@
 import subprocess
 import os
+from datetime import datetime
 
-# MySQL connection details
+def backup_database(host, user, password, database, backup_dir):
+    try:
+        # Create a backup directory if it doesn't exist
+        if not os.path.exists(backup_dir):
+            os.makedirs(backup_dir)
+
+        # Normalize the backup directory path to use forward slashes
+        backup_dir = os.path.normpath(backup_dir)
+
+        # Create a timestamp for the backup filename
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        backup_file = os.path.join(backup_dir, f"{database}_backup_{timestamp}.sql")
+
+        # Ensure backup_file uses forward slashes
+        backup_file = backup_file.replace("\\", "/")
+
+        # Construct the mysqldump command
+        dump_cmd = f'mysqldump -h {host} -u {user} -p{password} {database} > {backup_file}'
+
+        # Print for debugging
+        #print(f"Backup directory: {backup_dir}")
+        #print(f"Backup file: {backup_file}")
+        #print(f"Dump command: {dump_cmd}")
+
+        # Execute the mysqldump command
+        subprocess.run(dump_cmd, shell=True, check=True)
+        print(f"Backup successful! Backup file created at: {backup_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error during backup: {e}")
+
+def restore_database(host, user, password, database, backup_file):
+    try:
+        # Construct the mysql command
+        restore_cmd = f"mysql -h {host} -u {user} -p{password} {database} < {backup_file}"
+
+        # Execute the mysql command
+        subprocess.run(restore_cmd, shell=True, check=True)
+        print(f"Restore successful! Database {database} restored from: {backup_file}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error during restore: {e}")
+
+# Replace with your MySQL credentials and desired backup directory
 host = 'localhost'
 user = 'root'
 password = '030709'
 database = 'mansys'
-
-def get_backup_file_path(database):
-    # Get the path to the Desktop directory for the current user
-    desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
-    return os.path.join(desktop_path, f"{database}_backup.sql")
-
-def backup_database():
-    try:
-        # Get backup file path
-        backup_file = get_backup_file_path(database)
-        print(f"Backup file path: {backup_file}")
-        
-        # Construct mysqldump command with full path
-        dump_command = f"C:/Program Files/MySQL/MySQL Server 8.0/bin/mysqldump.exe -h {host} -u {user} -p{password} {database} > {backup_file}"
-        
-        # Execute the command in shell
-        subprocess.run(dump_command, shell=True, check=True)
-        
-        print(f"Backup completed: {backup_file}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during backup: {e}")
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-
-# Perform the backup
-backup_database()
-
-def restore_database(backup_file):
-    try:
-        # Construct mysql command
-        restore_command = f"mysql -h {host} -u {user} -p{password} {database} < {backup_file}"
-        
-        # Execute the command in shell
-        subprocess.run(restore_command, shell=True, check=True)
-        
-        print(f"Restore completed from: {backup_file}")
-    except subprocess.CalledProcessError as e:
-        print(f"Error during restore: {e}")
-
-
-backup_database()
-# Uncomment the line below and provide the backup file path to restore from the backup
-#restore_database("/home/bowie/Desktop/mansys_backup.sql")
-
-#C:/Program Files/MySQL/MySQL Server 8.0/bin/mysqldump.exe
+backup_dir = '/Users/deini/OneDrive/Desktop/backup'
+backup_file = '/Users/deini/OneDrive/Desktop/backup/mansys_backup_20240625144451.sql'
+#C:\Users\deini\OneDrive\Desktop\New folder
+# Uncomment the following lines to perform backup or restore
+#backup_database(host, user, password, database, backup_dir)
+#restore_database(host, user, password, database, backup_file)

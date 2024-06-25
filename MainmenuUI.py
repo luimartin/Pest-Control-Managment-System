@@ -25,6 +25,7 @@ from GUI.designassignitemUI import AssignItem
 from GUI.designaddadminUI import AddAdmin
 from asd import SaleTrendDialog
 from GUI.designaddsmsformatUI import AddSMS
+from GUI.designsmsUI import SMS
 import GUI.rc_icons
 class MainMenu(QMainWindow, Ui_MainWindow):
 
@@ -99,17 +100,22 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         # for schedulepage
         self.s = Schedule()
         self.addschedBtn.clicked.connect(self.schedAdd)
-        self.scheduleBtn.clicked.connect(self.switch_to_SchedulePage)
         self.timetableBtn.clicked.connect(self.timetable)
         self.schedtomBtn.clicked.connect(self.upcomingsched)
         self.schedBackBtn.clicked.connect(self.switch_to_SchedulePage)
+        self.sendSMSBtn.clicked.connect(self.sendSMS)
+        self.schedulesearchBtn.clicked.connect(self.search_sched)
+        self.pushButton_13.clicked.connect(self.switch_to_todayschedPage)
+        self.todayschedbackBtn.clicked.connect(self.switch_to_SchedulePage)
+
+
         # for salepage
         self.sales= Sales()
         self.addSalesBtn.clicked.connect(lambda: self.addsale(None, None))
         self.salesBtn.clicked.connect(self.switch_to_SalesPage)
         self.revenueBtn.clicked.connect(lambda: self.populate_sale(self.sales.monthly_total_sale(), 0))
         self.pushButton_11.clicked.connect(lambda: self.populate_sale(self.sales.monthly_avg_total_sale(), 1))        
-
+        self.reportBtn.clicked.connect(self.generate_rep)
 
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
         self.roundrobinBtn.clicked.connect(self.roundrobin)
@@ -481,12 +487,41 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 table.removeCellWidget(row_idx, 8)
         self.populate_schedule(table, query)
 
+    def sendSMS(self):
+        txtmoko = SMS()
+        txtmoko.exec()
+
     def notif(self, type, message):
         noInput = QMessageBox()
         noInput.setIcon(type)
         noInput.setText(message)
         noInput.exec()
 
+    def search_sched(self):
+        search = self.scheduleSearch.text()
+        if search == "":
+            self.populate_schedule(self.scheduleTable, self.s.view_sched())
+        else:
+            self.populate_schedule(self.scheduleTable, self.s.search(search))
+
+    def populate_schedule_today(self, tablename, query):
+        a = tablename.horizontalHeader()
+        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        tablename.verticalHeader().hide()
+        a.setStretchLastSection(True)
+        schedule = query
+        if schedule:
+            tablename.setRowCount(len(schedule))
+            tablename.setColumnCount(9)
+            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician'])
+
+            for row_idx, sched in enumerate(schedule):
+                for col_idx, item in enumerate(sched):
+                    tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+    def switch_to_todayschedPage(self):
+        self.s.earliest_deadline_first()
+        self.populate_schedule_today(self.todayschedTable, self.s.earliest_deadline_first_show())
+        self.stackedWidget.setCurrentIndex(19)
 # sales page ###################################################################################
     def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()
@@ -529,6 +564,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         graph = SaleTrendDialog()
         graph.exec()
         #print("may error dito")
+    
+    def generate_rep(self):
+        msg = self.sales.generate_report()
+        self.notif(QMessageBox.Icon.Information, msg)
 
 ####### Technician PAGE #############################################################
     def populate_tech(self):
@@ -652,7 +691,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         
 
     def itemassign(self, id):
-        print(id, "Rawr")
         window = AssignItem(id)
         window.exec()
         self.populate_tech_void(self.tech.show_accounted_item(id), 1, self.assignitemTable)

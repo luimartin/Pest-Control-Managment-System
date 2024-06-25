@@ -126,7 +126,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="text">
-         <string>Sales</string>
+         <string>Sales and Revenue</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -342,7 +342,7 @@ QPushButton:hover{
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>180</x>
       <y>20</y>
       <width>1021</width>
       <height>731</height>
@@ -376,7 +376,7 @@ QPushButton:hover{
       <property name="geometry">
        <rect>
         <x>30</x>
-        <y>20</y>
+        <y>40</y>
         <width>391</width>
         <height>71</height>
        </rect>
@@ -397,9 +397,9 @@ QPushButton:hover{
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>730</x>
+        <x>860</x>
         <y>50</y>
-        <width>261</width>
+        <width>141</width>
         <height>51</height>
        </rect>
       </property>
@@ -414,16 +414,6 @@ QPushButton:hover{
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="addClientBtn">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Add Client</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QTableWidget" name="clientsTable">
@@ -432,7 +422,7 @@ QPushButton:hover{
         <x>20</x>
         <y>180</y>
         <width>981</width>
-        <height>531</height>
+        <height>461</height>
        </rect>
       </property>
      </widget>
@@ -468,6 +458,22 @@ border-radius: 10px;</string>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/newPrefix/165329.png</normaloff>:/newPrefix/165329.png</iconset>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addClientBtn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>670</y>
+        <width>122</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Add Client</string>
       </property>
      </widget>
     </widget>
@@ -571,9 +577,16 @@ padding-right: 100px</string>
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <item>
+        <widget class="QPushButton" name="pushButton_13">
+         <property name="text">
+          <string>Today</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="schedtomBtn">
          <property name="text">
-          <string>Upcoming Schdule</string>
+          <string>Upcoming</string>
          </property>
         </widget>
        </item>
@@ -647,7 +660,7 @@ QPushButton:hover{
         <x>20</x>
         <y>180</y>
         <width>981</width>
-        <height>531</height>
+        <height>471</height>
        </rect>
       </property>
       <property name="lineWidth">
@@ -704,17 +717,17 @@ padding-right: 100px</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>551</x>
-        <y>20</y>
-        <width>441</width>
-        <height>91</height>
+        <x>320</x>
+        <y>30</y>
+        <width>671</width>
+        <height>81</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="inventoryBtn">
+       <item row="0" column="4">
+        <widget class="QPushButton" name="deliveryBtn">
          <property name="text">
-          <string>Inventory</string>
+          <string>Delivery</string>
          </property>
         </widget>
        </item>
@@ -731,39 +744,45 @@ padding-right: 100px</string>
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Materials</string>
+          <string>Material</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="inventoryBtn">
+         <property name="text">
+          <string>Inventory</string>
          </property>
         </widget>
        </item>
        <item row="0" column="3">
         <widget class="QPushButton" name="equipmentBtn">
          <property name="text">
-          <string>Equipments</string>
+          <string>Equipment</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="0" column="5">
         <widget class="QPushButton" name="voiditemBtn">
          <property name="text">
           <string>Voided Item</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
-        <widget class="QPushButton" name="deliveryBtn">
-         <property name="text">
-          <string>Delivery</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QPushButton" name="newdeliveryBtn">
-         <property name="text">
-          <string>New Delivery</string>
-         </property>
-        </widget>
-       </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="newdeliveryBtn">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>670</y>
+        <width>105</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>New Delivery</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="technicianPage">
@@ -795,7 +814,7 @@ padding-right: 100px</string>
         <x>20</x>
         <y>180</y>
         <width>981</width>
-        <height>531</height>
+        <height>461</height>
        </rect>
       </property>
      </widget>
@@ -852,7 +871,7 @@ border-radius: 10px;</string>
        <item>
         <widget class="QPushButton" name="serviceBtn">
          <property name="text">
-          <string>Service</string>
+          <string>Services</string>
          </property>
         </widget>
        </item>
@@ -863,26 +882,32 @@ border-radius: 10px;</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="addTechnicianBtn">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Add Technician</string>
-         </property>
-        </widget>
-       </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="addTechnicianBtn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>680</y>
+        <width>114</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Add Technician</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="salesPage">
      <widget class="QLabel" name="salesLabel">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>20</y>
-        <width>391</width>
+        <x>30</x>
+        <y>40</y>
+        <width>251</width>
         <height>71</height>
        </rect>
       </property>
@@ -912,9 +937,9 @@ border-radius: 10px;</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>30</y>
-        <width>571</width>
+        <x>290</x>
+        <y>40</y>
+        <width>711</width>
         <height>67</height>
        </rect>
       </property>
@@ -925,17 +950,17 @@ border-radius: 10px;</string>
        <property name="verticalSpacing">
         <number>17</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="salesBtn">
-         <property name="text">
-          <string>Sales</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="revenueBtn">
          <property name="text">
           <string>Revenue</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="salesBtn">
+         <property name="text">
+          <string>Sales</string>
          </property>
         </widget>
        </item>
@@ -949,7 +974,14 @@ border-radius: 10px;</string>
        <item row="0" column="2">
         <widget class="QPushButton" name="pushButton_11">
          <property name="text">
-          <string>Monthly AVG</string>
+          <string>Average Sales</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QPushButton" name="reportBtn">
+         <property name="text">
+          <string>Report</string>
          </property>
         </widget>
        </item>
@@ -1084,9 +1116,9 @@ QPushButton:hover{
      <widget class="QTextBrowser" name="textBrowser">
       <property name="geometry">
        <rect>
-        <x>30</x>
-        <y>230</y>
-        <width>961</width>
+        <x>90</x>
+        <y>220</y>
+        <width>801</width>
         <height>471</height>
        </rect>
       </property>
@@ -1101,8 +1133,11 @@ hr { height: 1px; border-width: 0; }
 li.unchecked::marker { content: &quot;\2610&quot;; }
 li.checked::marker { content: &quot;\2612&quot;; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Add Admin&lt;/span&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. &lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;User Logs&lt;/span&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Add Admin:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;To add an addtional admin account for the system, click the &amp;quot;Add Admin&amp;quot; button.  Once done, the new admin account can access the system with authorized level of access.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;User Logs:&lt;/span&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;To view the activities happening within the system, click the &amp;quot;User Logs&amp;quot; button. This will display the audit trail of the admin's action. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <zorder>layoutWidget</zorder>
@@ -1138,7 +1173,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
         <x>20</x>
         <y>180</y>
         <width>981</width>
-        <height>531</height>
+        <height>461</height>
        </rect>
       </property>
       <property name="lineWidth">
@@ -1195,9 +1230,9 @@ padding-right: 100px</string>
      <widget class="QWidget" name="layoutWidget_8">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>40</y>
-        <width>441</width>
+        <x>600</x>
+        <y>50</y>
+        <width>391</width>
         <height>51</height>
        </rect>
       </property>
@@ -1209,16 +1244,9 @@ padding-right: 100px</string>
         <enum>QLayout::SetDefaultConstraint</enum>
        </property>
        <item>
-        <widget class="QPushButton" name="addSMSBtn">
-         <property name="text">
-          <string>Add SMS</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QPushButton" name="clientSMSBtn">
          <property name="text">
-          <string>Client</string>
+          <string>Client SMS</string>
          </property>
         </widget>
        </item>
@@ -1228,11 +1256,24 @@ padding-right: 100px</string>
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Technician</string>
+          <string>Technician SMS</string>
          </property>
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QPushButton" name="addSMSBtn">
+      <property name="geometry">
+       <rect>
+        <x>860</x>
+        <y>680</y>
+        <width>140</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add SMS</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="helpPage">
@@ -1825,9 +1866,9 @@ padding-right: 100px</string>
      <widget class="QWidget" name="layoutWidget_6">
       <property name="geometry">
        <rect>
-        <x>560</x>
+        <x>540</x>
         <y>50</y>
-        <width>391</width>
+        <width>471</width>
         <height>51</height>
        </rect>
       </property>
@@ -1835,6 +1876,13 @@ padding-right: 100px</string>
        <property name="spacing">
         <number>14</number>
        </property>
+       <item>
+        <widget class="QPushButton" name="pushButton_14">
+         <property name="text">
+          <string>Upload Contract Image</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="editcontractBtn">
          <property name="text">
@@ -1857,30 +1905,24 @@ padding-right: 100px</string>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>190</y>
-        <width>981</width>
-        <height>521</height>
+        <x>540</x>
+        <y>170</y>
+        <width>461</width>
+        <height>551</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_9">
        <property name="spacing">
         <number>27</number>
        </property>
-       <item>
-        <widget class="QListWidget" name="infolist"/>
-       </item>
-       <item>
-        <widget class="QListWidget" name="contractlist"/>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
-        <x>20</x>
-        <y>150</y>
-        <width>981</width>
+        <x>-10</x>
+        <y>120</y>
+        <width>1021</width>
         <height>30</height>
        </rect>
       </property>
@@ -1904,9 +1946,34 @@ padding-right: 100px</string>
        <item>
         <widget class="QLabel" name="label_3">
          <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Contract Image:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>501</width>
+        <height>541</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QListWidget" name="contractlist"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Contract Details:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="infolist"/>
        </item>
       </layout>
      </widget>
@@ -2312,6 +2379,68 @@ border-radius: 10px;</string>
       <property name="icon">
        <iconset resource="icons.qrc">
         <normaloff>:/newPrefix/165329.png</normaloff>:/newPrefix/165329.png</iconset>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="todayschedulePage">
+     <widget class="QTableWidget" name="todayschedTable">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>981</width>
+        <height>531</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>-1</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_44">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>20</y>
+        <width>251</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:24pt;&quot;&gt;Today Schedule&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="todayschedbackBtn">
+      <property name="geometry">
+       <rect>
+        <x>870</x>
+        <y>70</y>
+        <width>101</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+border: none;
+background-color: #E35C5C;
+font-size: 14px;
+}
+
+QPushButton:hover{
+	background-color: rgb(211, 79, 79);
+	
+}</string>
+      </property>
+      <property name="text">
+       <string>Back</string>
       </property>
      </widget>
     </widget>

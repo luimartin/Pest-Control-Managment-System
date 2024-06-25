@@ -68,7 +68,7 @@ class SMS(QDialog,Ui_Dialog):
             self.schedID.addItem('('+ str(id) +') '+name, id)
 
         for message_id, message_category, message, title in idmsg:
-            self.msgID.addItem('('+ str(message_id) +') '+message_category, message_id)
+            self.msgID.addItem('('+ str(message_id) +') '+title, message_id)
         self.combo_change()
         self.submitBtn.clicked.connect(self.submit)
         self.msgID.currentIndexChanged.connect(self.combo_change)
@@ -78,11 +78,9 @@ class SMS(QDialog,Ui_Dialog):
         sched_id = self.schedID.currentData()
         msg_contect = self.msg.toPlainText()
         print(self.message.convert_msg(sched_id, msg_contect))
+        self.close()
     
     def combo_change(self):
         self.msg.setText(self.message.get_data(self.msgID.currentData(), 'message')[0][0]) 
 
-app = QApplication([])
-window = SMS()
-window.show()
-app.exec()
+

@@ -97,8 +97,8 @@ class Message:
         select * from message where message_id = {}
         """.format(id)
         return handle_select(query)
-m = Message()
-#print(m.convert_msg(28, m.get_data(1, 'message')))
-print(m.get_data(7, 'message'))
+#m = Message()
+#print(m.convert_msg((28,29,30,31,32), m.get_data(8, 'message')[0][0]))
+#print(m.get_data(7, 'message'))
 #print(m.show_specific(7))
 #print(m.show_all_categ('Client'))

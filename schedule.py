@@ -81,41 +81,58 @@ class Schedule:
         
     def earliest_deadline_first_show(self):
         query = """
-        select *
-        from SCHEDULE
-        order by
-            case when status = 'Progress' then 1 else 2 end,
-            case when status = 'Done' then 3 end,
-            start_date, time_in, time_out;
+        select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+	    time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+        TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+        inner join client as c on s.client_id = c.client_id
+        left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
+        where s.void = 0 and s.status = 'Progress'
         """
         return handle_select(query)
 
     
     def update_state_when_done(self, sched_id, client_id):
+        query_technician_id = """
+        SELECT technician_id 
+        FROM SCHEDULE 
+        WHERE client_id = {} AND schedule_id = {}
+        """.format(client_id, sched_id)
+        technician_id = handle_select(query_technician_id)[0][0] 
 
-        query1 = """
-        UPDATE TECHNICIAN
-        SET state = 'Idle'
-        WHERE technician_id = (
-            SELECT technician_id
-            FROM SCHEDULE
-            WHERE client_id = %s AND schedule_id = %s
-        );
-        """
-
-        data1 = (client_id, sched_id) 
-        handle_transaction(query1, data1)
-
-        query = """
-        UPDATE SCHEDULE
-        SET status = 'Done', technician_id = NULL
-        WHERE client_id = %s AND schedule_id = %s ;
-        """
-        data = (client_id, sched_id) 
-        handle_transaction(query, data)
-
+        if not technician_id:
+            return "No technician assigned to this schedule."
         
 
+        # Check if the technician is assigned to any other schedules
+        query_check_other_assignments = """
+        SELECT COUNT(*) 
+        FROM SCHEDULE 
+        WHERE technician_id = {} AND status != 'Done' 
+        """.format(technician_id)
+        count = handle_select(query_check_other_assignments)[0][0]
+
+
+        query = """
+        UPDATE SCHEDULE 
+        SET status = 'Done', technician_id = NULL 
+        WHERE client_id = %s AND schedule_id = %s ;
+        """
+        data = (client_id, sched_id)
+        handle_transaction(query, data)
+
+        if count == 1:
+            # If no other schedules are assigned to this technician, update their state to 'Idle'
+            query_update_technician = """
+            UPDATE TECHNICIAN 
+            SET state = 'Idle' 
+            WHERE technician_id = %s 
+            """
+            data_check = (technician_id,)
+            handle_transaction(query_update_technician, data_check)
+
+        return "Schedule status updated successfully."
+
+        
     def posting_schedulizer(self, sched_id, start_date, end_date):
         ref_sched = start_date
         day_tester = None
@@ -281,6 +298,7 @@ class Schedule:
     def round_robin(self):
         rr_queue = []
 
+        # Get the list of idle technicians
         query_techs = """
             SELECT technician_id, CONCAT(first_name, ' ', last_name) AS 'Available Technician', state 
             FROM TECHNICIAN 
@@ -296,17 +314,32 @@ class Schedule:
         # Shuffle the queue to randomize the starting point
         random.shuffle(rr_queue)
 
+        # Get the schedules for tomorrow
         schedules_tomorrow = self.show_sched_for_tom()
         if not schedules_tomorrow:
             return "No Schedules for tomorrow."
+
+        all_assigned = True
+        for sched in schedules_tomorrow:
+            print(sched[8])
+            if sched[8] is None:
+                all_assigned = False
+                break
+
+        if all_assigned:
+            return "All schedules for tomorrow are already assigned."
 
         rr_index = 0
         num_techs = len(rr_queue)
         for sched in schedules_tomorrow:
             schedule_id = sched[0]  # Schedule ID
+            technician_id_assigned = sched[8]  # Assuming the second element is technician_id
             sched_time_in = sched[2]
             sched_time_out = sched[3]
-            
+
+            if technician_id_assigned is not None:
+                continue  # Skip if the schedule is already assigned
+
             # Keep track of how many technicians we've checked
             technicians_checked = 0
             assigned = False
@@ -330,7 +363,7 @@ class Schedule:
                         SELECT schedule_type
                         FROM SCHEDULE
                         WHERE schedule_id = {}
-                        order by start_date, time_in, time_out ASC
+                        ORDER BY start_date, time_in, time_out ASC
                     """.format(schedule_id)
                     schedule_type = handle_select(query_type)[0][0]
 
@@ -342,7 +375,7 @@ class Schedule:
                         rr_queue.pop(rr_index)
                         num_techs -= 1
                         assigned = True
-                    else:  # Default schedule type
+                    else: 
                         # Check if the technician has been assigned less than twice
                         query_count = """
                             SELECT COUNT(*)
@@ -367,6 +400,7 @@ class Schedule:
                 return "Could not assign all schedules due to conflicts."
 
         return "Technicians assigned successfully."
+
 
             
     def show_sched_for_tom(self):
@@ -404,16 +438,21 @@ class Schedule:
 
     def search(self, input):
         query = f"""
-            select * from SCHEDULE 
+    select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+    time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+    inner join client as c on s.client_id = c.client_id
+       left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
             where (
             schedule_id LIKE '%{input}%'
-            OR client_id LIKE '%{input}%'
-            OR technician_id LIKE '%{input}%' 
+            OR s.client_id LIKE '%{input}%'
+            OR s.technician_id LIKE '%{input}%' 
             OR schedule_type LIKE '%{input}%' 
             OR start_date LIKE '%{input}%' 
             OR time_in LIKE '%{input}%'
             OR time_out LIKE '%{input}%'
-            ) and void = 0
+            OR c.name LIKE '%{input}%'
+            ) and s.void = 0
         """
         return handle_select(query)
     
