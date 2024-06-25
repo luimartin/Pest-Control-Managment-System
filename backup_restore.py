@@ -48,9 +48,9 @@ host = 'localhost'
 user = 'root'
 password = '030709'
 database = 'mansys'
-backup_dir = '/Users/deini/OneDrive/Desktop/backup'
-backup_file = '/Users/deini/OneDrive/Desktop/backup/mansys_backup_20240625144451.sql'
+backup_dir = '/Users/luian/Downloads'
+backup_file = 'C:/Users/luian/Downloads/mansys_backup_20240625144451.sql'
 #C:\Users\deini\OneDrive\Desktop\New folder
 # Uncomment the following lines to perform backup or restore
 #backup_database(host, user, password, database, backup_dir)
-#restore_database(host, user, password, database, backup_file)
+restore_database(host, user, password, database, backup_file)
