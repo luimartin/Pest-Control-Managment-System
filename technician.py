@@ -124,7 +124,10 @@ class Technician:
     
     def search(self, input):
         query = f"""
-            select * from TECHNICIAN 
+            select technician_id,concat(TECHNICIAN.first_name, " ", 
+            TECHNICIAN.last_name)
+        , phone_num, address ,state, null, null, null
+            from TECHNICIAN 
             where (
             first_name LIKE '%{input}%'
             OR last_name LIKE '%{input}%'

@@ -35,17 +35,23 @@ class Ui_MainWindow(object):
 "    width: 100%;\n"
 "    border: none;\n"
 "    text-align: left;\n"
-"    padding-left:10px \n"
+"    padding-left:10px;\n"
+"    background-color: rgb(244, 252, 245)\n"
+"\n"
+"\n"
 "}\n"
 "\n"
 "QPushButton:checked{\n"
-"         background-color: #B6DF9A;\n"
+"         background-color: rgb(182, 223, 154);\n"
 "}\n"
 "\n"
 "QPushButton:hover{\n"
-"         background-color: #B6DF9A;\n"
+"         background-color: rgb(182, 223, 154);\n"
 "}\n"
-"")
+"\n"
+"QPushButton:pressed{\n"
+"    background-color: rgb(182, 223, 154);\n"
+"}")
         self.moduleMenu.setObjectName("moduleMenu")
         self.layoutWidget = QtWidgets.QWidget(parent=self.moduleMenu)
         self.layoutWidget.setGeometry(QtCore.QRect(20, 130, 131, 631))
@@ -57,8 +63,7 @@ class Ui_MainWindow(object):
         self.pushButton_10 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_10.setMinimumSize(QtCore.QSize(129, 52))
         self.pushButton_10.setMaximumSize(QtCore.QSize(129, 52))
-        self.pushButton_10.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_10.setStyleSheet("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/newPrefix/15232.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.pushButton_10.setIcon(icon)
@@ -67,8 +72,7 @@ class Ui_MainWindow(object):
         self.pushButton_5 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_5.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_5.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_5.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_5.setStyleSheet("")
         self.pushButton_5.setCheckable(True)
         self.pushButton_5.setAutoExclusive(True)
         self.pushButton_5.setObjectName("pushButton_5")
@@ -76,8 +80,7 @@ class Ui_MainWindow(object):
         self.pushButton_4 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_4.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_4.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_4.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_4.setStyleSheet("")
         self.pushButton_4.setCheckable(True)
         self.pushButton_4.setAutoExclusive(True)
         self.pushButton_4.setObjectName("pushButton_4")
@@ -85,8 +88,7 @@ class Ui_MainWindow(object):
         self.pushButton_9 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_9.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_9.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_9.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_9.setStyleSheet("")
         self.pushButton_9.setCheckable(True)
         self.pushButton_9.setAutoExclusive(True)
         self.pushButton_9.setObjectName("pushButton_9")
@@ -94,8 +96,7 @@ class Ui_MainWindow(object):
         self.pushButton_8 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_8.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_8.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_8.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_8.setStyleSheet("")
         self.pushButton_8.setCheckable(True)
         self.pushButton_8.setAutoExclusive(True)
         self.pushButton_8.setObjectName("pushButton_8")
@@ -104,63 +105,35 @@ class Ui_MainWindow(object):
         self.pushButton.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton.setMaximumSize(QtCore.QSize(129, 57))
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Active, QtGui.QPalette.ColorRole.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Inactive, QtGui.QPalette.ColorRole.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
-        palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+        brush = QtGui.QBrush(QtGui.QColor(244, 252, 245))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.Window, brush)
         self.pushButton.setPalette(palette)
-        self.pushButton.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton.setStyleSheet("")
         self.pushButton.setCheckable(True)
         self.pushButton.setAutoExclusive(True)
         self.pushButton.setObjectName("pushButton")
@@ -169,8 +142,7 @@ class Ui_MainWindow(object):
         self.pushButton_3.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_3.setMaximumSize(QtCore.QSize(129, 57))
         self.pushButton_3.setAutoFillBackground(False)
-        self.pushButton_3.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_3.setStyleSheet("")
         self.pushButton_3.setCheckable(True)
         self.pushButton_3.setAutoExclusive(True)
         self.pushButton_3.setObjectName("pushButton_3")
@@ -178,8 +150,7 @@ class Ui_MainWindow(object):
         self.pushButton_6 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_6.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_6.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_6.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_6.setStyleSheet("")
         self.pushButton_6.setCheckable(True)
         self.pushButton_6.setAutoExclusive(True)
         self.pushButton_6.setObjectName("pushButton_6")
@@ -187,8 +158,7 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_2.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_2.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_2.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_2.setStyleSheet("")
         self.pushButton_2.setCheckable(True)
         self.pushButton_2.setAutoExclusive(True)
         self.pushButton_2.setObjectName("pushButton_2")
@@ -196,8 +166,7 @@ class Ui_MainWindow(object):
         self.pushButton_7 = QtWidgets.QPushButton(parent=self.layoutWidget)
         self.pushButton_7.setMinimumSize(QtCore.QSize(129, 57))
         self.pushButton_7.setMaximumSize(QtCore.QSize(129, 57))
-        self.pushButton_7.setStyleSheet("QPushButton {background-color: white; color: black;}\n"
-"QPushButton::pressed{background-color : B6DF9A;}")
+        self.pushButton_7.setStyleSheet("")
         self.pushButton_7.setCheckable(True)
         self.pushButton_7.setAutoExclusive(True)
         self.pushButton_7.setObjectName("pushButton_7")
@@ -479,12 +448,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.technicianPage)
         self.salesPage = QtWidgets.QWidget()
         self.salesPage.setObjectName("salesPage")
-        self.salesLabel = QtWidgets.QLabel(parent=self.salesPage)
-        self.salesLabel.setGeometry(QtCore.QRect(30, 40, 251, 71))
-        self.salesLabel.setLineWidth(0)
-        self.salesLabel.setScaledContents(False)
-        self.salesLabel.setIndent(3)
-        self.salesLabel.setObjectName("salesLabel")
         self.saleTable = QtWidgets.QTableWidget(parent=self.salesPage)
         self.saleTable.setGeometry(QtCore.QRect(30, 210, 971, 461))
         self.saleTable.setObjectName("saleTable")
@@ -560,7 +523,7 @@ class Ui_MainWindow(object):
 "}")
         self.maintenancePage.setObjectName("maintenancePage")
         self.textBrowser = QtWidgets.QTextBrowser(parent=self.maintenancePage)
-        self.textBrowser.setGeometry(QtCore.QRect(90, 280, 801, 471))
+        self.textBrowser.setGeometry(QtCore.QRect(40, 240, 951, 441))
         self.textBrowser.setStyleSheet("border: none")
         self.textBrowser.setObjectName("textBrowser")
         self.widget_6 = QtWidgets.QWidget(parent=self.maintenancePage)
@@ -576,28 +539,33 @@ class Ui_MainWindow(object):
         self.label_11.setScaledContents(False)
         self.label_11.setIndent(3)
         self.label_11.setObjectName("label_11")
-        self.addAdminBtn = QtWidgets.QPushButton(parent=self.widget_6)
-        self.addAdminBtn.setGeometry(QtCore.QRect(740, 60, 122, 38))
+        self.layoutWidget3 = QtWidgets.QWidget(parent=self.widget_6)
+        self.layoutWidget3.setGeometry(QtCore.QRect(370, 70, 631, 51))
+        self.layoutWidget3.setObjectName("layoutWidget3")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget3)
+        self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.addAdminBtn = QtWidgets.QPushButton(parent=self.layoutWidget3)
         self.addAdminBtn.setStyleSheet("QPushButton {background-color:rgb(217, 217, 217); color: black;}")
-        self.layoutWidget4 = QtWidgets.QWidget(parent=self.maintenancePage)
-        self.layoutWidget4.setGeometry(QtCore.QRect(520, 60, 461, 51))
-        self.layoutWidget4.setObjectName("layoutWidget4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget4)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_3.setSpacing(14)
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.backupBtn = QtWidgets.QPushButton(parent=self.layoutWidget4)
-        self.backupBtn.setObjectName("backupBtn")
-        self.horizontalLayout_3.addWidget(self.backupBtn)
-        self.restoreBtn = QtWidgets.QPushButton(parent=self.layoutWidget4)
-        self.restoreBtn.setObjectName("restoreBtn")
-        self.horizontalLayout_3.addWidget(self.restoreBtn)
-        self.addAdminBtn = QtWidgets.QPushButton(parent=self.layoutWidget4)
         self.addAdminBtn.setObjectName("addAdminBtn")
-        self.userLogBtn = QtWidgets.QPushButton(parent=self.widget_6)
-        self.userLogBtn.setGeometry(QtCore.QRect(870, 60, 122, 38))
+        self.horizontalLayout.addWidget(self.addAdminBtn)
+        self.editAdminBtn = QtWidgets.QPushButton(parent=self.layoutWidget3)
+        self.editAdminBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.editAdminBtn.setObjectName("editAdminBtn")
+        self.horizontalLayout.addWidget(self.editAdminBtn)
+        self.restoretBn = QtWidgets.QPushButton(parent=self.layoutWidget3)
+        self.restoretBn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.restoretBn.setObjectName("restoretBn")
+        self.horizontalLayout.addWidget(self.restoretBn)
+        self.backupBtn = QtWidgets.QPushButton(parent=self.layoutWidget3)
+        self.backupBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}\n"
+"")
+        self.backupBtn.setObjectName("backupBtn")
+        self.horizontalLayout.addWidget(self.backupBtn)
+        self.userLogBtn = QtWidgets.QPushButton(parent=self.layoutWidget3)
         self.userLogBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.userLogBtn.setObjectName("userLogBtn")
+        self.horizontalLayout.addWidget(self.userLogBtn)
         self.widget_6.raise_()
         self.textBrowser.raise_()
         self.stackedWidget.addWidget(self.maintenancePage)
@@ -687,6 +655,30 @@ class Ui_MainWindow(object):
         self.helpsearch.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         self.helpsearch.setCursorPosition(0)
         self.helpsearch.setObjectName("helpsearch")
+        self.inventoryBtn_3 = QtWidgets.QPushButton(parent=self.widget_8)
+        self.inventoryBtn_3.setGeometry(QtCore.QRect(620, 70, 122, 38))
+        self.inventoryBtn_3.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.inventoryBtn_3.setObjectName("inventoryBtn_3")
+        self.clienthelp = QtWidgets.QPushButton(parent=self.widget_8)
+        self.clienthelp.setGeometry(QtCore.QRect(230, 70, 122, 38))
+        self.clienthelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.clienthelp.setObjectName("clienthelp")
+        self.inventoryhelp = QtWidgets.QPushButton(parent=self.widget_8)
+        self.inventoryhelp.setGeometry(QtCore.QRect(490, 70, 122, 38))
+        self.inventoryhelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.inventoryhelp.setObjectName("inventoryhelp")
+        self.smshelp = QtWidgets.QPushButton(parent=self.widget_8)
+        self.smshelp.setGeometry(QtCore.QRect(880, 70, 122, 38))
+        self.smshelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.smshelp.setObjectName("smshelp")
+        self.schedulehelp = QtWidgets.QPushButton(parent=self.widget_8)
+        self.schedulehelp.setGeometry(QtCore.QRect(360, 70, 122, 38))
+        self.schedulehelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.schedulehelp.setObjectName("schedulehelp")
+        self.snrhelp = QtWidgets.QPushButton(parent=self.widget_8)
+        self.snrhelp.setGeometry(QtCore.QRect(750, 70, 122, 38))
+        self.snrhelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
+        self.snrhelp.setObjectName("snrhelp")
         self.stackedWidget.addWidget(self.helpPage)
         self.aboutPage = QtWidgets.QWidget()
         self.aboutPage.setObjectName("aboutPage")
@@ -703,6 +695,38 @@ class Ui_MainWindow(object):
         self.aboutLbl.setScaledContents(False)
         self.aboutLbl.setIndent(3)
         self.aboutLbl.setObjectName("aboutLbl")
+        self.aboutLbl_2 = QtWidgets.QLabel(parent=self.aboutPage)
+        self.aboutLbl_2.setGeometry(QtCore.QRect(70, 220, 381, 81))
+        self.aboutLbl_2.setLineWidth(0)
+        self.aboutLbl_2.setScaledContents(False)
+        self.aboutLbl_2.setIndent(3)
+        self.aboutLbl_2.setObjectName("aboutLbl_2")
+        self.aboutLbl_3 = QtWidgets.QLabel(parent=self.aboutPage)
+        self.aboutLbl_3.setGeometry(QtCore.QRect(70, 320, 381, 81))
+        self.aboutLbl_3.setLineWidth(0)
+        self.aboutLbl_3.setScaledContents(False)
+        self.aboutLbl_3.setIndent(3)
+        self.aboutLbl_3.setObjectName("aboutLbl_3")
+        self.aboutLbl_4 = QtWidgets.QLabel(parent=self.aboutPage)
+        self.aboutLbl_4.setGeometry(QtCore.QRect(70, 530, 381, 81))
+        self.aboutLbl_4.setLineWidth(0)
+        self.aboutLbl_4.setScaledContents(False)
+        self.aboutLbl_4.setIndent(3)
+        self.aboutLbl_4.setObjectName("aboutLbl_4")
+        self.aboutLbl_5 = QtWidgets.QLabel(parent=self.aboutPage)
+        self.aboutLbl_5.setGeometry(QtCore.QRect(390, 220, 141, 81))
+        self.aboutLbl_5.setLineWidth(0)
+        self.aboutLbl_5.setScaledContents(False)
+        self.aboutLbl_5.setIndent(3)
+        self.aboutLbl_5.setObjectName("aboutLbl_5")
+        self.textBrowser_2 = QtWidgets.QTextBrowser(parent=self.aboutPage)
+        self.textBrowser_2.setGeometry(QtCore.QRect(160, 410, 781, 131))
+        self.textBrowser_2.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        self.textBrowser_3 = QtWidgets.QTextBrowser(parent=self.aboutPage)
+        self.textBrowser_3.setGeometry(QtCore.QRect(160, 610, 781, 131))
+        self.textBrowser_3.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.textBrowser_3.setObjectName("textBrowser_3")
         self.stackedWidget.addWidget(self.aboutPage)
         self.voidClients = QtWidgets.QWidget()
         self.voidClients.setObjectName("voidClients")
@@ -717,19 +741,6 @@ class Ui_MainWindow(object):
         self.voidclientsTable.setObjectName("voidclientsTable")
         self.voidclientsTable.setColumnCount(0)
         self.voidclientsTable.setRowCount(0)
-        self.voidBackBtn = QtWidgets.QPushButton(parent=self.voidClients)
-        self.voidBackBtn.setGeometry(QtCore.QRect(890, 60, 101, 38))
-        self.voidBackBtn.setStyleSheet("QPushButton{\n"
-"border: none;\n"
-"background-color: #E35C5C;\n"
-"font-size: 14px;\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"    background-color: rgb(211, 79, 79);\n"
-"    \n"
-"}")
-        self.voidBackBtn.setObjectName("voidBackBtn")
         self.voidclientSearchBtn = QtWidgets.QPushButton(parent=self.voidClients)
         self.voidclientSearchBtn.setGeometry(QtCore.QRect(910, 130, 91, 31))
         self.voidclientSearchBtn.setIcon(icon1)
@@ -747,10 +758,22 @@ class Ui_MainWindow(object):
         self.label_13.setScaledContents(False)
         self.label_13.setIndent(3)
         self.label_13.setObjectName("label_13")
+        self.voidBackBtn = QtWidgets.QPushButton(parent=self.widget_20)
+        self.voidBackBtn.setGeometry(QtCore.QRect(900, 60, 101, 38))
+        self.voidBackBtn.setStyleSheet("QPushButton{\n"
+"border: none;\n"
+"background-color: #E35C5C;\n"
+"font-size: 14px;\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"    background-color: rgb(211, 79, 79);\n"
+"    \n"
+"}")
+        self.voidBackBtn.setObjectName("voidBackBtn")
         self.widget_20.raise_()
         self.voidclientsTable.raise_()
         self.voidclientSearch.raise_()
-        self.voidBackBtn.raise_()
         self.voidclientSearchBtn.raise_()
         self.stackedWidget.addWidget(self.voidClients)
         self.chemicalsPage = QtWidgets.QWidget()
@@ -941,24 +964,24 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.materialsPage)
         self.contractPage = QtWidgets.QWidget()
         self.contractPage.setObjectName("contractPage")
-        self.layoutWidget3 = QtWidgets.QWidget(parent=self.contractPage)
-        self.layoutWidget3.setGeometry(QtCore.QRect(540, 240, 461, 481))
-        self.layoutWidget3.setObjectName("layoutWidget3")
-        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.layoutWidget3)
+        self.layoutWidget4 = QtWidgets.QWidget(parent=self.contractPage)
+        self.layoutWidget4.setGeometry(QtCore.QRect(540, 240, 461, 481))
+        self.layoutWidget4.setObjectName("layoutWidget4")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.layoutWidget4)
         self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_9.setSpacing(27)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
-        self.layoutWidget4 = QtWidgets.QWidget(parent=self.contractPage)
-        self.layoutWidget4.setGeometry(QtCore.QRect(-20, 200, 1041, 30))
-        self.layoutWidget4.setObjectName("layoutWidget4")
-        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.layoutWidget4)
+        self.layoutWidget5 = QtWidgets.QWidget(parent=self.contractPage)
+        self.layoutWidget5.setGeometry(QtCore.QRect(-20, 200, 1041, 30))
+        self.layoutWidget5.setObjectName("layoutWidget5")
+        self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.layoutWidget5)
         self.horizontalLayout_10.setContentsMargins(40, 0, 0, 0)
         self.horizontalLayout_10.setSpacing(40)
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        self.label_2 = QtWidgets.QLabel(parent=self.layoutWidget4)
+        self.label_2 = QtWidgets.QLabel(parent=self.layoutWidget5)
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_10.addWidget(self.label_2)
-        self.label_3 = QtWidgets.QLabel(parent=self.layoutWidget4)
+        self.label_3 = QtWidgets.QLabel(parent=self.layoutWidget5)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_10.addWidget(self.label_3)
         self.verticalLayoutWidget = QtWidgets.QWidget(parent=self.contractPage)
@@ -990,15 +1013,15 @@ class Ui_MainWindow(object):
         self.label_17.setIndent(3)
         self.label_17.setObjectName("label_17")
         self.pushButton_14 = QtWidgets.QPushButton(parent=self.widget_16)
-        self.pushButton_14.setGeometry(QtCore.QRect(610, 60, 122, 38))
+        self.pushButton_14.setGeometry(QtCore.QRect(620, 60, 122, 38))
         self.pushButton_14.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.pushButton_14.setObjectName("pushButton_14")
         self.editcontractBtn = QtWidgets.QPushButton(parent=self.widget_16)
-        self.editcontractBtn.setGeometry(QtCore.QRect(740, 60, 122, 38))
+        self.editcontractBtn.setGeometry(QtCore.QRect(750, 60, 122, 38))
         self.editcontractBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.editcontractBtn.setObjectName("editcontractBtn")
         self.backBtn = QtWidgets.QPushButton(parent=self.widget_16)
-        self.backBtn.setGeometry(QtCore.QRect(870, 60, 122, 38))
+        self.backBtn.setGeometry(QtCore.QRect(880, 60, 122, 38))
         self.backBtn.setStyleSheet("QPushButton{\n"
 "border: none;\n"
 "background-color: #E35C5C;\n"
@@ -1127,7 +1150,7 @@ class Ui_MainWindow(object):
         self.label_22.setIndent(3)
         self.label_22.setObjectName("label_22")
         self.servicebackBtn = QtWidgets.QPushButton(parent=self.widget_13)
-        self.servicebackBtn.setGeometry(QtCore.QRect(870, 70, 122, 38))
+        self.servicebackBtn.setGeometry(QtCore.QRect(870, 60, 122, 38))
         self.servicebackBtn.setStyleSheet("QPushButton{\n"
 "border: none;\n"
 "background-color: #E35C5C;\n"
@@ -1164,11 +1187,11 @@ class Ui_MainWindow(object):
         self.label_23.setIndent(3)
         self.label_23.setObjectName("label_23")
         self.roundrobinBtn = QtWidgets.QPushButton(parent=self.widget_12)
-        self.roundrobinBtn.setGeometry(QtCore.QRect(780, 70, 101, 38))
+        self.roundrobinBtn.setGeometry(QtCore.QRect(780, 60, 101, 38))
         self.roundrobinBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.roundrobinBtn.setObjectName("roundrobinBtn")
         self.schedBackBtn = QtWidgets.QPushButton(parent=self.widget_12)
-        self.schedBackBtn.setGeometry(QtCore.QRect(890, 70, 101, 38))
+        self.schedBackBtn.setGeometry(QtCore.QRect(890, 60, 101, 38))
         self.schedBackBtn.setStyleSheet("QPushButton{\n"
 "border: none;\n"
 "background-color: #E35C5C;\n"
@@ -1273,7 +1296,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(19)
+        self.stackedWidget.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1316,24 +1339,37 @@ class Ui_MainWindow(object):
         self.addSalesBtn.setText(_translate("MainWindow", "Add Sales"))
         self.inventorySearch_2.setPlaceholderText(_translate("MainWindow", "Search"))
         self.salesLabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Sales</span></p><p><span style=\" font-size:36pt; color:#000000;\"><br/></span></p></body></html>"))
-        self.backupBtn.setText(_translate("MainWindow", "Back Up"))
-        self.restoreBtn.setText(_translate("MainWindow", "Restore"))
         self.reportBtn.setText(_translate("MainWindow", "Report"))
         self.pushButton_12.setText(_translate("MainWindow", "Forecast"))
         self.pushButton_11.setText(_translate("MainWindow", "Average Sales"))
         self.revenueBtn.setText(_translate("MainWindow", "Revenue"))
         self.salesBtn.setText(_translate("MainWindow", "Sales"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:18pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:700;\">Edit Admin: </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To edit the question and answer data of the admin account, click the &quot;Edit Admin&quot; button. </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:700;\">Back Up:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To save the entire data of the system, click the &quot;Back Up&quot; button. This will save to your local computer.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:700;\">Restore:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To restore the entire data of the system, click the &quot;Restore&quot; button. Choose the file that have been generated by the back up feature. (.sql file)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\"><br /></span><span style=\" font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
         self.label_11.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Maintenance</span></p></body></html>"))
         self.addAdminBtn.setText(_translate("MainWindow", "Add Admin"))
+        self.editAdminBtn.setText(_translate("MainWindow", "Edit Admin"))
+        self.restoretBn.setText(_translate("MainWindow", "Restore"))
+        self.backupBtn.setText(_translate("MainWindow", "Back Up"))
         self.userLogBtn.setText(_translate("MainWindow", "User Logs"))
         self.addSMSBtn.setText(_translate("MainWindow", "Add SMS"))
         self.label_18.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">SMS Format</span></p></body></html>"))
@@ -1342,11 +1378,39 @@ class Ui_MainWindow(object):
         self.techSMSBtn.setText(_translate("MainWindow", "Technician SMS"))
         self.helplabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Help</span></p></body></html>"))
         self.helpsearch.setPlaceholderText(_translate("MainWindow", "Search"))
+        self.inventoryBtn_3.setText(_translate("MainWindow", "Technician"))
+        self.clienthelp.setText(_translate("MainWindow", "Clients"))
+        self.inventoryhelp.setText(_translate("MainWindow", "Inventory"))
+        self.smshelp.setText(_translate("MainWindow", "SMS Format"))
+        self.schedulehelp.setText(_translate("MainWindow", "Schedules"))
+        self.snrhelp.setText(_translate("MainWindow", "Sales and Revenue"))
         self.aboutLbl.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">About</span></p></body></html>"))
+        self.aboutLbl_2.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; color:#000000;\">System Version</span></p></body></html>"))
+        self.aboutLbl_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Description</span></p></body></html>"))
+        self.aboutLbl_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Developers</span></p></body></html>"))
+        self.aboutLbl_5.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; font-style:italic;\">1.0.0</span></p></body></html>"))
+        self.textBrowser_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.</span></p></body></html>"))
+        self.textBrowser_3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Batao, Bianca Louise (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Cruz, Deinielle Anjhelo (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Martin, Lui Andrei (Programmer)</span></p></body></html>"))
         self.voidclientSearch.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.voidBackBtn.setText(_translate("MainWindow", "Back"))
         self.voidclientSearchBtn.setText(_translate("MainWindow", "Search"))
         self.label_13.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Void Client</span></p></body></html>"))
+        self.voidBackBtn.setText(_translate("MainWindow", "Back"))
         self.chemicalSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.chemicalsAddBtn.setText(_translate("MainWindow", "Add"))
         self.label_12.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Chemicals</span></p></body></html>"))
@@ -1391,13 +1455,3 @@ class Ui_MainWindow(object):
         self.userlogbackBtn.setText(_translate("MainWindow", "Back"))
         self.label_44.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Today Schedule</span></p></body></html>"))
         self.todayschedbackBtn.setText(_translate("MainWindow", "Back"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

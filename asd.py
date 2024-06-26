@@ -1,33 +1,23 @@
 import sys
-import matplotlib
-matplotlib.use('QtAgg')
-
-from PyQt6 import QtCore, QtWidgets
-from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg
+from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton
 import matplotlib.pyplot as plt
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
+import random
 from sales import Sales
-
-class SaleTrendDialog(QDialog):
+class SaleTrendDialog(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle('Monthly Total Sale')
-        self.setGeometry(100, 100, 800, 600)
-        self.sale = Sales()
-        layout = QVBoxLayout()
-        self.setLayout(layout)
-        self.plot_widget = SaleTrendWidget()
-        layout.addWidget(self.plot_widget)
-        #self.show()
 
-class SaleTrendWidget(FigureCanvasQTAgg):
-    def __init__(self):
-        self.sale = Sales()
-        data = self.sale.monthly_total_sale()
-        self.fig, self.ax = plt.subplots(figsize=(10, 6))
-        super().__init__(self.fig)
+        self.setWindowTitle("Matplotlib with PyQt6")
+        self.setGeometry(100, 100, 800, 600)
+
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        self.s = Sales()
+        layout = QVBoxLayout()
+        central_widget.setLayout(layout)
+
+        # Generate mock data (replace with your actual data loading logic)
+        data = self.s.monthly_total_sale()
 
         # Convert the month names to month numbers
         month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -40,12 +30,14 @@ class SaleTrendWidget(FigureCanvasQTAgg):
             dates.append(date_str)
         total = [row[2] for row in data]
 
-        self.ax.plot(dates, total, marker='o', linestyle='-')
-        self.ax.set_xlabel('Date')
-        self.ax.set_ylabel('Total Sale')
-        self.ax.set_title('Monthly Total Sale')
-        self.ax.tick_params(axis='x', rotation=45)
-        self.ax.grid(True)
+        plt.rcParams['toolbar'] = 'None'
+        plt.figure(figsize=(10, 6))
+        plt.plot(dates, total, marker='o', linestyle='-')
+        plt.xlabel('Date')
+        plt.ylabel('Total Sale')
+        plt.title('Monthly Total Sale')
+        plt.xticks(rotation=45)
+        plt.grid(True)
 
         window_size = 3
         moving_avg = []
@@ -53,14 +45,13 @@ class SaleTrendWidget(FigureCanvasQTAgg):
             avg = sum(total[i:i+window_size]) / window_size
             moving_avg.append(avg)
 
-        last_date = datetime.strptime(dates[-1], '%Y-%m')
-        next_dates = [last_date + relativedelta(months=i) for i in range(1, 4)]
+        plt.plot(dates[:-window_size+1], moving_avg, color='red', linestyle='--', label='Moving Average')
+        plt.legend()
 
-        last_value = total[-1]
-        prediction = [last_value] * 3
+        plt.tight_layout()
 
-        self.ax.plot(dates[:-window_size+1], moving_avg, color='red', linestyle='--', label='Moving Average')
-        self.ax.plot([date.strftime('%Y-%m') for date in next_dates], prediction, color='green', linestyle='--', label='Predicted Total Sale')
-        self.ax.legend()
+        # Create matplotlib widget
+        self.canvas = plt.gcf()
+        layout.addWidget(self.canvas.canvas)
 
-        self.fig.tight_layout()
+

@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designforgotpassUI import Ui_forgotPassword
+from PyQt6 import QtGui
 from GUI.changepassUI import ChangePass
 from user import User
 from user import User
@@ -14,6 +15,7 @@ class ForgotPass(QDialog, Ui_forgotPassword):
         self.forgotPassCancelBtn.clicked.connect(lambda: self.close())
         self.changePassSubmitBtn.clicked.connect(self.forgotpassHandler)
         self.changePassSubmitBtn_2.clicked.connect(self.questions)
+        self.adminIDInput.setValidator(QtGui.QIntValidator())
         self.q1label.setVisible(False)
         self.q2label.setVisible(False)
         self.label_2.setVisible(False)

@@ -122,7 +122,7 @@ class AddAdmin(QDialog, Ui_Dialog):
             self.user.add_user(user, password, q1, a1, q2, a2)
             self.user.add_backlogs(self.admin, "Admin Added")
             self.notif("Admin Added", QMessageBox.Icon.Information)
-            self.close()
+            self.close() 
         print(user, password, confirmpass, q1, q2, a1, a2)
     
     def notif(self, message, icon):

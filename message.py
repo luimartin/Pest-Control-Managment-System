@@ -72,11 +72,10 @@ class Message:
             select * from MESSAGE 
             where (
             message_id LIKE '%{input}%'
-            OR client_id LIKE '%{input}%'
-            OR technician_id LIKE '%{input}%' 
+            OR title LIKE '%{input}%'
             OR message_category LIKE '%{input}%' 
             OR message LIKE '%{input}%' 
-            ) and void = 0
+            )
         """
         return handle_select(query) 
 

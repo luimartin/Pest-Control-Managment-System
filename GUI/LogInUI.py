@@ -3,13 +3,14 @@ from GUI.designLoginUI import Ui_login
 from PyQt6 import QtGui
 from GUI.ForgotpassUI import ForgotPass
 from user import User
-
+from MainmenuUI import MainMenu
 class Window(QMainWindow, Ui_login):
     
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         self.User = User()
+        self.setWindowTitle("HomeFix LogIn")
         self.submitBtn.clicked.connect(self.loginHandler)
         self.forgotpassworBtn.clicked.connect(self.forgotPassHandler)
         self.adminIDInput.setValidator(QtGui.QIntValidator())
@@ -21,11 +22,18 @@ class Window(QMainWindow, Ui_login):
         if (adminID and username and password) == "":
             print("wala laman")
             self.notif(QMessageBox.Icon.Warning, "Fields cannot be null")
-
+            
         elif self.User.validate_user(adminID, password):
             print("mayinput")
-            self.notif(QMessageBox.Icon.Warning, "Fields cannot be null")
+            self.hide()
+            main = MainMenu(adminID, self)
+            self.adminIDInput.clear()
+            self.usernameInput.clear()
+            self.passwordInput.clear()
+            main.show()
+            #self.show()
             ## mainmenu here 
+
             
         else: 
             print("mali input")
@@ -35,11 +43,11 @@ class Window(QMainWindow, Ui_login):
         forgotdialog = ForgotPass()
         forgotdialog.exec()
         
-    def notif(self, icon):
+    def notif(self, icon, msg):
         noInput = QMessageBox()
         noInput.setWindowTitle("HomeFix")
         noInput.setIcon(icon)
-        noInput.setText("Please input Admin ID or Username or Password")
+        noInput.setText(msg)
         noInput.exec()
         
 

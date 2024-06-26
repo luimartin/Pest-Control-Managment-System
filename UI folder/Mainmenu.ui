@@ -69,17 +69,23 @@ QPushButton{
 	width: 100%;
 	border: none;
 	text-align: left;
-	padding-left:10px 
+	padding-left:10px;
+	background-color: rgb(244, 252, 245)
+
+
 }
 
 QPushButton:checked{
-	 	background-color: #B6DF9A;
+	 	background-color: rgb(182, 223, 154);
 }
 
 QPushButton:hover{
-	 	background-color: #B6DF9A;
+	 	background-color: rgb(182, 223, 154);
 }
-</string>
+
+QPushButton:pressed{
+	background-color: rgb(182, 223, 154);
+}</string>
     </property>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
@@ -109,9 +115,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Logout</string>
@@ -137,9 +141,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Sales and Revenue</string>
@@ -167,9 +169,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Technician</string>
@@ -197,9 +197,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>About</string>
@@ -227,9 +225,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Help</string>
@@ -348,9 +344,7 @@ QPushButton:hover{
          </palette>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Clients</string>
@@ -381,9 +375,7 @@ QPushButton:hover{
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Inventory</string>
@@ -411,9 +403,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Maintenance</string>
@@ -441,9 +431,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Schedules</string>
@@ -471,9 +459,7 @@ QPushButton:hover{
          </size>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(244, 252, 245)
-
-</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>SMS Format</string>
@@ -507,7 +493,7 @@ QPushButton:hover{
 </string>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -1429,10 +1415,10 @@ QPushButton:hover{
      <widget class="QTextBrowser" name="textBrowser">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>280</y>
-        <width>801</width>
-        <height>471</height>
+        <x>40</x>
+        <y>240</y>
+        <width>951</width>
+        <height>441</height>
        </rect>
       </property>
       <property name="styleSheet">
@@ -1440,14 +1426,26 @@ QPushButton:hover{
       </property>
       <property name="html">
        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:18pt; font-weight:696;&quot;&gt;Add Admin:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:18pt;&quot;&gt;To add an addtional admin account for the system, click the &amp;quot;Add Admin&amp;quot; button.  Once done, the new admin account can access the system with authorized level of access.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:9pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Segoe UI'; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:18pt; font-weight:696;&quot;&gt;User Logs:&lt;/span&gt;&lt;span style=&quot; font-family:'Segoe UI'; font-size:18pt;&quot;&gt;&lt;br /&gt;To view the activities happening within the system, click the &amp;quot;User Logs&amp;quot; button. This will display the audit trail of the admin's action. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:696;&quot;&gt;Add Admin:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;To add an addtional admin account for the system, click the &amp;quot;Add Admin&amp;quot; button.  Once done, the new admin account can access the system with authorized level of access.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Edit Admin: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;To edit the question and answer data of the admin account, click the &amp;quot;Edit Admin&amp;quot; button. &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Back Up:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;To save the entire data of the system, click the &amp;quot;Back Up&amp;quot; button. This will save to your local computer.&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt; font-weight:700;&quot;&gt;Restore:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;To restore the entire data of the system, click the &amp;quot;Restore&amp;quot; button. Choose the file that have been generated by the back up feature. (.sql file)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;span style=&quot; font-size:18pt; font-weight:696;&quot;&gt;User Logs:&lt;/span&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;&lt;br /&gt;To view the activities happening within the system, click the &amp;quot;User Logs&amp;quot; button. This will display the audit trail of the admin's action. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QWidget" name="widget_6" native="true">
@@ -1489,37 +1487,68 @@ background-color:rgb(182, 223, 154)
         <number>3</number>
        </property>
       </widget>
-      <widget class="QPushButton" name="addAdminBtn">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
-         <x>740</x>
-         <y>60</y>
-         <width>122</width>
-         <height>38</height>
+         <x>370</x>
+         <y>70</y>
+         <width>631</width>
+         <height>51</height>
         </rect>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {background-color:rgb(217, 217, 217); color: black;}</string>
-       </property>
-       <property name="text">
-        <string>Add Admin</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="userLogBtn">
-       <property name="geometry">
-        <rect>
-         <x>870</x>
-         <y>60</y>
-         <width>122</width>
-         <height>38</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
-       </property>
-       <property name="text">
-        <string>User Logs</string>
-       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="addAdminBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {background-color:rgb(217, 217, 217); color: black;}</string>
+          </property>
+          <property name="text">
+           <string>Add Admin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="editAdminBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+          </property>
+          <property name="text">
+           <string>Edit Admin</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="restoretBn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+          </property>
+          <property name="text">
+           <string>Restore</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="backupBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}
+</string>
+          </property>
+          <property name="text">
+           <string>Back Up</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="userLogBtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+          </property>
+          <property name="text">
+           <string>User Logs</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
      <zorder>widget_6</zorder>
@@ -1773,6 +1802,102 @@ background-color: white</string>
         <string>Search</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="inventoryBtn_3">
+       <property name="geometry">
+        <rect>
+         <x>620</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>Technician</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="clienthelp">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>Clients</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="inventoryhelp">
+       <property name="geometry">
+        <rect>
+         <x>490</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>Inventory</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="smshelp">
+       <property name="geometry">
+        <rect>
+         <x>880</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>SMS Format</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="schedulehelp">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>Schedules</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="snrhelp">
+       <property name="geometry">
+        <rect>
+         <x>750</x>
+         <y>70</y>
+         <width>122</width>
+         <height>38</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {background-color:rgb(88, 144, 50); color: white;}</string>
+       </property>
+       <property name="text">
+        <string>Sales and Revenue</string>
+       </property>
+      </widget>
      </widget>
     </widget>
     <widget class="QWidget" name="aboutPage">
@@ -1815,6 +1940,142 @@ background-color:rgb(182, 223, 154)
         <number>3</number>
        </property>
       </widget>
+     </widget>
+     <widget class="QLabel" name="aboutLbl_2">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>220</y>
+        <width>381</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:26pt; color:#000000;&quot;&gt;System Version&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="aboutLbl_3">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>320</y>
+        <width>381</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#000000;&quot;&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="aboutLbl_4">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>530</y>
+        <width>381</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:22pt; color:#000000;&quot;&gt;Developers&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="aboutLbl_5">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>220</y>
+        <width>141</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="lineWidth">
+       <number>0</number>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:36pt; font-style:italic;&quot;&gt;1.0.0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+      <property name="indent">
+       <number>3</number>
+      </property>
+     </widget>
+     <widget class="QTextBrowser" name="textBrowser_2">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>410</y>
+        <width>781</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; color:#000000;&quot;&gt;A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+     <widget class="QTextBrowser" name="textBrowser_3">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>610</y>
+        <width>781</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="html">
+       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; color:#000000;&quot;&gt;Batao, Bianca Louise (System Analyst)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; color:#000000;&quot;&gt;Cruz, Deinielle Anjhelo (System Analyst)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; color:#000000;&quot;&gt;Martin, Lui Andrei (Programmer)&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="voidClients">

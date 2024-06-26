@@ -124,11 +124,19 @@ class User:
     
     def show_userlog(self):
         query = """
-        select * from activity;
+            
     """ 
         return handle_select(query)
-u = User()
-print()
+    
+    def show_id(self):
+        query = """
+        select user_id, username from user;
+    """ 
+        return handle_select(query)
+
+#u = User()
+#print(u.get_data(11, 'question1, answer1, question2, answer2'))
+#print(u.show_id())
 #print(u.get_data(4, ("question1, question2")))
 #print(u.cp_questions(4,"Human", "Sugar Baby"))
 #u.add_user("joy", "030709", "What is the name of your pet?", "fallfee", "What is your favorite food of all time?", "sinigang")

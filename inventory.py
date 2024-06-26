@@ -113,7 +113,9 @@ class Inventory:
 
     def search(self, input):
         query = f"""
-            select * from INVENTORY 
+            select item_id,item_name, item_type, quantity, 
+            expiration, description, supplier, last_delivery_date 
+            from Inventory
             where (
             item_id LIKE '%{input}%'
             OR item_name LIKE '%{input}%'

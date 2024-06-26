@@ -79,7 +79,9 @@ class AddTechnician(QDialog, Ui_Dialog):
         self.admin = admin
         self.addBtn.clicked.connect(self.add)
         self.cancelBtn.clicked.connect(lambda: self.close())
-        self.phonenoInput.setValidator(QtGui.QIntValidator())
+        regex = QtCore.QRegularExpression(r"^0\d{0,10}$")
+        validator = QtGui.QRegularExpressionValidator(regex, self)
+        self.phonenoInput.setValidator(validator)
         self.which = which
         if which == "Edit":
             self.label_6.setText(QtCore.QCoreApplication.translate("Dialog", "<html><head/><body><p><span style=\" font-size:28pt;\">Edit Technician</span></p><p><br/></p></body></html>"))

@@ -53,4 +53,4 @@ backup_file = 'C:/Users/luian/Downloads/mansys_backup_20240625144451.sql'
 #C:\Users\deini\OneDrive\Desktop\New folder
 # Uncomment the following lines to perform backup or restore
 #backup_database(host, user, password, database, backup_dir)
-restore_database(host, user, password, database, backup_file)
+#restore_database(host, user, password, database, backup_file)
