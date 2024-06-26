@@ -194,19 +194,43 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     self.clientsTable.setItem(row_idx, col_idx, items)
 
                 schedview = QPushButton('View')
+                schedview.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #E3C55C"
+                    "}"
+                )
                 schedview.clicked.connect(partial(self.viewschedule, client_id))
                 self.clientsTable.setCellWidget(row_idx, 4, schedview)
 
                 contractview = QPushButton('View' if self.contract.has_a_contract(client_id) else 'Add')
+                contractview.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #90CE67"
+                    "}"
+                )
                 contractview.clicked.connect(partial(self.viewcontract if self.contract.has_a_contract(client_id) else self.addContract, client_id))
                 self.clientsTable.setCellWidget(row_idx, 5, contractview)
 
                 edit = QPushButton('Edit')
+                edit.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #5C7AE3"
+                    "}"
+                )
                 edit.clicked.connect(partial(self.editclient, client_id))
                 self.clientsTable.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Void')
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info, 1))
+                delete.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #E35C5C"
+                    "}"
+                )
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
