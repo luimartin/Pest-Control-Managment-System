@@ -134,15 +134,17 @@ from PyQt6.QtCore import QTime
 from datetime import date
 from clientinfo import ClientInfo
 from schedule import Schedule
+from user import User
 # if edit tangalin yung runner dito
 class AddSchedule(QDialog, Ui_Dialog):
-    def __init__(self, which, sched_id):
+    def __init__(self, which, sched_id, admin):
         super().__init__()
         self.setupUi(self)
         self.on_combo_box_changed(0)
         self.sched_id = sched_id
         self.which = which
-
+        self.u = User()
+        self.admin = admin
 
         self.comboBox.currentIndexChanged.connect(self.on_combo_box_changed)
         self.cancelBtn.clicked.connect(lambda: self.close())
@@ -185,17 +187,28 @@ class AddSchedule(QDialog, Ui_Dialog):
         time_out = self.timeoutInput.time()
         time_out = time_out.toString("HH:mm:ss")
         end_date = end_date.toString("yyyy-MM-dd")
-
+        print(start_date, end_date)
         if self.which == "Edit":
             if treatment == "Posting":
-                print(treatment, id, self.sched_id)
-                self.s.edit_schedule_info(self.sched_id, 'start_date', start_date)
-                self.s.edit_schedule_info(self.sched_id, 'end_date', end_date)
+                if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
+                elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
+                else:
+                    print(treatment, id, self.sched_id)
+                    self.s.posting_modifier(self.sched_id, start_date, end_date)
+                    self.u.add_backlogs(self.admin, "Edited Schedule")
+                    self.notif(QMessageBox.Icon.Information, "Schedule Edited" )
+                    self.close()
             else:
-                self.s.edit_schedule_info(self.sched_id, 'start_date', day)
-                self.s.edit_schedule_info(self.sched_id, 'end_date', day)
-                self.s.edit_schedule_info(self.sched_id, 'time_in', time_in)
-                self.s.edit_schedule_info(self.sched_id, 'time_out', time_out)
+                if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
+                elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
+                else:
+                    self.s.edit_schedule_info(self.sched_id, 'start_date', day)
+                    self.s.edit_schedule_info(self.sched_id, 'end_date', day)
+                    self.s.edit_schedule_info(self.sched_id, 'time_in', time_in)
+                    self.s.edit_schedule_info(self.sched_id, 'time_out', time_out)
+                    self.u.add_backlogs(self.admin, "Edited Schedule")
+                    self.notif(QMessageBox.Icon.Information, "Schedule Edited" )
+                    self.close()
         else:
             if treatment == "Posting":
 
@@ -205,6 +218,8 @@ class AddSchedule(QDialog, Ui_Dialog):
                 else: 
                     self.s.add_schedule(id, treatment, start_date, end_date, "09:00:00", "17:00:00")
                     self.notif(QMessageBox.Icon.Information, "Schedule Added" )
+                    self.u.add_backlogs(self.admin, "Added Schedule")
+                    self.close()
             else:
 
                 if time_in == time_out: self.notif(QMessageBox.Icon.Warning, "Start Time and End Time is the Same!")
@@ -212,6 +227,8 @@ class AddSchedule(QDialog, Ui_Dialog):
                 else: 
                     self.s.add_schedule(id, treatment, day, day, time_in, time_out)
                     self.notif(QMessageBox.Icon.Information, "Schedule Added" )
+                    self.u.add_backlogs(self.admin, "Added Schedule")
+                    self.close()
         
     def notif(self, type, message):
         noInput = QMessageBox()

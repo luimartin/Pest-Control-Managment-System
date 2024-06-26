@@ -1,31 +1,45 @@
+from PyQt6 import QtGui
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designaddclientUI import Ui_addClients
 from clientinfo import ClientInfo
+from user import User
 class addClient(QDialog, Ui_addClients):
-    def __init__(self):
+    def __init__(self, admin):
         super().__init__()
         self.setupUi(self)
         self.c = ClientInfo()
-
+        self.u = User()
+        self.admin = admin
+        self.phonenumInput.setValidator(QtGui.QIntValidator())
         self.addclientBtn.clicked.connect(self.addclient)
-        self.cancelBtn.clicked.connect(self.cancel)
+        self.cancelBtn.clicked.connect(lambda: self.close())
 
     def addclient(self):
         name = self.nameInput.text()
         email = self.emailInput.text()
         phoneno = self.phonenumInput.text()
         address = self.addressInput.text()
-        self.c.add_client_info(name, email, phoneno, address)
+        
+        if (name, email, phoneno, address) == "":
+            self.notif(QMessageBox.Icon.Warning, "Fields should cannot be null")
+  
 
+        else:
+            self.c.add_client_info(name, email, phoneno, address)
+            self.notif(QMessageBox.Icon.Information, "Client Information")
+            self.u.add_backlogs(self.admin, "Added Client")
+            self.close()
+    
+    def notif(self, icon, msg):
         noInput = QMessageBox()
         noInput.setWindowTitle("Clients")
-        noInput.setIcon(QMessageBox.Icon.Information)
-        noInput.setText("Client Added")
+        noInput.setIcon(icon)
+        noInput.setText(msg)
         noInput.exec()
-        self.close()
 
-    def cancel(self):
-        self.close()
+
+
+
 
 
 

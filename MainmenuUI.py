@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem
+from PyQt6.QtWidgets import QApplication, QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem, QDialog, QVBoxLayout, QFileDialog
 from PyQt6 import QtCore
 from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
@@ -25,24 +25,26 @@ from GUI.designassignitemUI import AssignItem
 from GUI.designaddadminUI import AddAdmin
 from asd import SaleTrendDialog
 from GUI.designaddsmsformatUI import AddSMS
+from user import User
+from backup_restore import backup_database, restore_database
 from GUI.designsmsUI import SMS
 import GUI.rc_icons
+from pathlib import Path
+import database
 class MainMenu(QMainWindow, Ui_MainWindow):
 
-    #move frameless window
-    """    def mousePressEvent(self, event):
-            self.dragPos = event.globalPosition().toPoint()
-
-        def mouseMoveEvent(self, event):
-            self.move(self.pos() + event.globalPosition().toPoint() - self.dragPos )
-            self.dragPos = event.globalPosition().toPoint()
-            event.accept()"""
 ###########################
     def __init__(self, AdminID):
-        
+        self.host = 'localhost'
+        self.userdb = 'root'
+        self.password = '030709'
+        self.database = 'mansys'
+        self.backup_dir = '/Users/deini/OneDrive/Desktop/backup'
         super().__init__()
         #self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.setupUi(self)
+        self.adminID = AdminID
+        self.user = User()
         # for clients info
         self.c = ClientInfo()
         self.addClientBtn.clicked.connect(self.addclient)
@@ -133,7 +135,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.addAdminBtn.clicked.connect(self.addadmin)
         self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
         self.userlogbackBtn.clicked.connect(self.switch_to_MaintenancePage)
-
+        self.backupBtn.clicked.connect(self.backup)
+        self.restoreBtn.clicked.connect(self.open_file_dialog)
         #SMS page
         self.message = Message()
         self.addSMSBtn.clicked.connect(self.add_sms)
@@ -203,7 +206,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 self.clientsTable.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Void')
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info, 1))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
@@ -217,12 +220,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.populate_schedule(self.scheduleTable, self.s.specific_view_sched(client_id))
         
     def editclient(self, id):
-        bago = editClients(id)
+        bago = editClients(id, self.adminID)
         bago.exec()
         self.populate_table1(self.c.select_all_clients())
     
     def addContract(self, id):
-        addcontract = AddContract(id, None, "Add")
+        addcontract = AddContract(id, None, "Add", self.adminID)
         addcontract.exec()
 
     def client_search(self):
@@ -267,11 +270,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         
         
     def editcontract(self, client_id, cont_id):
-        edit = AddContract(client_id, cont_id, "Edit")
+        edit = AddContract(client_id, cont_id, "Edit", self.adminID)
         edit.exec()
 
     #for clients and inventory
-    def delete(self, id, func):
+    def delete(self, id, func, whether):
         noInput = QMessageBox()
         noInput.setWindowTitle("Void")
         noInput.setIcon(QMessageBox.Icon.Warning)
@@ -280,6 +283,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             func(id, "void", 1)
+            if whether == 1:
+                self.user.add_backlogs(self.adminID, "Voided Client")
+            else:
+                self.user.add_backlogs(self.adminID, "Voided Item")
             self.populate_table1(self.c.select_all_clients())
             self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
             self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
@@ -309,7 +316,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.voidclientsTable.setColumnCount(0)
 
     def addclient(self):
-        addclient = addClient()
+        addclient = addClient(self.adminID)
         addclient.exec()
         self.populate_table1(self.c.select_all_clients())
 
@@ -361,13 +368,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 tablename.setCellWidget(row_idx, 6, edit)
 
                 delete = QPushButton('Void')
-                delete.clicked.connect(lambda _, id = item_id: self.delete(id, self.i.edit_inv_info))
+                delete.clicked.connect(lambda _, id = item_id: self.delete(id, self.i.edit_inv_info, 0))
                 tablename.setCellWidget(row_idx, 7, delete)
         self.label_10.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Inventory</span></p></body></html>"))
 
     def editInevntory(self, id, type):
         print(id, type)
-        edit = Edititem(id, type)
+        edit = Edititem(id, type, self.adminID)
         edit.exec()
         if type == "Chemical": self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
         elif type == "Equipment": self.populate_inventory(self.i.choose_category("Equipment") , self.equipmentsTable)
@@ -375,7 +382,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         else: self.populate_inventory(self.i.select_inventory(), self.inventoryTable)
 
     def addInventory(self, index):
-        add = AddItem(index)
+        add = AddItem(index, self.adminID)
         add.exec()
         if index == 0: self.switch_to_ChemicalsPage()
         elif index == 1: self.switch_to_MaterialsPage()
@@ -407,7 +414,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.label_10.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Voided Items</span></p></body></html>"))
 
     def update_delivery(self):
-        handol = HandleDelivery()
+        handol = HandleDelivery(self.adminID)
         handol.exec()
 
 #schedule page######################################################################################################
@@ -441,7 +448,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setColumnCount(0)
 
     def assigntech(self, schedule_id):
-        ass = AssignTech(schedule_id)
+        ass = AssignTech(schedule_id, self.adminID)
         ass.exec()
             # Update the schedule data
         for row_idx in range(self.scheduleTable.rowCount()):
@@ -452,12 +459,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
 
     def schedAdd(self):
-        addSchedule = AddSchedule(None, None)
+        addSchedule = AddSchedule(None, None, self.adminID)
         addSchedule.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
 
     def schedEdit(self, id):
-        editsched = AddSchedule("Edit", id)
+        editsched = AddSchedule("Edit", id, self.adminID)
         editsched.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
         self.populate_schedule(self.upcomingscheduleTable, self.s.show_sched_for_tom())
@@ -476,7 +483,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         #self.scheduleTable
         self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
         self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
-
+        self.user.add_backlogs(self.adminID, "Technician Round Robin")
     def removebutton_techsched(self, query, table):
         s = query 
         for row_idx in range(table.rowCount()):
@@ -556,53 +563,60 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
 
     def addsale(self, which, id):
-        addsale = AddSales(which, id)
+        addsale = AddSales(which, id, self.adminID)
         addsale.exec()
         self.populate_sale(self.sales.view_all_sales(), None)
 
     def graphforecast(self):
-        graph = SaleTrendDialog()
-        graph.exec()
+        #self.sales.sale_trend()
+        #graph = SaleTrendDialog()
+        #graph.exec()
+        pass
+        
         #print("may error dito")
     
     def generate_rep(self):
         msg = self.sales.generate_report()
+        self.user.add_backlogs(self.adminID, "Report Generated")
         self.notif(QMessageBox.Icon.Information, msg)
 
 ####### Technician PAGE #############################################################
     def populate_tech(self):
-        # stretch the header
+        # Stretch the header
         a = self.technicianTable.horizontalHeader()
-        #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.technicianTable.verticalHeader().hide()
         a.setStretchLastSection(True)
+        self.technicianTable.verticalHeader().hide()
+        
+        # Set stylesheet for the entire table once
+        self.technicianTable.setStyleSheet("font-size: 14px; text-align: center;")
+
         self.tech = Technician()
         clients = self.tech.select_all_tech()
+        
         if clients:
             self.technicianTable.setRowCount(len(clients))
             self.technicianTable.setColumnCount(8)
-            self.technicianTable.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address', 'State' ,'Assigned Item', '', ''])
+            self.technicianTable.setHorizontalHeaderLabels([
+                'ID', 'Name', 'Phone Number', 'Address', 'State', 'Assigned Item', '', ''
+            ])
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
                     tech_id = clients[row_idx][0]
-                    items = QTableWidgetItem(str(item))
-                    #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.technicianTable.setStyleSheet("font-size: 14px; text-align: center;")
-                    self.technicianTable.setItem(row_idx, col_idx, items)
+                    self.technicianTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
 
+                # Create buttons
                 assignitems = QPushButton('View')
                 assignitems.clicked.connect(lambda _, id=tech_id: self.switch_to_assignedItemPage(id))
                 self.technicianTable.setCellWidget(row_idx, 5, assignitems)
 
                 edit = QPushButton('Edit')
-                edit.clicked.connect(lambda _, id=tech_id: self.edittechnician("Edit",id))
+                edit.clicked.connect(lambda _, id=tech_id: self.edittechnician("Edit", id))
                 self.technicianTable.setCellWidget(row_idx, 6, edit)
 
                 void = QPushButton('Void')
                 void.clicked.connect(lambda _, id=tech_id: self.void(id))
                 self.technicianTable.setCellWidget(row_idx, 7, void)
-            #self.editcontractBtn.disconnect()
 
     def populate_tech_void(self, query, which, table):
         # stretch the header
@@ -651,19 +665,19 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             self.tech.return_item(techitem_id, item_id, quantity)
+            self.user.add_backlogs(self.adminID, "Item Returned")
             self.populate_tech_void(self.tech.show_accounted_item(techid), 1, self.assignitemTable)
         else: noInput.close()
         
         
 
-
     def addtechnician(self, which):
-        addtech = AddTechnician(which, None)
+        addtech = AddTechnician(which, None, self.adminID)
         addtech.exec()
         self.populate_tech()
     
     def edittechnician(self, which, id):
-        editech = AddTechnician(which, id)
+        editech = AddTechnician(which, id, self.adminID)
         editech.exec()
         self.populate_tech()
 
@@ -676,6 +690,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             self.tech.edit_technician_info(id, "void", 1)
+            self.user.add_backlogs(self.adminID, "Voided Technician")
             self.populate_tech()
         else: noInput.close()
 
@@ -691,7 +706,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         
 
     def itemassign(self, id):
-        window = AssignItem(id)
+        window = AssignItem(id, self.adminID)
         window.exec()
         self.populate_tech_void(self.tech.show_accounted_item(id), 1, self.assignitemTable)
         self.assgnBrn.disconnect()
@@ -735,6 +750,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
             self.s.update_state_when_done(sched, client)
+            self.user.add_backlogs(self.adminID, "Updated Schedule")
             self.switch_to_servicePage()
         else: noInput.close()
 ###### maintenance page #######################################################################3##3
@@ -763,6 +779,30 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def addadmin(self):
         addmin = AddAdmin()
         addmin.exec()
+
+    def backup(self):
+        
+        backup_database(self.host, self.userdb, self.password, self.database, self.backup_dir)
+
+    def open_file_dialog(self):
+        dialog = QFileDialog(self)
+        dialog.setDirectory(r'C:\Users\deini\OneDrive\Desktop\backup')
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        dialog.setNameFilter("SQL (*.sql)")
+        dialog.setViewMode(QFileDialog.ViewMode.List)   
+        if dialog.exec():
+            filenames = dialog.selectedFiles()
+            filenames = [Path(filename).name for filename in filenames]
+            fn = filenames[0]
+            print(fn)
+            backup = self.backup_dir + '/'+ fn
+            print(backup)
+            database.mydb.close()
+            restore_database(self.host, self.userdb, self.password, self.database, backup)
+            
+            # need iconnect uli db
+            database.mycursor
+
 ############# SMS FORMAT ###################################################################################################
     def populate_sms(self, query):
         
@@ -795,65 +835,18 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.notif(QMessageBox.Icon.NoIcon, msg[0][0])
 
     def add_sms(self):
-        asd = AddSMS(None, None)
+        asd = AddSMS(None, None, self.adminID)
         asd.exec()
         self.populate_sms(self.message.show_all())
     
     def edit_sms(self, id):
-        edit = AddSMS("Edit", id)
+        edit = AddSMS("Edit", id, self.adminID)
         edit.exec()
         self.populate_sms(self.message.show_all())
 
 
+
 app = QApplication([])
-window = MainMenu(1)
+window = MainMenu(2)
 window.show()
 app.exec()
-
-"""
-def populate_table1(self):
-        # stretch the header
-        a = self.clientsTable.horizontalHeader()
-        #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
-        self.clientsTable.verticalHeader().hide()
-        a.setStretchLastSection(True)
-        self.contract = Contract()
-        clients = self.c.select_all_clients()
-        if clients:
-            self.clientsTable.setRowCount(len(clients))
-            self.clientsTable.setColumnCount(8)
-            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details', ' ', ' '])
-
-            for row_idx, client in enumerate(clients):
-                for col_idx, item in enumerate(client):
-                    client_id = clients[row_idx][0]
-                    items = QTableWidgetItem(str(item))
-                    #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.clientsTable.setStyleSheet("font-size: 14px; text-align: center;")
-                    self.clientsTable.setItem(row_idx, col_idx, items)
-
-                schedview = QPushButton('View')
-                schedview.clicked.connect(lambda _, id=client_id: self.viewschedule(id))
-                self.clientsTable.setCellWidget(row_idx, 4, schedview)
-                
-                # for view client contract and adding if no contract
-                if self.contract.has_a_contract(client_id): 
-                    contractview = QPushButton('View')
-                    contractview.clicked.connect(lambda _, id=client_id: self.viewcontract(id))
-                    self.clientsTable.setCellWidget(row_idx, 5, contractview)
-                else:
-                    contractAdd = QPushButton('Add')
-                    contractAdd.clicked.connect(lambda _, id=client_id: self.addContract(id))
-                    self.clientsTable.setCellWidget(row_idx, 5, contractAdd)
-
-                edit = QPushButton('Edit')
-                edit.clicked.connect(lambda _, id=client_id: self.editclient(id))
-                self.clientsTable.setCellWidget(row_idx, 6, edit)
-
-                delete = QPushButton('Void')
-                delete.clicked.connect(lambda _, id=client_id: self.delete(id, self.c.edit_personal_info))
-                self.clientsTable.setCellWidget(row_idx, 7, delete)
-        else:
-            self.clientsTable.setRowCount(0)
-            self.clientsTable.setColumnCount(0)
-"""

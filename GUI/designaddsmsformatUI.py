@@ -69,9 +69,10 @@ class Ui_Dialog(object):
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designviewtokenUI import ViewToken
 from message import Message
+from user import User
 class AddSMS(QDialog, Ui_Dialog):
     
-    def __init__(self, which, id):
+    def __init__(self, which, id, admin):
         super().__init__()
         self.setupUi(self)
         self.cancelBtn.clicked.connect(lambda: self.close())
@@ -79,12 +80,15 @@ class AddSMS(QDialog, Ui_Dialog):
         self.pushButton_3.clicked.connect(self.addsms)
         self.m = Message()
         self.which= which
+        self.u = User()
+        self.admin = admin
         self.id = id
         if which == "Edit":
             placeholder = self.m.show_specific(id)
             self.comboBox.setCurrentText(placeholder[0][1])
             self.titleInput.setText(placeholder[0][3])
             self.msgInput.setText(placeholder[0][2])
+
     def view(self):
         v = ViewToken()
         v.exec()
@@ -99,6 +103,7 @@ class AddSMS(QDialog, Ui_Dialog):
             else:
                 self.m.edit_message(self.id, rtype, msg, title)
                 self.notif(QMessageBox.Icon.Information, "Message Edited")
+                self.u.add_backlogs(self.admin, "Edited SMS")
                 self.close()
 
         else:
@@ -107,6 +112,7 @@ class AddSMS(QDialog, Ui_Dialog):
             else:
                 self.m.add_message(rtype, title, msg)
                 self.notif(QMessageBox.Icon.Information, "Message Added")
+                self.u.add_backlogs(self.admin, "Added SMS")
                 self.close()
             print(rtype, title, msg)
         

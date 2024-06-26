@@ -61,7 +61,7 @@ class Sales:
             date_str = f"{year}-{month_num:02d}"
             dates.append(date_str)
         total = [row[2] for row in data]
-
+        plt.rcParams['toolbar'] = 'None'
         plt.figure(figsize=(10, 6))
         plt.plot(dates, total, marker='o', linestyle='-')
         plt.xlabel('Date')
@@ -132,4 +132,5 @@ class Sales:
             return "No data to export"
 
 #s = Sales()
+#s.sale_trend()
 #s.generate_report()

@@ -3,14 +3,17 @@ from PyQt6.QtCore import QDate
 from GUI.designaddcontractUI import Ui_addcontract
 from datetime import date
 from contract import Contract
+from user import User
 class AddContract(QDialog,Ui_addcontract):
-    def __init__(self, client_id, cont_id, which):
+    def __init__(self, client_id, cont_id, which, admin):
         super().__init__()
         self.id = client_id
         self.cont_id = cont_id
         self.which = which
         self.setupUi(self)
         self.c = Contract()
+        self.u = User()
+        self.admin = admin
         self.addBtn.clicked.connect(self.addcontract)
         self.cancelBtn.clicked.connect(lambda: self.close())
 
@@ -38,7 +41,7 @@ class AddContract(QDialog,Ui_addcontract):
             unit = self.unitInput.text()
             price = self.priceInput.text()  
             self.c.add_contract(self.id, problem, treatment, start, end, scope, unit, price)
-
+            self.u.add_backlogs(self.admin, "Added Contract")
             noInput = QMessageBox()
             noInput.setWindowTitle("Notificaiton")
             noInput.setIcon(QMessageBox.Icon.Information)
@@ -69,6 +72,8 @@ class AddContract(QDialog,Ui_addcontract):
 
             price = self.priceInput.text()  
             self.c.edit_contract_info(self.cont_id, self.id, "price", price)
+
+            self.u.add_backlogs(self.admin, "Edited Contract")
             noInput = QMessageBox()
             noInput.setWindowTitle("Notificaiton")
             noInput.setIcon(QMessageBox.Icon.Information)

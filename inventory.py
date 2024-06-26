@@ -95,8 +95,8 @@ class Inventory:
         return False 
     
     def isItemAvailable(self, inv_id, amount):
-        query = "select void from INVENTORY where item_id = {} and quantity >= {}".format(inv_id, amount)
-        output = handle_select(query)[0][0] # Retrieve either 1 or 0 (0 means the item exists in DB, not void)
+        query = "select void from INVENTORY where item_id = {} and quantity < {}".format(inv_id, amount)
+        output = handle_select(query) # Retrieve either 1 or 0 (0 means the item exists in DB, not void)
         
         if not output: return True
         return False
@@ -134,3 +134,4 @@ class Inventory:
 #i.add_item("Mouse Trap", "Material", 10, "Trap the mouse")
 #i.edit_inv_info(3, "Expiration", "2025-01-01")
 #print(i.choose_category("Chemical"))
+#print(i.isItemAvailable(14, 6))

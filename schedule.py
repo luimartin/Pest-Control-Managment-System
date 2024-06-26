@@ -160,12 +160,12 @@ class Schedule:
         return datetime.strftime(modified_date, '%Y-%m-%d')
     
 
-    def posting_modifier(self, ref_id, sched_id, new_start_date, new_end_date):
-        prev_start_date = datetime.strftime(self.get_data(sched_id, ref_id, 'start_date'), '%Y-%m-%d') 
-        prev_end_date = datetime.strftime(self.get_data(sched_id, ref_id, 'end_date'), '%Y-%m-%d')  
+    def posting_modifier(self, sched_id, new_start_date, new_end_date):
+        prev_start_date = datetime.strftime(self.get_data(sched_id, 'start_date'), '%Y-%m-%d') 
+        prev_end_date = datetime.strftime(self.get_data(sched_id, 'end_date'), '%Y-%m-%d')  
 
-        self.edit_schedule_info(sched_id, ref_id, 'start_date', new_start_date)
-        self.edit_schedule_info(sched_id, ref_id, 'end_date', new_end_date)   
+        self.edit_schedule_info(sched_id, 'start_date', new_start_date)
+        self.edit_schedule_info(sched_id, 'end_date', new_end_date)   
 
         self.deleteRangedDates(prev_start_date, new_start_date, new_start_date)        
 
@@ -433,7 +433,8 @@ class Schedule:
     def get_data(self, sched_id, categ):
         temp = "select {} from SCHEDULE ".format(categ)
         query = temp + "where schedule_id = {} and void = 0".format(sched_id)
-        return handle_select(query)
+        print(handle_select(query))
+        return handle_select(query)[0][0]
     
 
     def search(self, input):
@@ -473,6 +474,7 @@ class Schedule:
         return handle_select(query)
 
 #s = Schedule()
+#print(s.get_data(29, 'start_date'))
 #print(s.smsview())
 #print(s.show_sched_for_tom())
 #s.earliest_deadline_first()

@@ -79,16 +79,20 @@ class Ui_Dialog(object):
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from clientinfo import ClientInfo
 from sales import Sales
+from user import User
 class AddSales(QDialog, Ui_Dialog):
     
-    def __init__(self, which, id):
+    def __init__(self, which, id, admin):
         super().__init__()
         self.setupUi(self)
         self.c = ClientInfo()
         self.s = Sales()
+        self.u = User()
+        self.admin = admin
         self.which = which
         self.sale_id = id
         self.dateEdit.setDate(QtCore.QDate.currentDate())
+        self.lineEdit.setValidator(QtGui.QIntValidator())
         data = self.c.select_all_clients()
         for client_id, name, _ ,_  in data:
             self.comboBox.addItem(name, client_id)
@@ -115,12 +119,16 @@ class AddSales(QDialog, Ui_Dialog):
             self.s.edit_sale_info(self.sale_id, "figure", amount)
             self.s.edit_sale_info(self.sale_id, "sale_date", date)
             self.notif("Sales Edited",  QMessageBox.Icon.Information)
+            self.u.add_backlogs(self.admin, "Edited Sales")
+            self.close()
         else:
             if amount == "":
                 self.notif("Invalid Input", QMessageBox.Icon.Warning)
             else: 
                 self.s.add_sale(id, amount, date)
+                self.u.add_backlogs(self.admin, "Edited Sales")
                 self.notif("Sales Added", QMessageBox.Icon.Information)
+                self.u.add_backlogs(self.admin, "Added Sales")
                 self.close()
 
     def notif(self, message, icon):

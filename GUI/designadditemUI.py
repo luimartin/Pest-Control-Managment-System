@@ -96,13 +96,16 @@ class Ui_addItem(object):
 from PyQt6.QtWidgets import QDialog,QMessageBox
 from inventory import Inventory
 from datetime import date
+from user import User
 # if edit tangalin yung runner dito
 class AddItem(QDialog, Ui_addItem):
-    def __init__(self, index):
+    def __init__(self, index, admin):
         super().__init__()
         self.setupUi(self)
         today = date.today()
         self.dateEdit.setDate(today)
+        self.u = User()
+        self.admin = admin
         self.deliveryInput.setDateTime(QtCore.QDateTime.currentDateTime())
         self.typeInput.setCurrentIndex(index)
         self.on_combo_box_changed(index)
@@ -124,9 +127,10 @@ class AddItem(QDialog, Ui_addItem):
         if (name and quantity) != "":
             if type == "Chemical":
                 self.i.add_item(name, type, quantity, description, date, supplier, deliver)
+                
             else:
                 self.i.add_item(name, type, quantity, description, None, supplier, deliver)
-            
+            self.u.add_backlogs(self.admin, "Added Client")
             noInput = QMessageBox()
             noInput.setIcon(QMessageBox.Icon.Information)
             noInput.setText("Item Added")

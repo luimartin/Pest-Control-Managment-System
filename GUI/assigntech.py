@@ -2,12 +2,15 @@ from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designassigntechUI import Ui_dialog
 from schedule import Schedule
 from technician import Technician
+from user import User
 class AssignTech(QDialog, Ui_dialog):
-    def __init__(self, sched_id):
+    def __init__(self, sched_id, admin):
         super().__init__()
         self.setupUi(self)
         self.sched_id = sched_id
         self.sched = Schedule()
+        self.u = User()
+        self.admin = admin
         techs = self.sched.show_tech()
 
         self.technicians = Technician()
@@ -23,7 +26,6 @@ class AssignTech(QDialog, Ui_dialog):
     def assign(self):
         tech_id = self.techbox.currentData()
         if self.technicians.isTechnicianAvailable(tech_id):
-            
             if self.sched.assign_technician(self.sched_id, tech_id) == "Technician has a scheduling conflict on the same day.":
                 noInput = QMessageBox()
                 noInput.setWindowTitle("Notification")
@@ -33,10 +35,11 @@ class AssignTech(QDialog, Ui_dialog):
                 self.close()
             
             else: 
-                noInput = QMessageBox()
+                self.u.add_backlogs(self.admin, "Assigned Technnician")
+                noInput = QMessageBox() 
                 noInput.setWindowTitle("Notification")
                 noInput.setIcon(QMessageBox.Icon.Information)
-                noInput.setText("Assign Technician")
+                noInput.setText("Assigned Technician")
                 noInput.exec()
                 self.close()
 

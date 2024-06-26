@@ -54,13 +54,15 @@ class Ui_Dialog(object):
 from PyQt6.QtWidgets import QDialog,QMessageBox,QApplication,QHeaderView,QPushButton
 from schedule import Schedule
 from message import Message
+from user import User
 class SMS(QDialog,Ui_Dialog):
-    def __init__(self):
+    def __init__(self, admin):
         super().__init__()
         self.setupUi(self)
         self.message = Message()
         self.sched = Schedule()
-
+        self.u = User()
+        self.admin = admin
         idmsg = self.message.show_all()
         sched_id = self.sched.smsview()
         

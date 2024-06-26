@@ -67,15 +67,19 @@ class Ui_Dialog(object):
 from PyQt6.QtWidgets import QDialog,QMessageBox, QApplication
 
 from technician import Technician
+from user import User
 # if edit tangalin yung runner dito
 class AddTechnician(QDialog, Ui_Dialog):
-    def __init__(self, which, techid):
+    def __init__(self, which, techid, admin):
         super().__init__()
         self.t = Technician()
         self.setupUi(self)
         self.techid = techid
+        self.u = User()
+        self.admin = admin
         self.addBtn.clicked.connect(self.add)
         self.cancelBtn.clicked.connect(lambda: self.close())
+        self.phonenoInput.setValidator(QtGui.QIntValidator())
         self.which = which
         if which == "Edit":
             self.label_6.setText(QtCore.QCoreApplication.translate("Dialog", "<html><head/><body><p><span style=\" font-size:28pt;\">Edit Technician</span></p><p><br/></p></body></html>"))
@@ -96,6 +100,7 @@ class AddTechnician(QDialog, Ui_Dialog):
             self.t.edit_technician_info(self.techid, 'last_name', lname)
             self.t.edit_technician_info(self.techid, 'phone_num', phoneno)
             self.t.edit_technician_info(self.techid, 'address', address)
+            self.u.add_backlogs(self.admin, "Technician Edited")
             self.notif(QMessageBox.Icon.Information, "Technician Info Edited")
             self.close()
             
@@ -105,6 +110,7 @@ class AddTechnician(QDialog, Ui_Dialog):
             else: 
                 self.t.add_technician(fname, lname, phoneno, address)
                 self.notif(QMessageBox.Icon.Information, "Technician Added")
+                self.u.add_backlogs(self.admin, "Technician Added")
                 print(fname, lname, phoneno, address)
                 self.close()
 

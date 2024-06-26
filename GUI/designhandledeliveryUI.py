@@ -92,11 +92,14 @@ class Ui_Dialog(object):
 # if eedit remove the runner dito
 from PyQt6.QtWidgets import QDialog,QMessageBox
 from inventory import Inventory
+from user import User
 class HandleDelivery(QDialog, Ui_Dialog):
-    def __init__(self):
+    def __init__(self, admin):
         super().__init__()
         self.setupUi(self)
         self.i = Inventory()
+        self.u = User()
+        self.admin = admin
         data = self.i.select_inventory()
         self.typeInput.setEnabled(False)
         self.descInput.setEnabled(False)
@@ -152,6 +155,7 @@ class HandleDelivery(QDialog, Ui_Dialog):
             else:
                 self.i.stock_item(self.comboBox.currentData(), quantity
                 ,None, self.supplierInput.text(), deliver)
+            self.u.add_backlogs(self.admin, "Delivey Added")
             self.notif("Item Updated", QMessageBox.Icon.Information)
 
     def notif(self, message, icon):

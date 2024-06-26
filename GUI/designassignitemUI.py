@@ -77,13 +77,16 @@ from PyQt6.QtWidgets import QDialog,QMessageBox, QApplication
 
 from technician import Technician
 from inventory import Inventory
+from user import User
 # if edit tangalin yung runner dito
 class AssignItem(QDialog, Ui_Dialog):
-    def __init__(self, tech_id):
+    def __init__(self, tech_id, admin):
         super().__init__()
         self.setupUi(self)
         self.tech = Technician()
         self.inv = Inventory()
+        self.u = User()
+        self.admin = admin
         #self.dateEdit.setVisible(False)
         #self.label_2.setVisible(False)
         self.tech_id = tech_id
@@ -92,7 +95,7 @@ class AssignItem(QDialog, Ui_Dialog):
         self.nameInput.setText(name[0][0])
         #self.dateEdit.setDate(QDate.currentDate())
         self.choose_all()
-
+        self.quantityInput.setValidator(QtGui.QIntValidator())
         self.submitBtn.clicked.connect(self.assign)
         self.cancelBtn.clicked.connect(lambda: self.close())
         self.chemBtn.clicked.connect(lambda: self.choose("Chemical"))
@@ -117,15 +120,22 @@ class AssignItem(QDialog, Ui_Dialog):
         quantity = self.quantityInput.text()
         if quantity == "":
             self.notif( "Field cannot be null!",QMessageBox.Icon.Warning) 
+        elif quantity is not int:
+            self.notif( "Quantity cannot be String!",QMessageBox.Icon.Warning) 
         else:
             val = self.tech.assign_item(self.tech_id, item_id, quantity)
-            self.notif( val ,QMessageBox.Icon.Information) 
-            self.close()
-            #print(self.comboBox.currentData(), self.comboBox.currentText())
+            if val == "Invalid":
+                self.notif( val ,QMessageBox.Icon.Information)
+            else:
+                self.u.add_backlogs(self.admin, "Assign Item to Technician")
+                self.notif( val ,QMessageBox.Icon.Information) 
+                self.close()
+                #print(self.comboBox.currentData(), self.comboBox.currentText())
 
     def notif(self, message, icon):
         noInput = QMessageBox()
         noInput.setIcon(icon)
+        noInput.setWindowTitle("HomeFix")
         noInput.setText(message)
         noInput.exec()
 

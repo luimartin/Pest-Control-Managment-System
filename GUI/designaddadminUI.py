@@ -90,12 +90,13 @@ from user import User
 
 # if edit tangalin yung runner dito
 class AddAdmin(QDialog, Ui_Dialog):
-    def __init__(self):
+    def __init__(self, admin):
         super().__init__()
         self.setupUi(self)
         self.passInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.lineEdit_3.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.user = User()
+        self.admin = admin
         self.cancelBtn.clicked.connect(lambda: self.close())
         for sec in self.user.security_question:
             self.q1Input.addItem(sec)
@@ -119,6 +120,7 @@ class AddAdmin(QDialog, Ui_Dialog):
             self.notif("Questions cannot be the same!", QMessageBox.Icon.Warning)
         else:
             self.user.add_user(user, password, q1, a1, q2, a2)
+            self.user.add_backlogs(self.admin, "Admin Added")
             self.notif("Admin Added", QMessageBox.Icon.Information)
             self.close()
         print(user, password, confirmpass, q1, q2, a1, a2)

@@ -87,15 +87,17 @@ from PyQt6.QtWidgets import QDialog,QMessageBox
 from PyQt6.QtCore import QDate 
 from datetime import date
 from inventory import Inventory
+from user import User
 class Edititem(QDialog, Ui_Dialog):
-    def __init__(self, id, item_type):
+    def __init__(self, id, item_type, admin):
         super().__init__()
         self.setupUi(self)
         
         self.i = Inventory()
         self.typeInput.setCurrentText(item_type)
         self.id = id
-        
+        self.u = User()
+        self.admin = admin
         self.cancelBtn.clicked.connect(lambda: self.close())
         self.typeInput.currentTextChanged.connect(self.on_combo_box_changed)
         self.on_combo_box_changed(item_type)
@@ -133,6 +135,7 @@ class Edititem(QDialog, Ui_Dialog):
             
             description = self.descInput.toPlainText()
             self.i.edit_inv_info(self.id, 'description', description)
+            self.u.add_backlogs(self.admin, "Edited Item")
             self.notif("Item Edited")
 
     def notif(self, name):

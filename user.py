@@ -2,7 +2,7 @@ from database import *
 from query_settings import *
 import hashlib
 import os
-
+from datetime import datetime
 class User:
     security_question = [
             "What is the name of your pet?",
@@ -103,10 +103,10 @@ class User:
     def add_backlogs(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
         query = (
-            "insert into ACTIVITY(act_user, activity)"
-            "values(%s, %s)"
+            "insert into ACTIVITY(act_user_id, activity, dateact)"
+            "values(%s, %s, %s)"
         )
-        data = (active_user, activity)
+        data = (active_user, activity, datetime.today())
         handle_transaction(query, data)
     
     # Editing of admin account information
@@ -128,6 +128,7 @@ class User:
     """ 
         return handle_select(query)
 u = User()
+print()
 #print(u.get_data(4, ("question1, question2")))
 #print(u.cp_questions(4,"Human", "Sugar Baby"))
 #u.add_user("joy", "030709", "What is the name of your pet?", "fallfee", "What is your favorite food of all time?", "sinigang")
