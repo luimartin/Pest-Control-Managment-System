@@ -126,7 +126,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
         self.backBtn.clicked.connect(self.switch_to_ClientsPage)
         self.roundrobinBtn.clicked.connect(self.roundrobin)
-        self.pushButton_12.clicked.connect(self.graphforecast)
+        self.pushButton_10.clicked.connect(self.graphforecast)
         self.inventorysearchBtn_2.clicked.connect(self.search_sale)
 
         #technicianpage
@@ -196,6 +196,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.clientsTable.setRowCount(len(clients))
             self.clientsTable.setColumnCount(8)
             self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details', ' ', ' '])
+
+            header = self.clientsTable.horizontalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, client in enumerate(clients):
                 client_id = client[0]
@@ -343,6 +346,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.imgholder.setPixmap(pixmap)
             self.imgholder.setScaledContents(True)
         else: self.imgholder.setText("No Image")
+
     #for clients and inventory
     def delete(self, id, func, whether):
         noInput = QMessageBox()
@@ -418,6 +422,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = tablename.horizontalHeader()
         #a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
+        tablename.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
         inventory = type
 
@@ -426,6 +431,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setColumnCount(8)
             tablename.setHorizontalHeaderLabels(['Item ID','Name', 'Type', 'Quantity', 'Expiration', 'Description',' ',' '])
             
+            header = tablename.horizontalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
             for row_idx, inventorys in enumerate(inventory):
                 for col_idx, item in enumerate(inventorys):
                     item_id = inventory[row_idx][0]
@@ -512,12 +520,16 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = tablename.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
+        tablename.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
         schedule = query
         if schedule:
             tablename.setRowCount(len(schedule))
             tablename.setColumnCount(10)
-            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' '])
+            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' '])
+
+            header = tablename.horizontalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
@@ -570,6 +582,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         editsched.exec()
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
         self.populate_schedule(self.upcomingscheduleTable, self.s.show_sched_for_tom())
+
     def upcomingsched(self):
         self.stackedWidget.setCurrentIndex(17)
         self.populate_schedule(self.upcomingscheduleTable, self.s.show_sched_for_tom())
@@ -586,6 +599,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
         self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
         self.user.add_backlogs(self.adminID, "Technician Round Robin")
+
     def removebutton_techsched(self, query, table):
         s = query 
         for row_idx in range(table.rowCount()):
@@ -617,6 +631,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = tablename.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
+        tablename.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
         schedule = query
         if schedule:
@@ -624,19 +639,28 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setColumnCount(9)
             tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician'])
 
+            header = tablename.horizontalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
                     tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+
     def switch_to_todayschedPage(self):
         self.s.earliest_deadline_first()
         self.populate_schedule_today(self.todayschedTable, self.s.earliest_deadline_first_show())
         self.stackedWidget.setCurrentIndex(19)
+        
 # sales page ###################################################################################
     def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.saleTable.verticalHeader().hide()
+        self.saleTable.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)  
+        header = self.saleTable.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
         sale = query
 
         if sale:
@@ -703,7 +727,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.technicianTable.verticalHeader().hide()
         
         # Set stylesheet for the entire table once
-        self.technicianTable.setStyleSheet("font-size: 14px; text-align: center;")
+        self.technicianTable.setStyleSheet("font-size: 16px; text-align: center;")
 
         
         clients = query
@@ -714,6 +738,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.technicianTable.setHorizontalHeaderLabels([
                 'ID', 'Name', 'Phone Number', 'Address', 'State', 'Assigned Item', '', ''
             ])
+
+            header = self.technicianTable.horizontalHeader()
+            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
@@ -854,7 +881,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = self.serviceTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.serviceTable.verticalHeader().hide()
+        self.serviceTable.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
+        header = self.serviceTable.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         service = self.tech.show_assigned_client()
         if service:
             self.serviceTable.setRowCount(len(service))
@@ -953,10 +983,14 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         a = self.smsTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.smsTable.verticalHeader().hide()
+        self.smsTable.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
         sms = query
         self.smsTable.setColumnCount(6)
         self.smsTable.setHorizontalHeaderLabels(['ID', 'Category', 'Message','Title', ' ', ' '])
+        header = self.smsTable.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+
         if sms:
             self.smsTable.setRowCount(len(sms))
             for row_idx, sched in enumerate(sms):
@@ -1014,10 +1048,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.user.add_backlogs(self.adminID, "User Logout")
 
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu(2, app)
 window.show()
-app.exec()"""
+app.exec()
 
     
 

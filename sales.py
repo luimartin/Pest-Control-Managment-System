@@ -8,6 +8,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from io import BytesIO
+import io
 
 class Sales:
     def __init__(self):
@@ -129,6 +134,14 @@ class Sales:
         where s.void = 0;"""
         return handle_select(query)
     
+    def compute_daily_sales(self):
+        query = """
+        select year(sale_date), date_format(sale_date, '%M, %d'), sum(figure) as total_sales
+        from sales
+        group by sale_date;
+        """
+        return handle_select(query)
+    
     def report_month_analysis_query(self):
         query = """ select year(sale_date), date_format(sale_date, '%M'), sum(figure), avg(figure)
             from SALES where void = 0
@@ -142,88 +155,126 @@ class Sales:
             group by year(sale_date);"""
         return handle_select(query)
         
+    def generate_trend_graph(self, data, title, x_label, y_label, filename):
+        years = [row[0] for row in data]
+        values = [row[1] for row in data]
+
+        plt.figure(figsize=(5, 4))
+        plt.plot(years, values, marker='o', linestyle='-', color='b', label=y_label)
+        plt.xlabel(x_label)
+        plt.ylabel(y_label)
+        plt.title(title)
+        plt.xticks(years)
+        plt.legend()
+
+        # Save plot to a buffer
+        buffer = io.BytesIO()
+        plt.savefig(buffer, format='png')
+        plt.close()
+        buffer.seek(0)
+        return buffer.getvalue()  # Return the bytes object containing the image
+
     def generate_report(self):
-        df = pd.DataFrame(self.report_sale_query())
-        df_month_analysis = pd.DataFrame(self.report_month_analysis_query())
-        df_year_analysis = pd.DataFrame(self.report_year_analysis_query())
+        try:
+            df = pd.DataFrame(self.compute_daily_sales())
+            df_month_analysis = pd.DataFrame(self.report_month_analysis_query())
+            df_year_analysis = pd.DataFrame(self.report_year_analysis_query())
 
-        # Define the file name for the PDF file
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        file_name = f'sales_analysis_report_{timestamp}.pdf'
+            # Define the file name for the PDF file
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            file_name = f'sales_analysis_report_{timestamp}.pdf'
 
-        # Create a PDF document
-        c = canvas.Canvas(file_name, pagesize=letter)
+            # Create a PDF document
+            doc = SimpleDocTemplate(file_name, pagesize=letter)
+            elements = []
 
-        # Set up text styles
-        c.setFont("Helvetica-Bold", 16)
-        c.drawCentredString(300, 750, "Sales Analysis Report")
+            # Set up text styles
+            styles = getSampleStyleSheet()
+            title_style = styles['Title']
+            subtitle_style = ParagraphStyle('Subtitle', fontSize=12, leading=14, alignment=1)
+            section_title_center_style = ParagraphStyle('SectionTitleCenter', fontSize=14, leading=16, spaceAfter=12, alignment=1)
+            section_title_left_style = ParagraphStyle('SectionTitleLeft', fontSize=14, leading=16, spaceAfter=10, alignment=0)
+            normal_style = styles['Normal']
 
-        # Move to the next line
-        c.setFont("Helvetica", 12)
+            # Add title and subtitles
+            title = Paragraph("HomeFix Pest and Termite Control Services", title_style)
+            subtitle1 = Paragraph("N. Domingo St., San Juan City, Metro Manila", subtitle_style)
+            subtitle2 = Paragraph("Sales Analysis Report Summary", section_title_center_style)
+            elements.extend([title, subtitle1, Spacer(1, 20), subtitle2, Spacer(1, 20)])
 
-        # === Sales Report ===
-        c.drawString(100, 700, "Sales Report:")
+            # Function to create tables with fixed column widths
+            def create_table(data, col_widths):
+                table = Table(data, colWidths=col_widths)
+                table.setStyle(table_style)
+                return table
 
-        # Assign column names
-        df.columns = ["Name", "Figure", "Date Paid"]
+            # Define table styles
+            table_style = TableStyle([
+                ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ])
 
-        # Export df to the PDF
-        if df is not None and not df.empty:
-            df_columns = list(df.columns)
-            data = [df_columns] + list(df.values.tolist())
-            for row_idx, row in enumerate(data, start=1):
-                for col_idx, cell in enumerate(row):
-                    c.drawString(100 + col_idx * 120, 680 - row_idx * 20, str(cell))
+            # Set column widths
+            col_widths_sales = [150, 100, 150]  # Widths for Sales Report table
+            col_widths_month = [100, 100, 150, 150]  # Widths for Month Analysis table
+            col_widths_year = [150, 150, 150]  # Widths for Year Analysis table
 
-        else:
-            c.drawString(100, 680, "No data for Sales Report to export")
+            # === Daily Analysis ===
+            elements.append(Paragraph("Daily Analysis:", section_title_left_style))
+            if not df.empty:
+                df.columns = ["Year", "Date", "Daily Service"]
+                data = [df.columns.tolist()] + df.values.tolist()
+                table = create_table(data, col_widths_sales)
+                elements.append(table)
+            else:
+                elements.append(Paragraph("No data for Daily Analysis to export", normal_style))
+            elements.append(Spacer(1, 20))
 
-        # Move to the next section
-        c.drawString(100, 640 - len(df.index) * 20, "-" * 80)  # Separator line
+            # === Month Analysis ===
+            elements.append(Paragraph("Month Analysis:", section_title_left_style))
+            if not df_month_analysis.empty:
+                df_month_analysis.columns = ["Year", "Month", "Service Revenue", "Average Service Revenue"]
+                data = [df_month_analysis.columns.tolist()] + df_month_analysis.values.tolist()
+                table = create_table(data, col_widths_month)
+                elements.append(table)
 
-        # === Month Analysis ===
-        c.drawString(100, 620 - len(df.index) * 20, "Month Analysis:")
+            else:
+                elements.append(Paragraph("No data for Month Analysis to export", normal_style))
+            elements.append(Spacer(1, 20))
 
-        # Assign column names
-        df_month_analysis.columns = ["Year", "Month", "Total Sales", "Average Sales"]
+            # === Year Analysis ===
+            elements.append(Paragraph("Year Analysis:", section_title_left_style))
+            if not df_year_analysis.empty:
+                df_year_analysis.columns = ["Year", "Service Revenue", "Average Service Revenue"]
+                data = [df_year_analysis.columns.tolist()] + df_year_analysis.values.tolist()
+                table = create_table(data, col_widths_year)
+                elements.append(table)
+                elements.append(Spacer(1, 20))
+                # Generate trend graph for Year Analysis
+                year_graph_data = df_year_analysis[["Year", "Service Revenue"]].values.tolist()
+                year_graph_buffer = self.generate_trend_graph(year_graph_data, 'Annual Service Revenue Trend', 'Year', 'Service Revenue', 'year_trend.png')
+                year_graph_image = Image(io.BytesIO(year_graph_buffer))  # Ensure to wrap in io.BytesIO
+                elements.append(year_graph_image)
 
-        # Export df_month_analysis to the PDF
-        if not df_month_analysis.empty:
-            df_month_columns = list(df_month_analysis.columns)
-            data = [df_month_columns] + list(df_month_analysis.values.tolist())
-            for row_idx, row in enumerate(data, start=1):
-                for col_idx, cell in enumerate(row):
-                    c.drawString(100 + col_idx * 120, 600 - len(df.index) * 20 - row_idx * 20, str(cell))
+            else:
+                elements.append(Paragraph("No data for Year Analysis to export", normal_style))
 
-        else:
-            c.drawString(100, 600 - len(df.index) * 20, "No data for Month Analysis to export")
+            # Build the PDF document
+            doc.build(elements)
 
-        # Move to the next section
-        c.drawString(100, 560 - (len(df.index) + len(df_month_analysis.index)) * 20, "-" * 80)  # Separator line
+            return f"PDF generated successfully: {file_name}"
 
-        # === Year Analysis ===
-        c.drawString(100, 540 - (len(df.index) + len(df_month_analysis.index)) * 20, "Year Analysis:")
-
-        # Assign column names
-        df_year_analysis.columns = ["Year", "Total Sales", "Average Sales"]
-
-        # Export df_year_analysis to the PDF
-        if not df_year_analysis.empty:
-            df_year_columns = list(df_year_analysis.columns)
-            data = [df_year_columns] + list(df_year_analysis.values.tolist())
-            for row_idx, row in enumerate(data, start=1):
-                for col_idx, cell in enumerate(row):
-                    c.drawString(100 + col_idx * 120, 520 - (len(df.index) + len(df_month_analysis.index)) * 20 - row_idx * 20, str(cell))
-
-        else:
-            c.drawString(100, 520 - (len(df.index) + len(df_month_analysis.index)) * 20, "No data for Year Analysis to export")
-
-        # Save the PDF document
-        c.save()
-
-        return f"PDF generated successfully: {file_name}"
+        except Exception as e:
+            return f"PDF generation failed: {str(e)}"
 
     
-#s = Sales()
+s = Sales()
+#s.add_sale(10, 250000, "2022-04-19")
 #s.sale_trend()
 #s.generate_report()
