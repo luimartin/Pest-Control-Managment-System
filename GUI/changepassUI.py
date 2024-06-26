@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
+from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox, QLineEdit
 from GUI.designchangepass import Ui_changePassword
 from user import User
 class ChangePass(QDialog, Ui_changePassword):
@@ -11,10 +11,12 @@ class ChangePass(QDialog, Ui_changePassword):
         self.User = User()
         self.adminID = adminID
         self.changePassSubmitBtn_2.clicked.connect(self.changepassHandler)
+        self.lineEdit.setEchoMode(QLineEdit.EchoMode.Password)
+        self.lineEdit_2.setEchoMode(QLineEdit.EchoMode.Password)
     
     def changepassHandler(self):
-        newpass = self.newpassword.text()
-        confirmpass = self.confirmpassword.text()
+        newpass = self.lineEdit.text()
+        confirmpass = self.lineEdit_2.text()
         if (newpass and confirmpass) == "":
             noInput = QMessageBox()
             noInput.setWindowTitle("Error")

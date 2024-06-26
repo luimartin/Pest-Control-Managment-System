@@ -1,5 +1,5 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem, QDialog, QVBoxLayout, QFileDialog
-from PyQt6 import QtCore
+from PyQt6.QtWidgets import QApplication,QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem, QDialog, QVBoxLayout, QFileDialog, QLabel
+from PyQt6 import QtCore, QtGui
 from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
 from inventory import Inventory
@@ -47,6 +47,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.adminID = AdminID
         self.user = User()
+
         # for clients info
         self.c = ClientInfo()
         self.addClientBtn.clicked.connect(self.addclient)
@@ -273,6 +274,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         result = self.c.contract_view(client_id)
         contract_result = self.contract.contract_view(client_id)
         cont_id = self.contract.get_data(client_id, "contract_id")
+        hasimg = self.contract.has_img(client_id)
         if result:
             self.infolist.clear()
             for row in result:
@@ -297,15 +299,50 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
                 self.contractlist.addItem(item)
         self.editcontractBtn.disconnect()
+        self.pushButton_14.disconnect()
         if cont_id:
             self.editcontractBtn.clicked.connect(lambda _, id=client_id, cont_id=cont_id[0][0]: 
                                                 self.editcontract(id, cont_id))
+        if hasimg:
+            self.imgholder.clear()
+            self.refresh_img(client_id)
+            self.pushButton_14.clicked.connect(lambda _, id = client_id: 
+                                               self.open_file_dialog_contract(id))
+            self.removecontractBtn.clicked.connect(lambda _, id = client_id: 
+                                               self.removebtn(id))
+            
         
         
     def editcontract(self, client_id, cont_id):
         edit = AddContract(client_id, cont_id, "Edit", self.adminID)
         edit.exec()
+    def removebtn(self, id):
+        self.contract.remove_img(id)
+        self.refresh_img(id)
 
+    def open_file_dialog_contract(self, client_id):
+        dialog = QFileDialog(self)
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        dialog.setNameFilter("Image (*.png *.jpg)")
+        dialog.setViewMode(QFileDialog.ViewMode.List)
+
+        if dialog.exec():
+            filenames = dialog.selectedFiles()
+            filenames = [Path(filename).as_posix() for filename in filenames]  # Convert to POSIX format
+            fn = filenames[0]
+            print(fn)
+            self.contract.insert_image(client_id, fn)
+            self.refresh_img(client_id)
+
+    def refresh_img(self, client_id):
+        img = self.contract.get_image(client_id)
+        if img is not None:
+            pixmap = QtGui.QPixmap()
+            pixmap.loadFromData(img)
+            # Create a QLabel and set the QPixmap
+            self.imgholder.setPixmap(pixmap)
+            self.imgholder.setScaledContents(True)
+        else: self.imgholder.setText("No Image")
     #for clients and inventory
     def delete(self, id, func, whether):
         noInput = QMessageBox()
@@ -723,7 +760,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
     def populate_tech_void(self, query, which, table):
         # stretch the header
-        a = self.technicianTable.horizontalHeader()
+        a = table.horizontalHeader()
         #a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         table.verticalHeader().hide()
         a.setStretchLastSection(True)
@@ -770,7 +807,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.user.add_backlogs(self.adminID, "Item Returned")
             self.populate_tech_void(self.tech.show_accounted_item(techid), 1, self.assignitemTable)
         else: noInput.close()
-        
         
 
     def addtechnician(self, which):
@@ -914,7 +950,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ############# SMS FORMAT ###################################################################################################
     def populate_sms(self, query):
         
-        a = self.serviceTable.horizontalHeader()
+        a = self.smsTable.horizontalHeader()
         a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.smsTable.verticalHeader().hide()
         a.setStretchLastSection(True)
@@ -975,12 +1011,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         # Show the first window again when the second window is closed
         self.first_window.show()
         event.accept()
+        self.user.add_backlogs(self.adminID, "User Logout")
 
 
-app = QApplication([])
+"""app = QApplication([])
 window = MainMenu(2, app)
 window.show()
-app.exec()
+app.exec()"""
 
     
 

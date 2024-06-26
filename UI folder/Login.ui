@@ -34,26 +34,62 @@
   <property name="windowTitle">
    <string>Login</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color:rgb(45, 116, 1)
+}
+
+QLineEdit{
+background-color:white
+}
+
+QLabel{
+color:white;
+}
+
+QPushButton{
+	height: 100%;
+	width: 100%;
+	border: none;
+	text-align: left;
+	padding-left:10px;
+	background-color: rgb(244, 252, 245)
+
+
+}
+
+QPushButton:checked{
+	 	background-color: rgb(182, 223, 154);
+}
+
+QPushButton:hover{
+	 	background-color: rgb(182, 223, 154);
+}
+
+QPushButton:pressed{
+	background-color: rgb(182, 223, 154);
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="forgotpassworBtn">
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>190</y>
+      <y>200</y>
       <width>121</width>
       <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton:hover{
-color:blue
+color:blue;
 }
 
 QPushButton{
 border: none;
 text-decoration: underline;
-
-
+background-color: rgb(45, 116, 1);
+color: white;
 }</string>
     </property>
     <property name="text">
@@ -73,16 +109,7 @@ text-decoration: underline;
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton{
-	border: none;
-	background-color: rgb(0, 255, 0);
-	font-size: 14px;
-}
-
-QPushButton:hover{
-	background-color: #5CE371;
-	box-shadow: 10px 10px 5px lightblue;
-}</string>
+     <string notr="true">QPushButton {background-color:rgb(217, 217, 217); color: black;}</string>
     </property>
     <property name="text">
      <string>Submit</string>
@@ -136,7 +163,7 @@ QPushButton:hover{
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="passwordInput">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -151,6 +178,7 @@ QPushButton:hover{
     </layout>
    </widget>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <resources/>
  <connections/>

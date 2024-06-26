@@ -7,11 +7,16 @@
     <x>0</x>
     <y>0</y>
     <width>497</width>
-    <height>403</height>
+    <height>401</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Forgot Password</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLineEdit{
+background-color: rgb(144, 206, 103)
+}</string>
   </property>
   <widget class="QPushButton" name="changePassSubmitBtn">
    <property name="geometry">
@@ -90,16 +95,19 @@ QPushButton:hover{
     <string>Submit</string>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>31</x>
      <y>33</y>
      <width>431</width>
-     <height>241</height>
+     <height>291</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="bottomMargin">
+     <number>35</number>
+    </property>
     <property name="verticalSpacing">
      <number>17</number>
     </property>
@@ -107,7 +115,11 @@ QPushButton:hover{
      <widget class="QLineEdit" name="ans2Input"/>
     </item>
     <item row="2" column="1">
-     <widget class="QLineEdit" name="adminIDInput"/>
+     <widget class="QLineEdit" name="adminIDInput">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </item>
     <item row="7" column="0">
      <widget class="QLabel" name="label_7">

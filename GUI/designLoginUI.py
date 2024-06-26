@@ -17,33 +17,59 @@ class Ui_login(object):
         login.setMinimumSize(QtCore.QSize(360, 300))
         login.setMaximumSize(QtCore.QSize(360, 300))
         login.setBaseSize(QtCore.QSize(360, 300))
+        login.setStyleSheet("QWidget{\n"
+"background-color:rgb(45, 116, 1)\n"
+"}\n"
+"\n"
+"QLineEdit{\n"
+"background-color:white\n"
+"}\n"
+"\n"
+"QLabel{\n"
+"color:white;\n"
+"}\n"
+"\n"
+"QPushButton{\n"
+"    height: 100%;\n"
+"    width: 100%;\n"
+"    border: none;\n"
+"    text-align: left;\n"
+"    padding-left:10px;\n"
+"    background-color: rgb(244, 252, 245)\n"
+"\n"
+"\n"
+"}\n"
+"\n"
+"QPushButton:checked{\n"
+"         background-color: rgb(182, 223, 154);\n"
+"}\n"
+"\n"
+"QPushButton:hover{\n"
+"         background-color: rgb(182, 223, 154);\n"
+"}\n"
+"\n"
+"QPushButton:pressed{\n"
+"    background-color: rgb(182, 223, 154);\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(parent=login)
         self.centralwidget.setObjectName("centralwidget")
         self.forgotpassworBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.forgotpassworBtn.setGeometry(QtCore.QRect(210, 190, 121, 31))
+        self.forgotpassworBtn.setGeometry(QtCore.QRect(210, 200, 121, 31))
         self.forgotpassworBtn.setStyleSheet("QPushButton:hover{\n"
-"color:blue\n"
+"color:blue;\n"
 "}\n"
 "\n"
 "QPushButton{\n"
 "border: none;\n"
 "text-decoration: underline;\n"
-"\n"
-"\n"
+"background-color: rgb(45, 116, 1);\n"
+"color: white;\n"
 "}")
         self.forgotpassworBtn.setCheckable(False)
         self.forgotpassworBtn.setObjectName("forgotpassworBtn")
         self.submitBtn = QtWidgets.QPushButton(parent=self.centralwidget)
         self.submitBtn.setGeometry(QtCore.QRect(220, 250, 111, 31))
-        self.submitBtn.setStyleSheet("QPushButton{\n"
-"    border: none;\n"
-"    background-color: rgb(0, 255, 0);\n"
-"    font-size: 14px;\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"    background-color: #5CE371\n"
-"}")
+        self.submitBtn.setStyleSheet("QPushButton {background-color:rgb(217, 217, 217); color: black;}")
         self.submitBtn.setObjectName("submitBtn")
         self.layoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
         self.layoutWidget.setGeometry(QtCore.QRect(30, 30, 308, 165))
@@ -70,15 +96,16 @@ class Ui_login(object):
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.passwordLabel)
         self.passwordInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
         self.passwordInput.setEnabled(True)
+        self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         self.passwordInput.setObjectName("passwordInput")
-        self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
-
-
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.passwordInput)
         self.usernameInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
         self.usernameInput.setObjectName("usernameInput")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.usernameInput)
         login.setCentralWidget(self.centralwidget)
+        self.statusBar = QtWidgets.QStatusBar(parent=login)
+        self.statusBar.setObjectName("statusBar")
+        login.setStatusBar(self.statusBar)
 
         self.retranslateUi(login)
         QtCore.QMetaObject.connectSlotsByName(login)

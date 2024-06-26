@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from GUI.designLoginUI import Ui_login
-from PyQt6 import QtGui
+from PyQt6 import QtGui, QtWidgets
 from GUI.ForgotpassUI import ForgotPass
 from user import User
 from MainmenuUI import MainMenu
@@ -14,6 +14,7 @@ class Window(QMainWindow, Ui_login):
         self.submitBtn.clicked.connect(self.loginHandler)
         self.forgotpassworBtn.clicked.connect(self.forgotPassHandler)
         self.adminIDInput.setValidator(QtGui.QIntValidator())
+        self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
     
     def loginHandler(self):
         adminID = self.adminIDInput.text()
@@ -25,6 +26,7 @@ class Window(QMainWindow, Ui_login):
             
         elif self.User.validate_user(adminID, password):
             print("mayinput")
+            self.User.add_backlogs(adminID, "User Login")
             self.hide()
             main = MainMenu(adminID, self)
             self.adminIDInput.clear()

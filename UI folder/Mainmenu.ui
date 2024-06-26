@@ -493,7 +493,7 @@ QPushButton:pressed{
 </string>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -2777,6 +2777,13 @@ background-color:rgb(182, 223, 154)
        <property name="spacing">
         <number>27</number>
        </property>
+       <item>
+        <widget class="QLabel" name="imgholder">
+         <property name="text">
+          <string>No Image</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="layoutWidget">
@@ -2936,10 +2943,27 @@ QPushButton:hover{
        </property>
       </widget>
      </widget>
+     <widget class="QPushButton" name="removecontractBtn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>730</y>
+        <width>122</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {background-color:rgb(227, 92, 92);}</string>
+      </property>
+      <property name="text">
+       <string>Remove</string>
+      </property>
+     </widget>
      <zorder>widget_16</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>layoutWidget</zorder>
      <zorder>verticalLayoutWidget</zorder>
+     <zorder>removecontractBtn</zorder>
     </widget>
     <widget class="QWidget" name="voidtechnician">
      <widget class="QPushButton" name="voidtechnicianSearchBtn">
