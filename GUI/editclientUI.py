@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QDialog,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton
+from PyQt6 import QtGui, QtCore
 from GUI.designeditclientUI import Ui_Dialog
 from clientinfo import ClientInfo
 from user import User
@@ -10,6 +11,9 @@ class editClients(QDialog,Ui_Dialog):
         self.setupUi(self)
         self.u = User()
         self.admin = admin
+        regex = QtCore.QRegularExpression(r"^0\d{0,10}$")
+        validator = QtGui.QRegularExpressionValidator(regex, self)
+        self.contactnoInput.setValidator(validator)
         self.emailBtn.clicked.connect(self.editname)
         self.cancelBtn.clicked.connect(lambda: self.close())
         placeholder = self.c.get_data(self.id, ("name, phone_num, address, email"))

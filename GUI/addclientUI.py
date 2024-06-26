@@ -1,4 +1,4 @@
-from PyQt6 import QtGui
+from PyQt6 import QtGui, QtCore
 from PyQt6.QtWidgets import QApplication, QDialog, QMessageBox
 from GUI.designaddclientUI import Ui_addClients
 from clientinfo import ClientInfo
@@ -10,7 +10,9 @@ class addClient(QDialog, Ui_addClients):
         self.c = ClientInfo()
         self.u = User()
         self.admin = admin
-        self.phonenumInput.setValidator(QtGui.QIntValidator())
+        regex = QtCore.QRegularExpression(r"^0\d{0,10}$")
+        validator = QtGui.QRegularExpressionValidator(regex, self)
+        self.phonenumInput.setValidator(validator)
         self.addclientBtn.clicked.connect(self.addclient)
         self.cancelBtn.clicked.connect(lambda: self.close())
 
