@@ -15,7 +15,7 @@ class ForgotPass(QDialog, Ui_forgotPassword):
         self.forgotPassCancelBtn.clicked.connect(lambda: self.close())
         self.changePassSubmitBtn.clicked.connect(self.forgotpassHandler)
         self.changePassSubmitBtn_2.clicked.connect(self.questions)
-        self.adminIDInput.setValidator(QtGui.QIntValidator())
+        #self.adminIDInput.setValidator(QtGui.QIntValidator())
         self.q1label.setVisible(False)
         self.q2label.setVisible(False)
         self.label_2.setVisible(False)
@@ -26,7 +26,7 @@ class ForgotPass(QDialog, Ui_forgotPassword):
         self.ans2Input.setVisible(False)
 
     def forgotpassHandler(self):
-        adminID = int(self.adminIDInput.text())
+        adminID = self.adminIDInput.text()
         username = self.usernameInput.text()
         if (adminID and username) == "":
             print(adminID, username)

@@ -13,7 +13,7 @@ class Window(QMainWindow, Ui_login):
         self.setWindowTitle("HomeFix LogIn")
         self.submitBtn.clicked.connect(self.loginHandler)
         self.forgotpassworBtn.clicked.connect(self.forgotPassHandler)
-        self.adminIDInput.setValidator(QtGui.QIntValidator())
+        #self.adminIDInput.setValidator(QtGui.QIntValidator())
         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
     
     def loginHandler(self):
@@ -36,7 +36,6 @@ class Window(QMainWindow, Ui_login):
             #self.show()
             ## mainmenu here 
 
-            
         else: 
             print("mali input")
             self.notif(QMessageBox.Icon.Warning, "Wrong Credentials")

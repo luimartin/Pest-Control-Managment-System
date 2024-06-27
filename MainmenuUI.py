@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication,QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem, QDialog, QVBoxLayout, QFileDialog, QLabel
+from PyQt6.QtWidgets import QApplication,QMainWindow,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton, QListWidgetItem, QDialog, QVBoxLayout, QFileDialog, QLabel 
 from PyQt6 import QtCore, QtGui
 from GUI.designMainMenu import Ui_MainWindow
 from clientinfo import ClientInfo
@@ -278,20 +278,25 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         contract_result = self.contract.contract_view(client_id)
         cont_id = self.contract.get_data(client_id, "contract_id")
         hasimg = self.contract.has_img(client_id)
+        font = QtGui.QFont()
+        font.setPointSize(14)  
         if result:
             self.infolist.clear()
+            item = QListWidgetItem()
+
+            item.setFont(font)
+            item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
             for row in result:
-                item = QListWidgetItem()
-                item.setText(f"Name: {row[0]}\nPhone: {row[1]}\nAddress: {row[2]}\nEmail: {row[3]}")
-                item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
+                item.setText(f"Name: {row[0]}\nPhone: {row[1]}\nAddress: {row[2]}\nEmail: {row[3]}")              
                 self.infolist.addItem(item)
 
         if contract_result:
             self.contractlist.clear()
+            item = QListWidgetItem()
+            item.setFont(font)
+            item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
             for row in contract_result:
                 problem, service_type, start_date, end_date, square_meter, unit, price = row
-                
-                item = QListWidgetItem()
                 item.setText(f"Problem: {problem}\n"
                             f"Service Type: {service_type}\n"
                             f"Start Date: {start_date}\n"
@@ -299,7 +304,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                             f"Square Meter: {square_meter} \n"
                             f"Unit: {unit}\n"
                             f"Price: {price}")
-                item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
+
                 self.contractlist.addItem(item)
         self.editcontractBtn.disconnect()
         self.pushButton_14.disconnect()
@@ -518,7 +523,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 #schedule page######################################################################################################
     def populate_schedule(self, tablename, query):
         a = tablename.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
         tablename.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
@@ -654,12 +659,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 # sales page ###################################################################################
     def populate_sale(self, query, which):
         a = self.saleTable.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        #a.ResizeMode(QHeaderView.ResizeMode.Stretch)
         self.saleTable.verticalHeader().hide()
         self.saleTable.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)  
-        header = self.saleTable.horizontalHeader()
-        header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
         sale = query
 
@@ -814,6 +819,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     table.setItem(row_idx, col_idx, items)
                 if which is not None:
                     balik = QPushButton('Return')   
+                    balik.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #E35C5C"
+                    "}"
+                )
                     balik.clicked.connect(lambda _, id=techitem_id, item = item_id
                                           , quant = quantity: self.returnitem(id, item, quant, techid))
                     table.setCellWidget(row_idx, 6, balik)
@@ -931,7 +942,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def populate_userlog(self):
         self.user = User()
         a = self.serviceTable.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.userlogTable.verticalHeader().hide()
         a.setStretchLastSection(True)
         service = self.user.show_userlog()

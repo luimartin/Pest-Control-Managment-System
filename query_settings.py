@@ -21,3 +21,12 @@ def handle_select(query):
         print("Error type: {}".format(error))
 
     return output
+
+def handle_exec(query):
+    try:
+        mycursor.execute(query)
+        mydb.commit()
+        print("Delimmet Execution")
+    except Error as error:
+        mydb.rollback()
+        print("Error type: {}".format(error))

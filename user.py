@@ -1,8 +1,10 @@
 from database import *
 from query_settings import *
 import hashlib
-import os
+import os, random
 from datetime import datetime
+
+
 class User:
     security_question = [
             "What is the name of your pet?",
@@ -21,7 +23,6 @@ class User:
         self.username = username
         self.isActive = True
 
-       
     
     # Add the admin account with SHA256 password encrypting and decryption
     def add_user(self, uname, pword, q1, a1, q2, a2):
@@ -42,7 +43,7 @@ class User:
     # Validate user based from input id and password
     def validate_user(self, input_id, input_pwd):
         # Retrieve the user's salt and hashed password from the database
-        query = "select salt, password from USER where user_id = {}".format(input_id)
+        query = "select salt, password from USER where user_id = '{}'".format(input_id)
         result = handle_select(query)
         if not result:
             return False
@@ -80,19 +81,19 @@ class User:
 
     # Validation of account based from the input userid and username for changing of password
     def cp_validate_user(self, user_id, username):
-        query = "select user_id, username from USER where user_id = {}".format(user_id)
+        query = "select user_id, username from USER where user_id = '{}'".format(user_id)
         
         uid = handle_select(query)[0][0]
         uname = handle_select(query)[0][1]
 
 
-        if uid == int(user_id) and uname == username:
+        if uid == user_id and uname == username:
             return True
         
         return False
 # q1, a1, q2, a2
     def cp_questions(self, user_id, a1, a2):
-        query = "select answer1, answer2 from user where user_id = {}".format(user_id)
+        query = "select answer1, answer2 from user where user_id = '{}'".format(user_id)
         ans = handle_select(query)
 
         if ans[0][0] == a1 and ans[0][1] == a2:
@@ -119,12 +120,12 @@ class User:
     # Searching of admin account 
     def get_data(self, ref_id, categ):
         temp = "select {} from USER ".format(categ)
-        query = temp + "where user_id = {}".format(ref_id)
+        query = temp + "where user_id = '{}'".format(ref_id)
         return handle_select(query)
     
     def show_userlog(self):
         query = """
-            
+            select * from activity;
     """ 
         return handle_select(query)
     
@@ -143,4 +144,3 @@ class User:
 #u.add_user("cris", "030709", "What was the first game you played?", "jackstone", "What is the toy/stuffed animal you like the most as a kid?", "giraffe")
 #u.add_user("doctora", "030709", "What was your dream job?", "doctor", "What was the first thing you learned to cook?", "hotdog")
 #u.add_user("gil", "030709", "What is your most listened song ever?", "supershy", "What is the toy/stuffed animal you like the most as a kid?", "dog")
-

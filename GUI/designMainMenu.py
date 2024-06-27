@@ -430,7 +430,7 @@ class Ui_MainWindow(object):
         self.voidedTechnicianBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.voidedTechnicianBtn.setObjectName("voidedTechnicianBtn")
         self.serviceBtn = QtWidgets.QPushButton(parent=self.widget_4)
-        self.serviceBtn.setGeometry(QtCore.QRect(740, 60, 122, 38))
+        self.serviceBtn.setGeometry(QtCore.QRect(750, 60, 122, 38))
         self.serviceBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.serviceBtn.setObjectName("serviceBtn")
         self.TechnicianSearchBtn = QtWidgets.QLineEdit(parent=self.widget_4)
@@ -536,7 +536,7 @@ class Ui_MainWindow(object):
         self.label_11.setIndent(3)
         self.label_11.setObjectName("label_11")
         self.layoutWidget3 = QtWidgets.QWidget(parent=self.widget_6)
-        self.layoutWidget3.setGeometry(QtCore.QRect(370, 70, 631, 51))
+        self.layoutWidget3.setGeometry(QtCore.QRect(370, 60, 631, 51))
         self.layoutWidget3.setObjectName("layoutWidget3")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.layoutWidget3)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -608,7 +608,7 @@ class Ui_MainWindow(object):
         self.smsSearch.setCursorPosition(0)
         self.smsSearch.setObjectName("smsSearch")
         self.clientSMSBtn = QtWidgets.QPushButton(parent=self.widget_7)
-        self.clientSMSBtn.setGeometry(QtCore.QRect(740, 60, 122, 38))
+        self.clientSMSBtn.setGeometry(QtCore.QRect(750, 60, 122, 38))
         self.clientSMSBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.clientSMSBtn.setObjectName("clientSMSBtn")
         self.techSMSBtn = QtWidgets.QPushButton(parent=self.widget_7)
@@ -651,30 +651,14 @@ class Ui_MainWindow(object):
         self.helpsearch.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         self.helpsearch.setCursorPosition(0)
         self.helpsearch.setObjectName("helpsearch")
-        self.inventoryBtn_3 = QtWidgets.QPushButton(parent=self.widget_8)
-        self.inventoryBtn_3.setGeometry(QtCore.QRect(620, 70, 122, 38))
-        self.inventoryBtn_3.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.inventoryBtn_3.setObjectName("inventoryBtn_3")
-        self.clienthelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.clienthelp.setGeometry(QtCore.QRect(230, 70, 122, 38))
-        self.clienthelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.clienthelp.setObjectName("clienthelp")
-        self.inventoryhelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.inventoryhelp.setGeometry(QtCore.QRect(490, 70, 122, 38))
-        self.inventoryhelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.inventoryhelp.setObjectName("inventoryhelp")
         self.smshelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.smshelp.setGeometry(QtCore.QRect(880, 70, 122, 38))
+        self.smshelp.setGeometry(QtCore.QRect(860, 60, 141, 38))
         self.smshelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.smshelp.setObjectName("smshelp")
-        self.schedulehelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.schedulehelp.setGeometry(QtCore.QRect(360, 70, 122, 38))
-        self.schedulehelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.schedulehelp.setObjectName("schedulehelp")
-        self.snrhelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.snrhelp.setGeometry(QtCore.QRect(750, 70, 122, 38))
-        self.snrhelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.snrhelp.setObjectName("snrhelp")
+        self.textBrowser_4 = QtWidgets.QTextBrowser(parent=self.helpPage)
+        self.textBrowser_4.setGeometry(QtCore.QRect(60, 240, 911, 491))
+        self.textBrowser_4.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
+        self.textBrowser_4.setObjectName("textBrowser_4")
         self.stackedWidget.addWidget(self.helpPage)
         self.aboutPage = QtWidgets.QWidget()
         self.aboutPage.setObjectName("aboutPage")
@@ -814,19 +798,19 @@ class Ui_MainWindow(object):
         self.chemicalsearchBtn.setIcon(icon1)
         self.chemicalsearchBtn.setObjectName("chemicalsearchBtn")
         self.cheminventoryBtn = QtWidgets.QPushButton(parent=self.widget_19)
-        self.cheminventoryBtn.setGeometry(QtCore.QRect(490, 50, 122, 38))
+        self.cheminventoryBtn.setGeometry(QtCore.QRect(490, 60, 122, 38))
         self.cheminventoryBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.cheminventoryBtn.setObjectName("cheminventoryBtn")
         self.chemchemicalBtn = QtWidgets.QPushButton(parent=self.widget_19)
-        self.chemchemicalBtn.setGeometry(QtCore.QRect(620, 50, 122, 38))
+        self.chemchemicalBtn.setGeometry(QtCore.QRect(620, 60, 122, 38))
         self.chemchemicalBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.chemchemicalBtn.setObjectName("chemchemicalBtn")
         self.chemmaterialsBtn = QtWidgets.QPushButton(parent=self.widget_19)
-        self.chemmaterialsBtn.setGeometry(QtCore.QRect(751, 50, 121, 38))
+        self.chemmaterialsBtn.setGeometry(QtCore.QRect(751, 60, 121, 38))
         self.chemmaterialsBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.chemmaterialsBtn.setObjectName("chemmaterialsBtn")
         self.chemequipmentBtn = QtWidgets.QPushButton(parent=self.widget_19)
-        self.chemequipmentBtn.setGeometry(QtCore.QRect(880, 50, 122, 38))
+        self.chemequipmentBtn.setGeometry(QtCore.QRect(880, 60, 122, 38))
         self.chemequipmentBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.chemequipmentBtn.setObjectName("chemequipmentBtn")
         self.widget_19.raise_()
@@ -876,19 +860,19 @@ class Ui_MainWindow(object):
         self.equipmentSearchBtn.setIcon(icon1)
         self.equipmentSearchBtn.setObjectName("equipmentSearchBtn")
         self.eqinventoryBtn = QtWidgets.QPushButton(parent=self.widget_18)
-        self.eqinventoryBtn.setGeometry(QtCore.QRect(490, 50, 122, 38))
+        self.eqinventoryBtn.setGeometry(QtCore.QRect(490, 60, 122, 38))
         self.eqinventoryBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.eqinventoryBtn.setObjectName("eqinventoryBtn")
         self.eqchemicalBtn = QtWidgets.QPushButton(parent=self.widget_18)
-        self.eqchemicalBtn.setGeometry(QtCore.QRect(620, 50, 122, 38))
+        self.eqchemicalBtn.setGeometry(QtCore.QRect(620, 60, 122, 38))
         self.eqchemicalBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.eqchemicalBtn.setObjectName("eqchemicalBtn")
         self.eqmaterialsBtn = QtWidgets.QPushButton(parent=self.widget_18)
-        self.eqmaterialsBtn.setGeometry(QtCore.QRect(750, 50, 122, 38))
+        self.eqmaterialsBtn.setGeometry(QtCore.QRect(750, 60, 122, 38))
         self.eqmaterialsBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.eqmaterialsBtn.setObjectName("eqmaterialsBtn")
         self.eqequipmentBtn = QtWidgets.QPushButton(parent=self.widget_18)
-        self.eqequipmentBtn.setGeometry(QtCore.QRect(880, 50, 122, 38))
+        self.eqequipmentBtn.setGeometry(QtCore.QRect(880, 60, 122, 38))
         self.eqequipmentBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.eqequipmentBtn.setObjectName("eqequipmentBtn")
         self.widget_18.raise_()
@@ -932,19 +916,19 @@ class Ui_MainWindow(object):
         self.label_15.setIndent(3)
         self.label_15.setObjectName("label_15")
         self.matinventoryBtn = QtWidgets.QPushButton(parent=self.widget_17)
-        self.matinventoryBtn.setGeometry(QtCore.QRect(490, 50, 122, 38))
+        self.matinventoryBtn.setGeometry(QtCore.QRect(490, 60, 122, 38))
         self.matinventoryBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.matinventoryBtn.setObjectName("matinventoryBtn")
         self.matchemicalBtn = QtWidgets.QPushButton(parent=self.widget_17)
-        self.matchemicalBtn.setGeometry(QtCore.QRect(620, 50, 122, 38))
+        self.matchemicalBtn.setGeometry(QtCore.QRect(620, 60, 122, 38))
         self.matchemicalBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.matchemicalBtn.setObjectName("matchemicalBtn")
         self.matmaterialsBtn = QtWidgets.QPushButton(parent=self.widget_17)
-        self.matmaterialsBtn.setGeometry(QtCore.QRect(750, 50, 122, 38))
+        self.matmaterialsBtn.setGeometry(QtCore.QRect(750, 60, 122, 38))
         self.matmaterialsBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.matmaterialsBtn.setObjectName("matmaterialsBtn")
         self.matequipmentBtn = QtWidgets.QPushButton(parent=self.widget_17)
-        self.matequipmentBtn.setGeometry(QtCore.QRect(880, 50, 122, 38))
+        self.matequipmentBtn.setGeometry(QtCore.QRect(880, 60, 122, 38))
         self.matequipmentBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.matequipmentBtn.setObjectName("matequipmentBtn")
         self.materialsearchBtn = QtWidgets.QPushButton(parent=self.widget_17)
@@ -989,15 +973,15 @@ class Ui_MainWindow(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.contractlist = QtWidgets.QListWidget(parent=self.verticalLayoutWidget)
-        self.contractlist.setObjectName("contractlist")
-        self.verticalLayout_2.addWidget(self.contractlist)
-        self.label_4 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
-        self.label_4.setObjectName("label_4")
-        self.verticalLayout_2.addWidget(self.label_4)
         self.infolist = QtWidgets.QListWidget(parent=self.verticalLayoutWidget)
         self.infolist.setObjectName("infolist")
         self.verticalLayout_2.addWidget(self.infolist)
+        self.label_4 = QtWidgets.QLabel(parent=self.verticalLayoutWidget)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_2.addWidget(self.label_4)
+        self.contractlist = QtWidgets.QListWidget(parent=self.verticalLayoutWidget)
+        self.contractlist.setObjectName("contractlist")
+        self.verticalLayout_2.addWidget(self.contractlist)
         self.widget_16 = QtWidgets.QWidget(parent=self.contractPage)
         self.widget_16.setGeometry(QtCore.QRect(0, 0, 1031, 191))
         self.widget_16.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
@@ -1300,7 +1284,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(4)
+        self.stackedWidget.setCurrentIndex(7)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1348,23 +1332,26 @@ class Ui_MainWindow(object):
         self.revenueBtn.setText(_translate("MainWindow", "Revenue"))
         self.salesBtn.setText(_translate("MainWindow", "Sales"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:18pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Edit Admin: </span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To edit the question and answer data of the admin account, click the &quot;Edit Admin&quot; button. </span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Back Up:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To save the entire data of the system, click the &quot;Back Up&quot; button. This will save to your local computer.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:18pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Restore:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To restore the entire data of the system, click the &quot;Restore&quot; button. Choose the file that have been generated by the back up feature. (.sql file)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Edit Admin: </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To edit the question and answer data of the admin account, click the &quot;Edit Admin&quot; button. </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Back Up:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To save the entire data of the system, click the &quot;Back Up&quot; button. This will save to your local computer.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Restore:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To restore the entire data of the system, click the &quot;Restore&quot; button. Choose the file that have been generated by the back up feature. (.sql file)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\"><br /></span><span style=\" font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
         self.label_11.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Maintenance</span></p></body></html>"))
         self.addAdminBtn.setText(_translate("MainWindow", "Add Admin"))
         self.editAdminBtn.setText(_translate("MainWindow", "Edit Admin"))
@@ -1378,29 +1365,51 @@ class Ui_MainWindow(object):
         self.techSMSBtn.setText(_translate("MainWindow", "Technician SMS"))
         self.helplabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Help</span></p></body></html>"))
         self.helpsearch.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.inventoryBtn_3.setText(_translate("MainWindow", "Technician"))
-        self.clienthelp.setText(_translate("MainWindow", "Clients"))
-        self.inventoryhelp.setText(_translate("MainWindow", "Inventory"))
-        self.smshelp.setText(_translate("MainWindow", "SMS Format"))
-        self.schedulehelp.setText(_translate("MainWindow", "Schedules"))
-        self.snrhelp.setText(_translate("MainWindow", "Sales and Revenue"))
+        self.smshelp.setText(_translate("MainWindow", "Generate Instructions"))
+        self.textBrowser_4.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Client Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage client information, contract details, and schedules.</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Schedule Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage schedule details, view digital timetable, assigning of technician to a client, and sending of SMS to a recipient. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Inventory Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage checmicals, materials, and equipments. Also, for adding new delivery item information. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Tehnician Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; color:#000000;\">    used to manage technician information, assigning of items to a technician, and viewing of technician services. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Sales and Revenue Module</span><span style=\" font-size:18pt; color:#000000;\"><br />    </span><span style=\" font-size:14pt; color:#000000;\">used to add sales from the paid clients. It also offer report summary about the daily, monthly, and yearly sales.</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">SMS Format </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; color:#000000;\">    used to add SMS Format with tokens to support uniform text messaging to multiple recipients. These tokens has an equivalent value of data (e.g &quot;@cn&quot; = client name).</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Maintenance</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to add and edit of admin account, back up data, and restore data.</span></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt; color:#000000;\"><br /></p></body></html>"))
         self.aboutLbl.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">About</span></p></body></html>"))
         self.aboutLbl_2.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; color:#000000;\">System Version</span></p></body></html>"))
         self.aboutLbl_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Description</span></p></body></html>"))
         self.aboutLbl_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Developers</span></p></body></html>"))
         self.aboutLbl_5.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; font-style:italic;\">1.0.0</span></p></body></html>"))
         self.textBrowser_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.</span></p></body></html>"))
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.</span></p></body></html>"))
         self.textBrowser_3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Batao, Bianca Louise (System Analyst)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Cruz, Deinielle Anjhelo (System Analyst)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Martin, Lui Andrei (Programmer)</span></p></body></html>"))
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Batao, Bianca Louise (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Cruz, Deinielle Anjhelo (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Martin, Lui Andrei (Programmer)</span></p></body></html>"))
         self.voidclientSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.voidclientSearchBtn.setText(_translate("MainWindow", "Search"))
         self.label_13.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Void Client</span></p></body></html>"))
@@ -1451,13 +1460,3 @@ class Ui_MainWindow(object):
         self.userlogbackBtn.setText(_translate("MainWindow", "Back"))
         self.label_44.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Today Schedule</span></p></body></html>"))
         self.todayschedbackBtn.setText(_translate("MainWindow", "Back"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec())

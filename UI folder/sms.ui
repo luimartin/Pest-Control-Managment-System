@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>443</height>
+    <width>374</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,24 +35,11 @@
     <number>3</number>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>21</x>
-     <y>101</y>
-     <width>68</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Schedule ID: </string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="cancelBtn">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>390</y>
+     <x>160</x>
+     <y>530</y>
      <width>75</width>
      <height>24</height>
     </rect>
@@ -64,47 +51,88 @@
   <widget class="QPushButton" name="submitBtn">
    <property name="geometry">
     <rect>
-     <x>250</x>
-     <y>390</y>
+     <x>260</x>
+     <y>530</y>
      <width>75</width>
      <height>24</height>
     </rect>
    </property>
    <property name="text">
-    <string>Submit</string>
+    <string>Send</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="responseText">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>410</y>
+     <width>319</width>
+     <height>91</height>
+    </rect>
    </property>
   </widget>
   <widget class="QWidget" name="">
    <property name="geometry">
     <rect>
-     <x>21</x>
-     <y>101</y>
-     <width>331</width>
-     <height>271</height>
+     <x>30</x>
+     <y>100</y>
+     <width>321</width>
+     <height>301</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
+   <layout class="QGridLayout" name="gridLayout">
     <property name="horizontalSpacing">
-     <number>12</number>
+     <number>6</number>
     </property>
     <property name="verticalSpacing">
-     <number>23</number>
+     <number>17</number>
     </property>
-    <item row="0" column="1">
-     <widget class="QComboBox" name="schedID"/>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="msgID"/>
     </item>
     <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Schedule ID: </string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="typeinput">
+      <item>
+       <property name="text">
+        <string>Client</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Technician</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="2">
+     <widget class="QTextBrowser" name="msg"/>
+    </item>
+    <item row="2" column="0">
      <widget class="QLabel" name="label_2">
       <property name="text">
        <string>Message ID:</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QComboBox" name="msgID"/>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Type: </string>
+      </property>
+     </widget>
     </item>
-    <item row="2" column="0" colspan="2">
-     <widget class="QTextBrowser" name="msg"/>
+    <item row="1" column="1">
+     <widget class="QComboBox" name="schedID"/>
     </item>
    </layout>
   </widget>

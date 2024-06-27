@@ -44,14 +44,13 @@ class CalendarScheduler(QDialog):
         self.populate_calendar()
 
     def create_calendar_table(self):
-        current_date = QDate(2024, 7, 1)
+        current_date = QDate().currentDate()
         first_day_of_month = QDate(current_date.year(), current_date.month(), 1)
         days_in_month = first_day_of_month.daysInMonth()
         start_day_of_week = first_day_of_month.dayOfWeek()
 
         # Calculate number of weeks needed
         weeks_in_month = (days_in_month + start_day_of_week - 1 + 6) // 7
-
         # Set the table size dynamically based on weeks
         table_width = 1209
         table_height = 768
@@ -72,7 +71,7 @@ class CalendarScheduler(QDialog):
         self.layout.addWidget(self.calendar_table)
 
     def populate_calendar(self):
-        current_date = QDate(2024, 7, 1) # to debug use QDate(2024, 7, 1)
+        current_date = QDate().currentDate()
         first_day_of_month = QDate(current_date.year(), current_date.month(), 1)
 
         for day in range(1, first_day_of_month.daysInMonth() + 1):

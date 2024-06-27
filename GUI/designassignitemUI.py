@@ -120,8 +120,7 @@ class AssignItem(QDialog, Ui_Dialog):
         quantity = self.quantityInput.text()
         if quantity == "":
             self.notif( "Field cannot be null!",QMessageBox.Icon.Warning) 
-        elif quantity is not int:
-            self.notif( "Quantity cannot be String!",QMessageBox.Icon.Warning) 
+        
         else:
             val = self.tech.assign_item(self.tech_id, item_id, quantity)
             if val == "Invalid":
