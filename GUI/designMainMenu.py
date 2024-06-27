@@ -35,10 +35,9 @@ class Ui_MainWindow(object):
 "    width: 100%;\n"
 "    border: none;\n"
 "    text-align: left;\n"
-"    padding-left:10px;\n"
-"    background-color: rgb(244, 252, 245)\n"
-"\n"
-"\n"
+"    padding-left: 8px;\n"
+"    background-color: rgb(244, 252, 245);\n"
+"    font-size: 14px;\n"
 "}\n"
 "\n"
 "QPushButton:checked{\n"
@@ -54,7 +53,7 @@ class Ui_MainWindow(object):
 "}")
         self.moduleMenu.setObjectName("moduleMenu")
         self.layoutWidget = QtWidgets.QWidget(parent=self.moduleMenu)
-        self.layoutWidget.setGeometry(QtCore.QRect(20, 130, 131, 631))
+        self.layoutWidget.setGeometry(QtCore.QRect(20, 190, 131, 567))
         self.layoutWidget.setObjectName("layoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -651,14 +650,14 @@ class Ui_MainWindow(object):
         self.helpsearch.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         self.helpsearch.setCursorPosition(0)
         self.helpsearch.setObjectName("helpsearch")
-        self.smshelp = QtWidgets.QPushButton(parent=self.widget_8)
-        self.smshelp.setGeometry(QtCore.QRect(860, 60, 141, 38))
-        self.smshelp.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.smshelp.setObjectName("smshelp")
         self.textBrowser_4 = QtWidgets.QTextBrowser(parent=self.helpPage)
-        self.textBrowser_4.setGeometry(QtCore.QRect(60, 240, 911, 491))
+        self.textBrowser_4.setGeometry(QtCore.QRect(60, 240, 911, 421))
         self.textBrowser_4.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.textBrowser_4.setObjectName("textBrowser_4")
+        self.smshelp = QtWidgets.QPushButton(parent=self.helpPage)
+        self.smshelp.setGeometry(QtCore.QRect(830, 690, 141, 38))
+        self.smshelp.setStyleSheet("QPushButton {background-color: rgb(198, 200, 195); color: black;}")
+        self.smshelp.setObjectName("smshelp")
         self.stackedWidget.addWidget(self.helpPage)
         self.aboutPage = QtWidgets.QWidget()
         self.aboutPage.setObjectName("aboutPage")
@@ -1332,26 +1331,23 @@ class Ui_MainWindow(object):
         self.revenueBtn.setText(_translate("MainWindow", "Revenue"))
         self.salesBtn.setText(_translate("MainWindow", "Sales"))
         self.textBrowser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Edit Admin: </span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To edit the question and answer data of the admin account, click the &quot;Edit Admin&quot; button. </span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Back Up:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To save the entire data of the system, click the &quot;Back Up&quot; button. This will save to your local computer.</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:18pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:696;\">Restore:</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\">To restore the entire data of the system, click the &quot;Restore&quot; button. Choose the file that have been generated by the back up feature. (.sql file)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\"><br /></span><span style=\" font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Add Admin:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To add an addtional admin account for the system, click the &quot;Add Admin&quot; button.  Once done, the new admin account can access the system with authorized level of access.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Edit Admin: </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To edit the question and answer data of the admin account, click the &quot;Edit Admin&quot; button. </span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:9pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Back Up:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To save the entire data of the system, click the &quot;Back Up&quot; button. This will save to your local computer.</span></p>\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:18pt;\"><br /></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">Restore:</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\">To restore the entire data of the system, click the &quot;Restore&quot; button. Choose the file that have been generated by the back up feature. (.sql file)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-family:\'Segoe UI\'; font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
         self.label_11.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Maintenance</span></p></body></html>"))
         self.addAdminBtn.setText(_translate("MainWindow", "Add Admin"))
         self.editAdminBtn.setText(_translate("MainWindow", "Edit Admin"))
@@ -1365,51 +1361,42 @@ class Ui_MainWindow(object):
         self.techSMSBtn.setText(_translate("MainWindow", "Technician SMS"))
         self.helplabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Help</span></p></body></html>"))
         self.helpsearch.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.smshelp.setText(_translate("MainWindow", "Generate Instructions"))
         self.textBrowser_4.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Client Module</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage client information, contract details, and schedules.</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Schedule Module</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage schedule details, view digital timetable, assigning of technician to a client, and sending of SMS to a recipient. </span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Inventory Module</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to manage checmicals, materials, and equipments. Also, for adding new delivery item information. </span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Tehnician Module</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; color:#000000;\">    used to manage technician information, assigning of items to a technician, and viewing of technician services. </span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Sales and Revenue Module</span><span style=\" font-size:18pt; color:#000000;\"><br />    </span><span style=\" font-size:14pt; color:#000000;\">used to add sales from the paid clients. It also offer report summary about the daily, monthly, and yearly sales.</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">SMS Format </span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt; color:#000000;\">    used to add SMS Format with tokens to support uniform text messaging to multiple recipients. These tokens has an equivalent value of data (e.g &quot;@cn&quot; = client name).</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\"><br /><br /></span><span style=\" font-size:18pt; font-weight:700; color:#000000;\">Maintenance</span></p>\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt; color:#000000;\">    </span><span style=\" font-size:14pt; color:#000000;\">used to add and edit of admin account, back up data, and restore data.</span></p>\n"
-"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt; color:#000000;\"><br /></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Client Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\">    </span><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">used to manage client information, contract details, and schedules.</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Schedule Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\">    </span><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">used to manage schedule details, view digital timetable, assigning of technician to a client, and sending of SMS to a recipient. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Inventory Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\">    </span><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">used to manage checmicals, materials, and equipments. Also, for adding new delivery item information. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Tehnician Module</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">    used to manage technician information, assigning of items to a technician, and viewing of technician services. </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Sales and Revenue Module</span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br />    </span><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">used to add sales from the paid clients. It also offer report summary about the daily, monthly, and yearly sales.</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">SMS Format </span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">    used to add SMS Format with tokens to support uniform text messaging to multiple recipients. These tokens has an equivalent value of data (e.g &quot;@cn&quot; = client name).</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\"><br /><br /></span><span style=\" font-family:\'Segoe UI\'; font-size:18pt; font-weight:696; color:#000000;\">Maintenance</span></p>\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:18pt; color:#000000;\">    </span><span style=\" font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\">used to add and edit of admin account, back up data, and restore data.</span></p>\n"
+"<p align=\"justify\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Segoe UI\'; font-size:14pt; color:#000000;\"><br /></p></body></html>"))
+        self.smshelp.setText(_translate("MainWindow", "Generate Instructions"))
         self.aboutLbl.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">About</span></p></body></html>"))
         self.aboutLbl_2.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:26pt; color:#000000;\">System Version</span></p></body></html>"))
         self.aboutLbl_3.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Description</span></p></body></html>"))
         self.aboutLbl_4.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:22pt; color:#000000;\">Developers</span></p></body></html>"))
         self.aboutLbl_5.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; font-style:italic;\">1.0.0</span></p></body></html>"))
         self.textBrowser_2.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"justify\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">A Management System for Pest and Termite Control Services with SMS Technology used to elevate the operational process concerning with client information, schedules, inventories, technician services, sales and revenue, and SMS messeges.</span></p></body></html>"))
         self.textBrowser_3.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Batao, Bianca Louise (System Analyst)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Cruz, Deinielle Anjhelo (System Analyst)</span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:16pt; font-style:italic; color:#000000;\">Martin, Lui Andrei (Programmer)</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Batao, Bianca Louise (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Cruz, Deinielle Anjhelo (System Analyst)</span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Segoe UI\'; font-size:16pt; font-style:italic; color:#000000;\">Martin, Lui Andrei (Programmer)</span></p></body></html>"))
         self.voidclientSearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.voidclientSearchBtn.setText(_translate("MainWindow", "Search"))
         self.label_13.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Void Client</span></p></body></html>"))
@@ -1460,3 +1447,13 @@ class Ui_MainWindow(object):
         self.userlogbackBtn.setText(_translate("MainWindow", "Back"))
         self.label_44.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Today Schedule</span></p></body></html>"))
         self.todayschedbackBtn.setText(_translate("MainWindow", "Back"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec())
