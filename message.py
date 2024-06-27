@@ -21,6 +21,7 @@ class Message:
         }
         self.converted_token = []
 
+
     def get_phone_num(self, which, sched_id):
         if which == "Client":
             query = """
@@ -28,7 +29,16 @@ class Message:
         client inner join schedule on client.client_id = 
         schedule.client_id where schedule_id = {};
         """.format(sched_id)
-            return handle_select()
+            return handle_select(query)
+        else:
+            query = """
+        select phone_num from 
+        TECHnician inner join schedule on
+          TECHnician.technician_id = schedule.technician_id 
+          where schedule_id = {};
+        """.format(sched_id)
+            return handle_select(query)
+
 
     def convert_msg(self, sched_id,  msg_content):
         # The msg_content should be retreived from database
@@ -61,7 +71,7 @@ class Message:
             self.converted_token = []
             return result
         except IndexError:
-            return "Invalid, no assigned technician or wrong token format"
+            return None
 
     def add_message(self, msg_categ, msg_title, msg_format):
         query = "insert into MESSAGE (message_category, message, title) values (%s, %s, %s)"

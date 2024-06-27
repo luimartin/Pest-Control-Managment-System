@@ -23,7 +23,6 @@ from GUI.designaddsalesI import AddSales
 from GUI.designaddtechUI import AddTechnician
 from GUI.designassignitemUI import AssignItem
 from GUI.designaddadminUI import AddAdmin
-from asd import SaleTrendDialog
 from GUI.designaddsmsformatUI import AddSMS
 from user import User
 from backup_restore import backup_database, restore_database

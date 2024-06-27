@@ -17,7 +17,7 @@ class Ui_Dialog(object):
         self.submitBtn.setGeometry(QtCore.QRect(260, 530, 75, 24))
         self.submitBtn.setObjectName("submitBtn")
         self.responseText = QtWidgets.QTextEdit(parent=Dialog)
-        self.responseText.setEnabled(False)
+        #self.responseText.setEnabled(False)
         self.responseText.setGeometry(QtCore.QRect(30, 410, 319, 91))
         self.responseText.setObjectName("responseText")
         self.widget = QtWidgets.QWidget(parent=Dialog)
@@ -72,6 +72,9 @@ from PyQt6.QtWidgets import QDialog,QMessageBox,QApplication,QHeaderView,QPushBu
 from schedule import Schedule
 from message import Message
 from user import User
+import sys
+import serial
+import time
 class SMS(QDialog,Ui_Dialog):
     def __init__(self, admin):
         super().__init__()
@@ -79,27 +82,77 @@ class SMS(QDialog,Ui_Dialog):
         self.message = Message()
         self.sched = Schedule()
         self.u = User()
+        self.ser = None
         self.admin = admin
         idmsg = self.message.show_all()
         sched_id = self.sched.smsview()
-        
+        self.responseText.setReadOnly(True)
+        self.typeinput.currentText()
         for id, name in sched_id:
             self.schedID.addItem('('+ str(id) +') '+name, id)
 
         for message_id, message_category, message, title in idmsg:
             self.msgID.addItem('('+ str(message_id) +') '+title, message_id)
+
         self.combo_change()
         self.submitBtn.clicked.connect(self.submit)
         self.msgID.currentIndexChanged.connect(self.combo_change)
         self.cancelBtn.clicked.connect(lambda: self.close())
         
     def submit(self):
+        
         sched_id = self.schedID.currentData()
+        which = self.typeinput.currentText()
         msg_contect = self.msg.toPlainText()
-        print(self.message.convert_msg(sched_id, msg_contect))
-        self.close()
-    
+        send_to = self.message.convert_msg(sched_id, msg_contect)
+        self.u.add_backlogs(self.admin, "Sent SMS")
+        if send_to is None:
+            print("wala")
+
+        try:
+            phone_no = self.message.get_phone_num(which, sched_id)[0][0]
+            
+        except IndexError:
+            phone_no = None
+        print("message:", send_to)
+        print("phone num: ", phone_no)
+        self.send_message(phone_no, send_to)
+
     def combo_change(self):
         self.msg.setText(self.message.get_data(self.msgID.currentData(), 'message')[0][0]) 
 
+    def connect_serial(self):
+        # Replace 'COM5' with the appropriate port for your system
+        self.ser = serial.Serial('COM5', 9600, timeout=1)
+        time.sleep(2)  # Wait for the serial connection to initialize
 
+    def send_at_command(self, command, wait_time=1):
+        self.ser.write((command + '\r\n').encode())
+        time.sleep(wait_time)
+        response = self.ser.read(self.ser.inWaiting()).decode()
+        return response
+
+    def send_message(self, phone_number, message):
+        if not self.ser:
+            self.connect_serial()
+
+
+        # Set SMS mode to text
+        response = self.send_at_command('AT+CMGF=1')
+        self.responseText.append(f"Command: AT+CMGF=1\nResponse: {response}\n")
+
+        # Send SMS
+        response = self.send_at_command(f'AT+CMGS="{phone_number}"')
+        self.responseText.append(f"Command: AT+CMGS=\"{phone_number}\"\nResponse: {response}\n")
+
+        # Send the message content
+        self.ser.write((message + '\x1A').encode())  # '\x1A' is the ASCII code for Ctrl+Z, which signals the end of the message
+        time.sleep(3)  # Wait for the message to be sent
+        response = self.ser.read(self.ser.inWaiting()).decode()
+        self.responseText.append(f"Message: {message}\nResponse: {response}\n")
+
+    def closeEvent(self, event):
+        if self.ser:
+            self.ser.close()
+
+# error in type: tech, sched id 30, msgid 8
