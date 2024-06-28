@@ -30,7 +30,7 @@ class ClientInfo:
 
     
     def select_all_clients(self):
-        query = "select client_id, name, phone_num, status from CLIENT where void = 0"
+        query = "select client_id, name, phone_num, address from CLIENT where void = 0"
         return handle_select(query)
 
     

@@ -13,48 +13,15 @@ class Ui_login(object):
     def setupUi(self, login):
         login.setObjectName("login")
         login.setEnabled(True)
-        login.resize(360, 300)
-        login.setMinimumSize(QtCore.QSize(360, 300))
-        login.setMaximumSize(QtCore.QSize(360, 300))
+        login.resize(894, 532)
+        login.setMinimumSize(QtCore.QSize(894, 532))
+        login.setMaximumSize(QtCore.QSize(894, 532))
         login.setBaseSize(QtCore.QSize(360, 300))
-        login.setStyleSheet("QWidget{\n"
-"background-color:rgb(45, 116, 1)\n"
-"}\n"
-"\n"
-"QLineEdit{\n"
-"background-color:white\n"
-"}\n"
-"\n"
-"QLabel{\n"
-"color:white;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"    height: 100%;\n"
-"    width: 100%;\n"
-"    border: none;\n"
-"    text-align: left;\n"
-"    padding-left:10px;\n"
-"    background-color: rgb(244, 252, 245)\n"
-"\n"
-"\n"
-"}\n"
-"\n"
-"QPushButton:checked{\n"
-"         background-color: rgb(182, 223, 154);\n"
-"}\n"
-"\n"
-"QPushButton:hover{\n"
-"         background-color: rgb(182, 223, 154);\n"
-"}\n"
-"\n"
-"QPushButton:pressed{\n"
-"    background-color: rgb(182, 223, 154);\n"
-"}")
+        login.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(parent=login)
         self.centralwidget.setObjectName("centralwidget")
         self.forgotpassworBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.forgotpassworBtn.setGeometry(QtCore.QRect(210, 200, 121, 31))
+        self.forgotpassworBtn.setGeometry(QtCore.QRect(760, 350, 121, 31))
         self.forgotpassworBtn.setStyleSheet("QPushButton:hover{\n"
 "color:blue;\n"
 "}\n"
@@ -62,46 +29,66 @@ class Ui_login(object):
 "QPushButton{\n"
 "border: none;\n"
 "text-decoration: underline;\n"
-"background-color: rgb(45, 116, 1);\n"
-"color: white;\n"
+"\n"
+"color: black;\n"
 "}")
         self.forgotpassworBtn.setCheckable(False)
         self.forgotpassworBtn.setObjectName("forgotpassworBtn")
         self.submitBtn = QtWidgets.QPushButton(parent=self.centralwidget)
-        self.submitBtn.setGeometry(QtCore.QRect(220, 250, 111, 31))
-        self.submitBtn.setStyleSheet("QPushButton {background-color:rgb(217, 217, 217); color: black;}")
+        self.submitBtn.setGeometry(QtCore.QRect(750, 460, 122, 38))
+        self.submitBtn.setStyleSheet("QPushButton {background-color:rgb(144, 206, 103); color: black;}")
         self.submitBtn.setObjectName("submitBtn")
+        self.label = QtWidgets.QLabel(parent=self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(500, 140, 101, 51))
+        self.label.setStyleSheet("QLabel{\n"
+"font-size: 24px;}")
+        self.label.setObjectName("label")
+        self.widget = QtWidgets.QWidget(parent=self.centralwidget)
+        self.widget.setGeometry(QtCore.QRect(0, 0, 451, 511))
+        self.widget.setStyleSheet("QWidget{\n"
+"    background-color: rgb(45, 116, 1)\n"
+"}")
+        self.widget.setObjectName("widget")
+        self.label_2 = QtWidgets.QLabel(parent=self.widget)
+        self.label_2.setGeometry(QtCore.QRect(90, 60, 261, 271))
+        self.label_2.setText("")
+        self.label_2.setPixmap(QtGui.QPixmap(":/newPrefix/448628540_462142163427831_8114208827446452013_n.png"))
+        self.label_2.setScaledContents(True)
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(parent=self.widget)
+        self.label_3.setGeometry(QtCore.QRect(90, 330, 271, 41))
+        self.label_3.setStyleSheet("QLabel{\n"
+"font-size: 26px;\n"
+"color: white;\n"
+"font-weight: bold;\n"
+"}")
+        self.label_3.setObjectName("label_3")
         self.layoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
-        self.layoutWidget.setGeometry(QtCore.QRect(30, 30, 308, 165))
+        self.layoutWidget.setGeometry(QtCore.QRect(500, 210, 371, 141))
         self.layoutWidget.setObjectName("layoutWidget")
-        self.formLayout = QtWidgets.QFormLayout(self.layoutWidget)
-        self.formLayout.setContentsMargins(0, 0, 0, 0)
-        self.formLayout.setHorizontalSpacing(10)
-        self.formLayout.setVerticalSpacing(15)
-        self.formLayout.setObjectName("formLayout")
-        self.titleLabel = QtWidgets.QLabel(parent=self.layoutWidget)
-        self.titleLabel.setObjectName("titleLabel")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.ItemRole.SpanningRole, self.titleLabel)
+        self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.gridLayout.setObjectName("gridLayout")
         self.adminIDLabel = QtWidgets.QLabel(parent=self.layoutWidget)
         self.adminIDLabel.setObjectName("adminIDLabel")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.LabelRole, self.adminIDLabel)
-        self.adminIDInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
-        self.adminIDInput.setObjectName("adminIDInput")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.ItemRole.FieldRole, self.adminIDInput)
-        self.usernameLabel = QtWidgets.QLabel(parent=self.layoutWidget)
-        self.usernameLabel.setObjectName("usernameLabel")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.LabelRole, self.usernameLabel)
-        self.passwordLabel = QtWidgets.QLabel(parent=self.layoutWidget)
-        self.passwordLabel.setObjectName("passwordLabel")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.LabelRole, self.passwordLabel)
+        self.gridLayout.addWidget(self.adminIDLabel, 0, 0, 1, 1)
         self.passwordInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
         self.passwordInput.setEnabled(True)
         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
         self.passwordInput.setObjectName("passwordInput")
-        self.formLayout.setWidget(3, QtWidgets.QFormLayout.ItemRole.FieldRole, self.passwordInput)
+        self.gridLayout.addWidget(self.passwordInput, 2, 2, 1, 1)
+        self.usernameLabel = QtWidgets.QLabel(parent=self.layoutWidget)
+        self.usernameLabel.setObjectName("usernameLabel")
+        self.gridLayout.addWidget(self.usernameLabel, 1, 0, 1, 1)
+        self.adminIDInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
+        self.adminIDInput.setObjectName("adminIDInput")
+        self.gridLayout.addWidget(self.adminIDInput, 0, 2, 1, 1)
+        self.passwordLabel = QtWidgets.QLabel(parent=self.layoutWidget)
+        self.passwordLabel.setObjectName("passwordLabel")
+        self.gridLayout.addWidget(self.passwordLabel, 2, 0, 1, 1)
         self.usernameInput = QtWidgets.QLineEdit(parent=self.layoutWidget)
         self.usernameInput.setObjectName("usernameInput")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.ItemRole.FieldRole, self.usernameInput)
+        self.gridLayout.addWidget(self.usernameInput, 1, 2, 1, 1)
         login.setCentralWidget(self.centralwidget)
         self.statusBar = QtWidgets.QStatusBar(parent=login)
         self.statusBar.setObjectName("statusBar")
@@ -115,7 +102,8 @@ class Ui_login(object):
         login.setWindowTitle(_translate("login", "Login"))
         self.forgotpassworBtn.setText(_translate("login", "Forgot Password?"))
         self.submitBtn.setText(_translate("login", "Submit"))
-        self.titleLabel.setText(_translate("login", "<html><head/><body><p align=\"center\"><span style=\" font-size:11pt; font-weight:700;\">HomeFix Pest and Termite Control </span></p><p align=\"center\"><span style=\" font-size:11pt; font-weight:700;\">Managment System</span></p></body></html>"))
+        self.label.setText(_translate("login", "Log In:"))
+        self.label_3.setText(_translate("login", "Management System"))
         self.adminIDLabel.setText(_translate("login", "Admin ID:"))
         self.usernameLabel.setText(_translate("login", "Username:"))
         self.passwordLabel.setText(_translate("login", "Password:"))

@@ -36,7 +36,6 @@ class Sales:
         return handle_select(query)
     
     def add_sale(self, client_id, figure, date):
-
             query = (
                 "insert into SALES (client_id, figure, sale_date, void)"
                 "values (%s, %s, %s, %s)"

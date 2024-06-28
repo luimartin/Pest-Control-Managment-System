@@ -4,6 +4,7 @@ from PyQt6 import QtGui, QtWidgets
 from GUI.ForgotpassUI import ForgotPass
 from user import User
 from MainmenuUI import MainMenu
+import GUI.rc_icons
 class Window(QMainWindow, Ui_login):
     
     def __init__(self):
@@ -24,7 +25,7 @@ class Window(QMainWindow, Ui_login):
             print("wala laman")
             self.notif(QMessageBox.Icon.Warning, "Fields cannot be null")
             
-        elif self.User.validate_user(adminID, password):
+        elif self.User.validate_user(adminID, username, password):
             print("mayinput")
             self.User.add_backlogs(adminID, "User Login")
             self.hide()

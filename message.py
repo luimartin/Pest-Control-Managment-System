@@ -23,20 +23,20 @@ class Message:
 
 
     def get_phone_num(self, which, sched_id):
-        if which == "Client":
+        if which == "Scheduled Client":
             query = """
-        select phone_num from
-        client inner join schedule on client.client_id = 
-        schedule.client_id where schedule_id = {};
-        """.format(sched_id)
+                select phone_num from
+                client inner join schedule on client.client_id = 
+                schedule.client_id where schedule_id = {};
+            """.format(sched_id)
             return handle_select(query)
         else:
             query = """
-        select phone_num from 
-        TECHnician inner join schedule on
-          TECHnician.technician_id = schedule.technician_id 
-          where schedule_id = {};
-        """.format(sched_id)
+                select phone_num from 
+                TECHnician inner join schedule on
+                TECHnician.technician_id = schedule.technician_id 
+                where schedule_id = {};
+            """.format(sched_id)
             return handle_select(query)
 
 

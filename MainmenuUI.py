@@ -140,7 +140,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         #maintenance page
         self.addAdminBtn.clicked.connect(self.addadmin)
         self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
-        self.userlogbackBtn.clicked.connect(self.switch_to_MaintenancePage)
         self.backupBtn.clicked.connect(self.backup)
         self.restoretBn.clicked.connect(self.open_file_dialog)
         self.editAdminBtn.clicked.connect(self.editadmin)
@@ -194,7 +193,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         if clients:
             self.clientsTable.setRowCount(len(clients))
             self.clientsTable.setColumnCount(8)
-            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Status', 'Schedule', 'Contract Details', ' ', ' '])
+            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Address', 'Schedule', 'Contract Details', ' ', ' '])
 
             header = self.clientsTable.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -940,8 +939,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ###### maintenance page #######################################################################3##3
     def populate_userlog(self):
         self.user = User()
-        a = self.serviceTable.horizontalHeader()
+        a = self.userlogTable.horizontalHeader()
         a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        self.userlogTable.setStyleSheet("font-size: 16px; text-align: center;")
         self.userlogTable.verticalHeader().hide()
         a.setStretchLastSection(True)
         service = self.user.show_userlog()
@@ -1058,10 +1058,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.user.add_backlogs(self.adminID, "User Logout")
 
 
-app = QApplication([])
+"""app = QApplication([])
 window = MainMenu(2, app)
 window.show()
-app.exec()
+app.exec()"""
 
     
 

@@ -41,9 +41,11 @@ class User:
         handle_transaction(query, data)
 
     # Validate user based from input id and password
-    def validate_user(self, input_id, input_pwd):
-        # Retrieve the user's salt and hashed password from the database
-        query = "select salt, password from USER where user_id = '{}'".format(input_id)
+    def validate_user(self, input_id, username, input_pwd):
+        # Adjust the query to ensure case-sensitive comparison for user_id and username
+        query = "SELECT salt, password FROM USER WHERE BINARY user_id = '{}' AND BINARY username = '{}'".format(input_id, username)
+
+        # Execute the query
         result = handle_select(query)
         if not result:
             return False
@@ -58,7 +60,7 @@ class User:
 
         # Compare the stored hashed password with the input hashed password
         return stored_hashed_password == input_hashed_password
-
+    
     # Changing of password
     def new_pass(self, user_id, new_pass, confirm_pass):
         if new_pass == confirm_pass:
@@ -135,7 +137,8 @@ class User:
     """ 
         return handle_select(query)
 
-#u = User()
+u = User()
+#print(u.validate_user("HF00010", "Maloi", "blooms"))
 #print(u.get_data(11, 'question1, answer1, question2, answer2'))
 #print(u.show_id())
 #print(u.get_data(4, ("question1, question2")))
