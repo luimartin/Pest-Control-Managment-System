@@ -92,7 +92,7 @@ QPushButton:pressed{
        <x>20</x>
        <y>190</y>
        <width>131</width>
-       <height>561</height>
+       <height>667</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -527,7 +527,7 @@ QPushButton:pressed{
 </string>
     </property>
     <property name="currentIndex">
-     <number>18</number>
+     <number>7</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -1848,6 +1848,9 @@ li.checked::marker { content: &quot;\2612&quot;; }
       </property>
      </widget>
      <widget class="QPushButton" name="smshelp">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>830</x>

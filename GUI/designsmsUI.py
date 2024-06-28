@@ -153,6 +153,7 @@ class SMS(QDialog,Ui_Dialog):
         if not self.ser:
             self.connect_serial()
 
+        message = message + "\n\nPlease note: This message is from a notification-only number and cannot receive replies. For assistance, please contact our customer service at Cel No. 09175724420."
 
         # Set SMS mode to text
         response = self.send_at_command('AT+CMGF=1')

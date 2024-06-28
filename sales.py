@@ -216,6 +216,8 @@ class Sales:
             if not df.empty:
                 df.columns = ["Year", "Date", "Daily Service"]
                 data = [df.columns.tolist()] + df.values.tolist()
+                
+
                 table = create_table(data, col_widths_sales)
                 elements.append(table)
             else:
@@ -226,10 +228,12 @@ class Sales:
             elements.append(Paragraph("Month Analysis:", section_title_left_style))
             if not df_month_analysis.empty:
                 df_month_analysis.columns = ["Year", "Month", "Service Revenue", "Average Service Revenue"]
-                data = [df_month_analysis.columns.tolist()] + df_month_analysis.values.tolist()
+                # Calculate Service Revenue Total
+                total_service_revenue = df_month_analysis["Service Revenue"].sum()
+                total_row = ["", "Total", total_service_revenue, ""]
+                data = [df_month_analysis.columns.tolist()] + df_month_analysis.values.tolist() + [total_row]
                 table = create_table(data, col_widths_month)
                 elements.append(table)
-
             else:
                 elements.append(Paragraph("No data for Month Analysis to export", normal_style))
             elements.append(Spacer(1, 20))
@@ -238,7 +242,10 @@ class Sales:
             elements.append(Paragraph("Year Analysis:", section_title_left_style))
             if not df_year_analysis.empty:
                 df_year_analysis.columns = ["Year", "Service Revenue", "Average Service Revenue"]
-                data = [df_year_analysis.columns.tolist()] + df_year_analysis.values.tolist()
+                # Calculate Service Revenue Total
+                total_service_revenue = df_year_analysis["Service Revenue"].sum()
+                total_row = ["Total", total_service_revenue, ""]
+                data = [df_year_analysis.columns.tolist()] + df_year_analysis.values.tolist() + [total_row]
                 table = create_table(data, col_widths_year)
                 elements.append(table)
                 elements.append(Spacer(1, 20))
@@ -247,7 +254,6 @@ class Sales:
                 year_graph_buffer = self.generate_trend_graph(year_graph_data, 'Annual Service Revenue Trend', 'Year', 'Service Revenue', 'year_trend.png')
                 year_graph_image = Image(io.BytesIO(year_graph_buffer))  # Ensure to wrap in io.BytesIO
                 elements.append(year_graph_image)
-
             else:
                 elements.append(Paragraph("No data for Year Analysis to export", normal_style))
 

@@ -13,6 +13,7 @@ class Window(QMainWindow, Ui_login):
         self.User = User()
         self.setWindowTitle("HomeFix LogIn")
         self.submitBtn.clicked.connect(self.loginHandler)
+        
         self.forgotpassworBtn.clicked.connect(self.forgotPassHandler)
         #self.adminIDInput.setValidator(QtGui.QIntValidator())
         self.passwordInput.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)

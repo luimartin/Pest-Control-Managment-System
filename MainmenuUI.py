@@ -143,6 +143,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.backupBtn.clicked.connect(self.backup)
         self.restoretBn.clicked.connect(self.open_file_dialog)
         self.editAdminBtn.clicked.connect(self.editadmin)
+
+        self.smshelp.clicked.connect(self.open_pdf)
         #SMS page
         self.message = Message()
         self.addSMSBtn.clicked.connect(self.add_sms)
@@ -193,7 +195,13 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         if clients:
             self.clientsTable.setRowCount(len(clients))
             self.clientsTable.setColumnCount(8)
-            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Address', 'Schedule', 'Contract Details', ' ', ' '])
+            self.clientsTable.setHorizontalHeaderLabels(['Client ID', 'Name', 'Phone Number', 'Address', 'Schedule', 'Contract', ' ', ' '])
+            stylesheet = """
+                QHeaderView::section {
+                    font-weight: bold;
+                }
+            """
+            self.clientsTable.horizontalHeader().setStyleSheet(stylesheet)
 
             header = self.clientsTable.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -202,6 +210,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 client_id = client[0]
                 for col_idx, item in enumerate(client):
                     items = QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
                     self.clientsTable.setItem(row_idx, col_idx, items)
 
                 schedview = QPushButton('View')
@@ -375,19 +384,27 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def void_populate_table(self, query):
         #stretch the header
         a = self.voidclientsTable.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         a.setStretchLastSection(True)
+        self.voidclientsTable.setStyleSheet("font-size: 16px; text-align: center;")
         self.voidclientsTable.verticalHeader().hide()
         clients = query
         if clients:
             self.voidclientsTable.setRowCount(len(clients))
             self.voidclientsTable.setColumnCount(4)
             self.voidclientsTable.setHorizontalHeaderLabels(["ID ",'Name', 'Phone Number', 'Address', 'Email'])
-
+            stylesheet = """
+                QHeaderView::section {
+                    font-weight: bold;
+                }
+            """
+            self.voidclientsTable.horizontalHeader().setStyleSheet(stylesheet)
             
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
-                    self.voidclientsTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.voidclientsTable.setItem(row_idx, col_idx, items)
         else:
             self.voidclientsTable.setRowCount(0)
             self.voidclientsTable.setColumnCount(0)
@@ -433,6 +450,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setRowCount(len(inventory))
             tablename.setColumnCount(8)
             tablename.setHorizontalHeaderLabels(['Item ID','Name', 'Type', 'Quantity', 'Expiration', 'Description',' ',' '])
+            stylesheet = """
+                QHeaderView::section {
+                    font-weight: bold;
+                }
+            """
+            tablename.horizontalHeader().setStyleSheet(stylesheet)
             
             header = tablename.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -442,7 +465,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     item_id = inventory[row_idx][0]
                     item_type = inventory[row_idx][2]
                     #tablename.setStyleSheet("font-size: 14px;")
-                    tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    tablename.setItem(row_idx, col_idx, items)
 
                 edit = QPushButton('Edit')
                 edit.setStyleSheet(
@@ -500,11 +525,26 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.inventoryTable.setColumnCount(6)
             if categ == 2:
                 self.inventoryTable.setHorizontalHeaderLabels(['Item ID','Name', 'Type', 'Quantity', 'Expiration', 'Description'])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.inventoryTable.horizontalHeader().setStyleSheet(stylesheet)
             else:
                 self.inventoryTable.setHorizontalHeaderLabels(['Delivery ID','Name', 'Quantity', 'Delivery Date', 'Expiration', 'Supplier'])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.inventoryTable.horizontalHeader().setStyleSheet(stylesheet)
+            
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
-                    self.inventoryTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.inventoryTable.setItem(row_idx, col_idx, items)
 
     def switch_to_delivery(self):
         self.populate_delivery_and_void(self.i.select_all_delivery(), 1)
@@ -530,13 +570,21 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setRowCount(len(schedule))
             tablename.setColumnCount(10)
             tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' '])
+            stylesheet = """
+                QHeaderView::section {
+                    font-weight: bold;
+                }
+            """
+            tablename.horizontalHeader().setStyleSheet(stylesheet)
 
             header = tablename.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
-                    tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    tablename.setItem(row_idx, col_idx, items)
                 schedule_id = schedule[row_idx][0]
 
                 if schedule[row_idx][8] is None:
@@ -641,13 +689,22 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             tablename.setRowCount(len(schedule))
             tablename.setColumnCount(9)
             tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Schedule Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician'])
+            stylesheet = """
+                QHeaderView::section {
+                    font-weight: bold;
+                }
+            """
+            tablename.horizontalHeader().setStyleSheet(stylesheet)
+
 
             header = tablename.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, sched in enumerate(schedule):
                 for col_idx, item in enumerate(sched):
-                    tablename.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    tablename.setItem(row_idx, col_idx, items)
 
     def switch_to_todayschedPage(self):
         self.s.earliest_deadline_first()
@@ -671,18 +728,38 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             if which is None:
                 self.saleTable.setColumnCount(4)
                 self.saleTable.setHorizontalHeaderLabels(['Name','Sale Figure', 'Date', ' '])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
             elif which == 1:
                 self.salesLabel.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Average Sales</span></p><p><br/></p></body></html>"))
                 self.saleTable.setColumnCount(3)
                 self.saleTable.setHorizontalHeaderLabels(['Year','Month', 'Amount'])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
             else:
                 self.salesLabel.setText(QtCore.QCoreApplication.translate("MainWindow", "<html><head/><body><p><span style=\" font-size:28pt;\">Revenue</span></p><p><br/></p></body></html>"))
                 self.saleTable.setColumnCount(3)
                 self.saleTable.setHorizontalHeaderLabels(['Year','Month', 'Amount'])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
             
             for row_idx, sales in enumerate(sale):
                 for col_idx, item in enumerate(sales):
-                    self.saleTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.saleTable.setItem(row_idx, col_idx, items)
                 if which is None:
                     sale_id = sale[row_idx][3]
                     #print(sale_id)
@@ -741,6 +818,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.technicianTable.setHorizontalHeaderLabels([
                 'ID', 'Name', 'Phone Number', 'Address', 'State', 'Assigned Item', '', ''
             ])
+            stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+            self.technicianTable.horizontalHeader().setStyleSheet(stylesheet)
 
             header = self.technicianTable.horizontalHeader()
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -748,7 +831,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
                     tech_id = clients[row_idx][0]
-                    self.technicianTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.technicianTable.setItem(row_idx, col_idx, items)
 
                 # Create buttons
                 assignitems = QPushButton('View')
@@ -801,9 +886,21 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             if which is None:
                 table.setColumnCount(4)
                 table.setHorizontalHeaderLabels(['ID', 'Name', 'Phone Number', 'Address'])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                table.horizontalHeader().setStyleSheet(stylesheet)
             else:
                 table.setColumnCount(7)
                 table.setHorizontalHeaderLabels(['Assigned ID', 'Name', 'Item Name', 'Item Type', 'Quantity', 'Date Acquired', ''])
+                stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+                self.table.horizontalHeader().setStyleSheet(stylesheet)
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
@@ -812,6 +909,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     quantity = clients[row_idx][4]
                     techid = clients[row_idx][7]
                     items = QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
                     #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     table.setStyleSheet("font-size: 14px; text-align: center;")
                     table.setItem(row_idx, col_idx, items)
@@ -899,10 +997,19 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.serviceTable.setRowCount(len(service))
             self.serviceTable.setColumnCount(7)
             self.serviceTable.setHorizontalHeaderLabels(['Technician', 'Client', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Report Update'])
+            stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+            self.serviceTable.horizontalHeader().setStyleSheet(stylesheet)
+
 
             for row_idx, sched in enumerate(service):
                 for col_idx, item in enumerate(sched):
-                    self.serviceTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.serviceTable.setItem(row_idx, col_idx, items)
                 client_id = service[row_idx][7]
                 sched_id = service[row_idx][6]
                 update = QPushButton('Update')
@@ -947,11 +1054,19 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         service = self.user.show_userlog()
         self.userlogTable.setColumnCount(4)
         self.userlogTable.setHorizontalHeaderLabels(['ID', 'User ID', 'Activity', 'Date'])
+        stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+        self.userlogTable.horizontalHeader().setStyleSheet(stylesheet)
         if service:
             self.userlogTable.setRowCount(len(service))
             for row_idx, sched in enumerate(service):
                 for col_idx, item in enumerate(sched):
-                    self.userlogTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.userlogTable.setItem(row_idx, col_idx, items)
         else:
             self.userlogTable.setRowCount(0)
             self.userlogTable.setColumnCount(0)
@@ -1000,13 +1115,21 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.smsTable.setHorizontalHeaderLabels(['ID', 'Category', 'Message','Title', ' ', ' '])
         header = self.smsTable.horizontalHeader()
         header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        stylesheet = """
+                    QHeaderView::section {
+                        font-weight: bold;
+                    }
+                """
+        self.smsTable.horizontalHeader().setStyleSheet(stylesheet)
 
         if sms:
             self.smsTable.setRowCount(len(sms))
             for row_idx, sched in enumerate(sms):
                 msg_id = sms[row_idx][0]
                 for col_idx, item in enumerate(sched):
-                    self.smsTable.setItem(row_idx, col_idx, QTableWidgetItem(str(item)))
+                    items= QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    self.smsTable.setItem(row_idx, col_idx, items)
                 view = QPushButton('View')
                 view.setStyleSheet(
                     "QPushButton"
@@ -1056,6 +1179,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.first_window.show()
         event.accept()
         self.user.add_backlogs(self.adminID, "User Logout")
+
+    def open_pdf(self):
+        # Replace with your file path
+        pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
 
 """app = QApplication([])
