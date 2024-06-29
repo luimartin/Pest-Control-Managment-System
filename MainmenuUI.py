@@ -31,8 +31,10 @@ import GUI.rc_icons
 from pathlib import Path
 from designeditadminUI import EditAdmin
 from database import *
-class MainMenu(QMainWindow, Ui_MainWindow):
+import os
 
+class MainMenu(QMainWindow, Ui_MainWindow):
+    
 ###########################
     def __init__(self, AdminID, first_Window):
         self.first_window = first_Window
@@ -40,7 +42,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.userdb = 'root'
         self.password = '030709'
         self.database = 'mansys'
-        self.backup_dir = '/Users/deini/OneDrive/Desktop/backup'
+
+
+        desktop_dir = os.path.join(os.path.expanduser("~"), "Desktop")
+        self.backup_dir = os.path.join(desktop_dir, "backup")
+
+        
         super().__init__()
         #self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.setupUi(self)
@@ -900,7 +907,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                         font-weight: bold;
                     }
                 """
-                self.table.horizontalHeader().setStyleSheet(stylesheet)
+                table.horizontalHeader().setStyleSheet(stylesheet)
 
             for row_idx, client in enumerate(clients):
                 for col_idx, item in enumerate(client):
@@ -1184,10 +1191,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu(2, app)
 window.show()
-app.exec()"""
+app.exec()
 
     
 

@@ -15,6 +15,8 @@ def connect_db():
 	
 	For creating tables
     1. DONE (VALIDATED)
+    
+    
     create table CLIENT(
         client_id int not null auto_increment,
 		name varchar(50) not null,
