@@ -7,7 +7,8 @@ def connect_db():
         host='localhost',
         user='root',
         passwd='030709',
-        database='mansys'
+        database='mansys',
+        auth_plugin='mysql_native_password'
     )
 
 """
