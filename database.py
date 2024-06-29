@@ -2,13 +2,13 @@ import mysql.connector
 from mysql.connector import Error
 
 # Connect database
-mydb = mysql.connector.connect(
-	host = 'localhost',
-	user = 'root',
-	passwd = '030709',
-	database = 'mansys'
-)
-mycursor = mydb.cursor()
+def connect_db():
+    return mysql.connector.connect(
+        host='localhost',
+        user='root',
+        passwd='030709',
+        database='mansys'
+    )
 
 """
     MySQL Queries

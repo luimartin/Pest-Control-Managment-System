@@ -250,7 +250,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     "background-color: #E35C5C"
                     "}"
                 )
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info, 1))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
@@ -1097,10 +1097,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             print(fn)
             backup = self.backup_dir + '/'+ fn
             print(backup)
-            mydb.close()
             restore_database(self.host, self.userdb, self.password, self.database, backup)
             
-            mydb.connect()
 
 ############# SMS FORMAT ###################################################################################################
     def populate_sms(self, query):

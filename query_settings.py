@@ -1,32 +1,48 @@
 from database import *
 
-# Use to handle insert, update, and delete queries
-def handle_transaction(query, data):
-    try:
-        mycursor.execute(query, data)
-        mydb.commit()
-        print("Sucessful Execution")
-    except Error as error:
-        mydb.rollback()
-        print("Error type: {}".format(error))
 
-# Use to handle SELECT queries
+
 def handle_select(query):
-    output = 0
+    connection = connect_db()
+    cursor = connection.cursor()
+    output = []
     try:
-        mycursor.execute(query)
-        output = mycursor.fetchall()
+        cursor.execute(query)
+        output = cursor.fetchall()
         print("Retrieval Success")
     except Error as error:
         print("Error type: {}".format(error))
+    finally:
+        cursor.close()
+        connection.close()
 
     return output
 
 def handle_exec(query):
+    connection = connect_db()
+    cursor = connection.cursor()
     try:
-        mycursor.execute(query)
-        mydb.commit()
-        print("Delimmet Execution")
+        cursor.execute(query)
+        connection.commit()
+        print("Committed Execution")
     except Error as error:
-        mydb.rollback()
+        connection.rollback()
         print("Error type: {}".format(error))
+    finally:
+        cursor.close()
+        connection.close()
+
+        # Use to handle insert, update, and delete queries
+def handle_transaction(query, data):
+    connection = connect_db()
+    cursor = connection.cursor()
+    try:
+        cursor.execute(query, data)
+        connection.commit()
+        print("Successful Execution")
+    except Error as error:
+        connection.rollback()
+        print("Error type: {}".format(error))
+    finally:
+        cursor.close()
+        connection.close()
