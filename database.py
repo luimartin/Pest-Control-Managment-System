@@ -6,15 +6,25 @@ mydb = mysql.connector.connect(
 	host = 'localhost',
 	user = 'root',
 	passwd = '030709',
-	database = 'mansys'
+	database = 'mansys',
+    auth_plugin = 'mysql_native_password'
 )
 mycursor = mydb.cursor()
+
+"""
+	RUN THIS QUERY ON MYSQL CLIENT
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '030709';
+	FLUSH PRIVILEGES;
+"""
+
 
 """
     MySQL Queries
 	
 	For creating tables
     1. DONE (VALIDATED)
+    
+    
     create table CLIENT(
         client_id int not null auto_increment,
 		name varchar(50) not null,

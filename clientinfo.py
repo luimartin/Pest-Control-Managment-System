@@ -26,8 +26,33 @@ class ClientInfo:
         temp = "update CLIENT set {} = ".format(categ) 
         query = temp + "%s where client_id = %s"
         data = (new_input, ref_id)
+        
+        # When client voided, these must be voided too
+        self.void_schedule(ref_id)
+        self.void_contract(ref_id)
+    
         handle_transaction(query, data)
 
+    def void_schedule(self, ref_id):
+        query = """
+            select schedule_id from SCHEDULE
+            where client_id = {}
+        """.format(ref_id)
+        c_sched_id = handle_select(query)
+        
+        if c_sched_id != 0:
+            self.Schedule.edit_schedule_info(c_sched_id[0][0], 'void', 1)
+
+    def void_contract(self, ref_id):
+        query = """
+            select contract_id from CONTRACT
+            where client_id = {}
+        """.format(ref_id)
+        c_cont_id = handle_select(query)
+
+        if c_cont_id != 0:
+            self.Contract.edit_contract_info(c_cont_id[0][0], ref_id, 'image', None)
+            self.Contract.edit_contract_info(c_cont_id[0][0], ref_id, 'void', 1)
     
     def select_all_clients(self):
         query = "select client_id, name, phone_num, address from CLIENT where void = 0"

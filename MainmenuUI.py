@@ -257,7 +257,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     "background-color: #E35C5C"
                     "}"
                 )
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info, 0))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
@@ -1193,10 +1193,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu(2, app)
 window.show()
-app.exec()"""
+app.exec()
 
     
 

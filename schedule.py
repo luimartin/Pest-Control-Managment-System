@@ -472,6 +472,8 @@ class Schedule:
         client on schedule.client_id = client.client_id
         """
         return handle_select(query)
+    
+    
 
 #s = Schedule()
 #print(s.get_data(29, 'start_date'))
