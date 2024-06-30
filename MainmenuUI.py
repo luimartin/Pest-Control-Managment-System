@@ -31,7 +31,7 @@ import GUI.rc_icons
 from pathlib import Path
 from designeditadminUI import EditAdmin
 from database import *
-import os
+
 
 class MainMenu(QMainWindow, Ui_MainWindow):
     
@@ -44,8 +44,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.database = 'mansys'
 
 
-        desktop_dir = os.path.join(os.path.expanduser("~"), "Desktop")
-        self.backup_dir = os.path.join(desktop_dir, "backup")
 
         
         super().__init__()
@@ -257,7 +255,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     "background-color: #E35C5C"
                     "}"
                 )
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
+                delete.clicked.connect(lambda _, id = client_id: self.delete(id, self.c.edit_personal_info, 1))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
@@ -278,6 +276,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def addContract(self, id):
         addcontract = AddContract(id, None, "Add", self.adminID)
         addcontract.exec()
+        self.populate_table1(self.c.select_all_clients())
 
     def client_search(self):
         search = self.clientSearch.text()
@@ -338,6 +337,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def editcontract(self, client_id, cont_id):
         edit = AddContract(client_id, cont_id, "Edit", self.adminID)
         edit.exec()
+        
     def removebtn(self, id):
         self.contract.remove_img(id)
         self.refresh_img(id)
@@ -575,8 +575,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         schedule = query
         if schedule:
             tablename.setRowCount(len(schedule))
-            tablename.setColumnCount(10)
-            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' '])
+            tablename.setColumnCount(11)
+            tablename.setHorizontalHeaderLabels(['ID', 'Name', 'Type', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Status', 'Technician', ' ', ''])
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
@@ -588,11 +588,12 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, sched in enumerate(schedule):
+                schedule_id = schedule[row_idx][0]
                 for col_idx, item in enumerate(sched):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
                     tablename.setItem(row_idx, col_idx, items)
-                schedule_id = schedule[row_idx][0]
+                
 
                 if schedule[row_idx][8] is None:
                     assign = QPushButton('Assign')
@@ -615,9 +616,34 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 )
                 edit.clicked.connect(lambda _, id=schedule_id: self.schedEdit(id))
                 tablename.setCellWidget(row_idx, 9, edit)
+
+                void = QPushButton('Void')
+                void.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #E35C5C"
+                    "}"
+                )
+                void.clicked.connect(lambda _, id=schedule_id: self.schedVoid(id))
+                tablename.setCellWidget(row_idx, 10, void)
         else:
             tablename.setRowCount(0)
             tablename.setColumnCount(0)
+
+    def schedVoid(self, id):
+        noInput = QMessageBox()
+        noInput.setWindowTitle("Void")
+        noInput.setIcon(QMessageBox.Icon.Warning)
+        noInput.setText("Are you sure you want to void schedule?")
+        noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        yes = noInput.exec()
+        if yes == QMessageBox.StandardButton.Yes:
+            self.s.edit_schedule_info(id, "void", 1)
+            self.s.edit_schedule_info(id, "technician_id", None)
+            self.user.add_backlogs(self.adminID, "Voided Item")
+            self.populate_schedule(self.scheduleTable, self.s.view_sched())
+        else:
+            noInput.close()
 
     def assigntech(self, schedule_id):
         ass = AssignTech(schedule_id, self.adminID)
@@ -1089,7 +1115,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         edd = EditAdmin(self.adminID)
         edd.exec()
     def backup(self):
-        backup_database(self.host, self.userdb, self.password, self.database, self.backup_dir)
+        backup_database(self.host, self.userdb, self.password, self.database, "C:/Users/deini/OneDrive/Desktop/backup")
 
     def open_file_dialog(self):
         dialog = QFileDialog(self)
@@ -1099,12 +1125,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         dialog.setViewMode(QFileDialog.ViewMode.List)   
         if dialog.exec():
             filenames = dialog.selectedFiles()
-            filenames = [Path(filename).name for filename in filenames]
+            filenames = [Path(filename) for filename in filenames]
             fn = filenames[0]
-            print(fn)
-            backup = self.backup_dir + '/'+ fn
-            print(backup)
-            restore_database(self.host, self.userdb, self.password, self.database, backup)
+            restore_database(self.host, self.userdb, self.password, self.database, fn)
             
 
 ############# SMS FORMAT ###################################################################################################
@@ -1190,15 +1213,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-
 app = QApplication([])
-window = MainMenu(2, app)
+window = MainMenu("HF00010", app)
 window.show()
 app.exec()
-
-    
-
-
-
-
-

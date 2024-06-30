@@ -92,7 +92,7 @@ class AddSales(QDialog, Ui_Dialog):
         self.which = which
         self.sale_id = id
         self.dateEdit.setDate(QtCore.QDate.currentDate())
-        self.lineEdit.setValidator(QtGui.QDoubleValidator(0.0, 5.0, 2))
+        self.lineEdit.setValidator(QtGui.QDoubleValidator(0.0, 5.0, 4))
         data = self.c.select_all_clients()
         for client_id, name, _ ,_  in data:
             self.comboBox.addItem(name, client_id)

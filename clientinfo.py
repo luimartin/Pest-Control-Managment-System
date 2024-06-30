@@ -36,21 +36,21 @@ class ClientInfo:
     def void_schedule(self, ref_id):
         query = """
             select schedule_id from SCHEDULE
-            where client_id = {}
+            where client_id = {} and void = 0
         """.format(ref_id)
         c_sched_id = handle_select(query)
-        
-        if c_sched_id != 0:
+
+        if c_sched_id:
             self.Schedule.edit_schedule_info(c_sched_id[0][0], 'void', 1)
 
     def void_contract(self, ref_id):
         query = """
             select contract_id from CONTRACT
-            where client_id = {}
+            where client_id = {} and void = 0
         """.format(ref_id)
         c_cont_id = handle_select(query)
 
-        if c_cont_id != 0:
+        if c_cont_id:
             self.Contract.edit_contract_info(c_cont_id[0][0], ref_id, 'image', None)
             self.Contract.edit_contract_info(c_cont_id[0][0], ref_id, 'void', 1)
     
@@ -89,7 +89,6 @@ class ClientInfo:
             and void = {}
         """.format(input, input, input, input, input, input, void)
         return handle_select(query)     
-
 
 #c = ClientInfo()
 #c.get_data(1, ("name, phone_num, address, email"))

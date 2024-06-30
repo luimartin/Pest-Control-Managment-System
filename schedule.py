@@ -429,7 +429,6 @@ class Schedule:
         data = (new_input, sched_id)
         handle_transaction(query, data)
 
-
     def get_data(self, sched_id, categ):
         temp = "select {} from SCHEDULE ".format(categ)
         query = temp + "where schedule_id = {} and void = 0".format(sched_id)
@@ -472,7 +471,6 @@ class Schedule:
         client on schedule.client_id = client.client_id
         """
         return handle_select(query)
-    
     
 
 #s = Schedule()
