@@ -109,10 +109,44 @@ class Technician:
 
     def edit_technician_info(self, tech_id, categ, new_input):
         temp = "update TECHNICIAN set {} = ".format(categ) 
-        query = temp + "%s where technician_id = %s"
+        query = temp + "%s where technician_id = %s "
         data = (new_input, tech_id)
+
+        self.void_assigned_from_sched(tech_id)
+        self.void_tech_item(tech_id)
+
         handle_transaction(query, data)
 
+    def void_assigned_from_sched(self, tech_id):
+        query = """
+            select schedule_id from SCHEDULE
+            where technician_id = {}
+        """.format(tech_id)
+        t_assigned_id = handle_select(query)
+        print(t_assigned_id)
+        
+        if t_assigned_id:
+            for sched in t_assigned_id:
+                query_void = """
+                    update SCHEDULE set technician_id = Null 
+                    where schedule_id = %s 
+                """
+                data = (sched[0], )
+                handle_transaction(query_void, data)
+    
+    def void_tech_item(self, tech_id):
+        query = """
+            select technician_item_id, item_id, quantity from TECHNICIAN_ITEM
+            where technician_id = {}
+        """.format(tech_id)
+        t_item_id = handle_select(query)
+        print(t_item_id)
+
+        if t_item_id:
+            for item in t_item_id:
+                self.return_item(item[0], item[1], item[2])
+        
+    
     def get_data(self, tech_id, categ):
         temp = "select {} from TECHNICIAN ".format(categ)
         query = temp + "where technician_id = {}".format(tech_id)
@@ -159,7 +193,9 @@ class Technician:
         return handle_select(query)
     
 
-#t = Technician()
+t = Technician()
+#t.void_assigned_from_sched(21)
+#t.void_tech_item(21)
 #print(t.show_assigned_client())
 #print(t.show_accounted_item(10))
 #print(t.select_specific_tech(10))

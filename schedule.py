@@ -14,7 +14,7 @@ class Schedule:
 
     def show_tech(self):
         query = """
-        select  technician_id ,concat(TECHNICIAN.first_name,
+        select technician_id ,concat(TECHNICIAN.first_name,
         " ", TECHNICIAN.last_name) from TECHNICIAN
 	    where void = 0
         """ 
@@ -22,10 +22,10 @@ class Schedule:
     
     def view_sched(self):
         query = """
-    select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
-	time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
-    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
-    inner join client as c on s.client_id = c.client_id
+        select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+        time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+        TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+        inner join client as c on s.client_id = c.client_id
        left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
                 where s.void = 0 order by
             case when s.status = 'Progress' then 1 else 2 end,
@@ -36,10 +36,10 @@ class Schedule:
     
     def specific_view_sched(self,id):
         query = """
-    select schedule_id ,client.name, schedule_type, start_date, end_date, time_in, 
-	time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
-    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
-    inner join client on schedule.client_id = client.client_id
+        select schedule_id ,client.name, schedule_type, start_date, end_date, time_in, 
+        time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+        TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
+        inner join client on schedule.client_id = client.client_id
        left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
         where SCHEDULE.void = 0 and schedule.client_id ={};
         """.format(id)
@@ -246,8 +246,6 @@ class Schedule:
         else:
             return "Technician not available or does not exist."
 
-
-
     def show_accounted_technician(self):
         query = """
                 select  concat("[", TECHNICIAN.technician_id, "]", " ", TECHNICIAN.first_name, " ", TECHNICIAN.last_name) as 'Accounted Technician' 
@@ -400,8 +398,6 @@ class Schedule:
                 return "Could not assign all schedules due to conflicts."
 
         return "Technicians assigned successfully."
-
-
             
     def show_sched_for_tom(self):
         query = f"""
@@ -438,11 +434,11 @@ class Schedule:
 
     def search(self, input):
         query = f"""
-    select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
-    time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
-    TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
-    inner join client as c on s.client_id = c.client_id
-       left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
+        select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+        time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+        TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+        inner join client as c on s.client_id = c.client_id
+        left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
             where (
             schedule_id LIKE '%{input}%'
             OR s.client_id LIKE '%{input}%'
