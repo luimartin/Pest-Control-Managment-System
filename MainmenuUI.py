@@ -257,7 +257,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     "background-color: #E35C5C"
                     "}"
                 )
-                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info, 1))
+                delete.clicked.connect(lambda: self.delete(client_id, self.c.edit_personal_info))
                 self.clientsTable.setCellWidget(row_idx, 7, delete)
         else:
             self.clientsTable.setRowCount(0)
