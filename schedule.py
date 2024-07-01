@@ -464,7 +464,15 @@ class Schedule:
         query = """
         select schedule_id, name from schedule
         inner join 
-        client on schedule.client_id = client.client_id
+        client on schedule.client_id = client.client_id and schedule.void = 0 and client.void = 0;
+        """
+        return handle_select(query)
+    
+    def assigntechview(self):
+        query = """
+        select schedule_id, name from schedule
+        inner join 
+        client on schedule.client_id = client.client_id where schedule.technician_id is Null and schedule.void = 0 and client.void = 0 and schedule.status = "Idle";
         """
         return handle_select(query)
     

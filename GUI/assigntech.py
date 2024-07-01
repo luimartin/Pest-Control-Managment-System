@@ -4,10 +4,9 @@ from schedule import Schedule
 from technician import Technician
 from user import User
 class AssignTech(QDialog, Ui_dialog):
-    def __init__(self, sched_id, admin):
+    def __init__(self, admin):
         super().__init__()
         self.setupUi(self)
-        self.sched_id = sched_id
         self.sched = Schedule()
         self.u = User()
         self.admin = admin
@@ -20,13 +19,19 @@ class AssignTech(QDialog, Ui_dialog):
         #print(techs)
         self.techbox.clear()  # Clear the combobox before adding new items
         for tech_id, tech_name in techs:
-            self.techbox.addItem(tech_name, tech_id)  # Add the tech name as the display text, and the tech_id as the data
+            self.techbox.addItem('('+ str(tech_id) +') '+ tech_name, tech_id)  # Add the tech name as the display text, and the tech_id as the data
         self.techbox.setCurrentIndex(0)
         self.cancelBtn.clicked.connect(lambda: self.close())
+
+        sched_id = self.sched.assigntechview()
+        
+        for id, name in sched_id:
+            self.techbox_2.addItem('('+ str(id) +') '+name, id)
+
     def assign(self):
         tech_id = self.techbox.currentData()
         if self.technicians.isTechnicianAvailable(tech_id):
-            if self.sched.assign_technician(self.sched_id, tech_id) == "Technician has a scheduling conflict on the same day.":
+            if self.sched.assign_technician(self.techbox_2.currentData(), tech_id) == "Technician has a scheduling conflict on the same day.":
                 noInput = QMessageBox()
                 noInput.setWindowTitle("Notification")
                 noInput.setIcon(QMessageBox.Icon.Warning)
@@ -50,5 +55,8 @@ class AssignTech(QDialog, Ui_dialog):
             noInput.setText("Technician Unavailable")
             noInput.exec()
 
-
+"""app = QApplication([])
+window = AssignTech("HF00010")
+window.show()
+app.exec()"""
 

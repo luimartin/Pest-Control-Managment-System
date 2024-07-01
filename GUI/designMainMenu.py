@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'Mainmenu.ui'
+# Form implementation generated from reading ui file 'MainMenu.ui'
 #
 # Created by: PyQt6 UI code generator 6.7.0
 #
@@ -53,7 +53,7 @@ class Ui_MainWindow(object):
 "}")
         self.moduleMenu.setObjectName("moduleMenu")
         self.layoutWidget = QtWidgets.QWidget(parent=self.moduleMenu)
-        self.layoutWidget.setGeometry(QtCore.QRect(20, 190, 131, 561))
+        self.layoutWidget.setGeometry(QtCore.QRect(20, 190, 131, 571))
         self.layoutWidget.setObjectName("layoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
@@ -635,34 +635,18 @@ class Ui_MainWindow(object):
 "background-color:rgb(182, 223, 154)\n"
 "}")
         self.widget_8.setObjectName("widget_8")
-        self.helpSrchBtn = QtWidgets.QPushButton(parent=self.widget_8)
-        self.helpSrchBtn.setGeometry(QtCore.QRect(910, 130, 91, 31))
-        self.helpSrchBtn.setStyleSheet("QPushButton {background-color: rgb(198, 200, 195); color: white;}")
-        self.helpSrchBtn.setText("")
-        self.helpSrchBtn.setIcon(icon1)
-        self.helpSrchBtn.setObjectName("helpSrchBtn")
         self.helplabel = QtWidgets.QLabel(parent=self.widget_8)
         self.helplabel.setGeometry(QtCore.QRect(30, 40, 281, 81))
         self.helplabel.setLineWidth(0)
         self.helplabel.setScaledContents(False)
         self.helplabel.setIndent(3)
         self.helplabel.setObjectName("helplabel")
-        self.helpsearch = QtWidgets.QLineEdit(parent=self.widget_8)
-        self.helpsearch.setGeometry(QtCore.QRect(30, 130, 861, 31))
-        self.helpsearch.setStyleSheet("border: 1px solid black;\n"
-"border-radius: 10px;\n"
-"padding-right: 100px;\n"
-"background-color: white")
-        self.helpsearch.setText("")
-        self.helpsearch.setFrame(False)
-        self.helpsearch.setEchoMode(QtWidgets.QLineEdit.EchoMode.Normal)
-        self.helpsearch.setCursorPosition(0)
-        self.helpsearch.setObjectName("helpsearch")
         self.textBrowser_4 = QtWidgets.QTextBrowser(parent=self.helpPage)
         self.textBrowser_4.setGeometry(QtCore.QRect(60, 240, 911, 421))
         self.textBrowser_4.setFrameShape(QtWidgets.QFrame.Shape.NoFrame)
         self.textBrowser_4.setObjectName("textBrowser_4")
         self.smshelp = QtWidgets.QPushButton(parent=self.helpPage)
+        self.smshelp.setEnabled(False)
         self.smshelp.setGeometry(QtCore.QRect(830, 690, 141, 38))
         self.smshelp.setStyleSheet("QPushButton {background-color: rgb(198, 200, 195); color: black;}")
         self.smshelp.setObjectName("smshelp")
@@ -1157,8 +1141,13 @@ class Ui_MainWindow(object):
 "    \n"
 "}")
         self.servicebackBtn.setObjectName("servicebackBtn")
+        self.assigntechBtn = QtWidgets.QPushButton(parent=self.servicePage)
+        self.assigntechBtn.setGeometry(QtCore.QRect(880, 680, 122, 38))
+        self.assigntechBtn.setStyleSheet("QPushButton {background-color:rgb(217, 217, 217); color: black;}")
+        self.assigntechBtn.setObjectName("assigntechBtn")
         self.widget_13.raise_()
         self.serviceTable.raise_()
+        self.assigntechBtn.raise_()
         self.stackedWidget.addWidget(self.servicePage)
         self.upcomingschedPage = QtWidgets.QWidget()
         self.upcomingschedPage.setObjectName("upcomingschedPage")
@@ -1278,7 +1267,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(18)
+        self.stackedWidget.setCurrentIndex(16)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1358,7 +1347,6 @@ class Ui_MainWindow(object):
         self.clientSMSBtn.setText(_translate("MainWindow", "Client SMS"))
         self.techSMSBtn.setText(_translate("MainWindow", "Technician SMS"))
         self.helplabel.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Help</span></p></body></html>"))
-        self.helpsearch.setPlaceholderText(_translate("MainWindow", "Search"))
         self.textBrowser_4.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -1446,6 +1434,7 @@ class Ui_MainWindow(object):
         self.assgnBrn.setText(_translate("MainWindow", "Assign"))
         self.label_22.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt;\">Services</span></p></body></html>"))
         self.servicebackBtn.setText(_translate("MainWindow", "Back"))
+        self.assigntechBtn.setText(_translate("MainWindow", "Assign Technician"))
         self.label_23.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Upcoming Schedules</span></p></body></html>"))
         self.roundrobinBtn.setText(_translate("MainWindow", "Round Robin"))
         self.schedBackBtn.setText(_translate("MainWindow", "Back"))
