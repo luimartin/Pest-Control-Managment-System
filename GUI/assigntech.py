@@ -19,6 +19,7 @@ class AssignTech(QDialog, Ui_dialog):
         self.techbox.clear()  # Clear the combobox before adding new items
         for tech_id, tech_name in techs:
             self.techbox.addItem('('+ str(tech_id) +') '+ tech_name, tech_id)  # Add the tech name as the display text, and the tech_id as the data
+            self.techbox.addItem('('+ str(tech_id) +') '+ tech_name, tech_id)  # Add the tech name as the display text, and the tech_id as the data
         self.techbox.setCurrentIndex(0)
         self.cancelBtn.clicked.connect(lambda: self.close())
 
