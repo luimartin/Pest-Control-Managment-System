@@ -22,14 +22,15 @@ class ClientInfo:
         return handle_select(query)
 
         
-    def edit_personal_info(self, ref_id, categ, new_input):
+    def edit_personal_info(self, ref_id, categ, new_input, v_type=False):
         temp = "update CLIENT set {} = ".format(categ) 
         query = temp + "%s where client_id = %s"
         data = (new_input, ref_id)
         
         # When client voided, these must be voided too
-        self.void_schedule(ref_id)
-        self.void_contract(ref_id)
+        if v_type:
+            self.void_schedule(ref_id)
+            self.void_contract(ref_id)
     
         handle_transaction(query, data)
 

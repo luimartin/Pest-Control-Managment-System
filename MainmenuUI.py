@@ -1236,7 +1236,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu("HF00010", app)
 window.show()
-app.exec()"""
+app.exec()

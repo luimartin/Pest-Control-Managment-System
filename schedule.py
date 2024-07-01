@@ -27,7 +27,7 @@ class Schedule:
         TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
         inner join client as c on s.client_id = c.client_id
        left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
-                where s.void = 0 order by
+                where s.void = 0 and c.void = 0 order by
             case when s.status = 'Progress' then 1 else 2 end,
             case when s.status = 'Done' then 3 end,
             start_date, time_in, time_out; 
@@ -478,9 +478,9 @@ class Schedule:
     
 
 
-s = Schedule()
+#s = Schedule()
 #print(s.get_data(28, 'technician_id'))
-s.edit_schedule_info(29, 'technician_id' , None)
+#s.edit_schedule_info(29, 'technician_id' , None)
 #print(s.get_data(29, 'start_date'))
 #print(s.smsview())
 #print(s.show_sched_for_tom())

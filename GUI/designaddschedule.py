@@ -155,8 +155,8 @@ class AddSchedule(QDialog, Ui_Dialog):
         self.startInput.setDate(date.today())
         self.endInput.setDate(date.today())
         self.dayinput.setDate(date.today())
-        self.timeinInput.setTime(QTime.currentTime())
-        self.timeoutInput.setTime(QTime.currentTime())
+        self.timeinInput.setTime(QTime(7,0,0))
+        self.timeoutInput.setTime(QTime(17,0,0))
         clients = self.c.select_all_clients()
         self.clientComboBox.clear()
 

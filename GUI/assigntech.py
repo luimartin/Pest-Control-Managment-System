@@ -53,7 +53,7 @@ class AssignTech(QDialog, Ui_dialog):
                 print(tech_id)
                 print(f"Removing technician from schedule ID: {self.sid}")  # Debug statement
                 self.sched.edit_schedule_info(self.sid, 'technician_id', None)
-                #self.technicians.edit_technician_info(tech, 'state', 'Idle')
+                self.technicians.edit_technician_info(tech, 'state', 'Idle')
                 self.notif(QMessageBox.Icon.Information, "Remove Assigned Technician")
                 self.u.add_backlogs(self.admin, "Remove Assigned Technician")
                 
