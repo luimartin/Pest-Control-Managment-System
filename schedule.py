@@ -40,7 +40,7 @@ class Schedule:
         time_out, schedule.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
         TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule 
         inner join client on schedule.client_id = client.client_id
-       left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
+        left join TECHNICIAN on TECHNICIAN.technician_id = Schedule.technician_id
         where SCHEDULE.void = 0 and schedule.client_id ={};
         """.format(id)
         return handle_select(query)
@@ -52,10 +52,10 @@ class Schedule:
         )
         data = (ref_id, sched_type, start_date, end_date, time_in, time_out, 0, "Idle")
         handle_transaction(query, data)    
-
         if sched_type == 'Posting':
-            temp_query = "select last_insert_id()"
+            temp_query = "select max(schedule_id) from SCHEDULE;"
             sched_id = handle_select(temp_query)[0][0]
+            print(sched_id)
 
             self.posting_schedulizer(sched_id, start_date, end_date)
 
@@ -147,6 +147,7 @@ class Schedule:
                     "values (%s, %s)"                
                 )
                 data = (sched_id, ref_sched)
+                print("Mali", sched_id) 
                 handle_transaction(query, data)
 
             if ref_sched == end_date: break
@@ -261,13 +262,13 @@ class Schedule:
             select SCHEDULE.start_date, CLIENT.name, SCHEDULE.time_in, SCHEDULE.time_out
             from SCHEDULE 
             inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
-            where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) and SCHEDULE.void = 0
             union 
             select SCHEDULIZER.single_date, CLIENT.name, "09:00:00", "17:00:00" 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULIZER.schedule_id = SCHEDULE.schedule_id
             inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
-            where SCHEDULIZER.single_date <= LAST_DAY("{}") and SCHEDULIZER.single_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
+            where SCHEDULIZER.single_date <= LAST_DAY("{}") and SCHEDULIZER.single_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) and SCHEDULE.void = 0
             order by start_date ASC  
         """.format(self.today, self.today, self.today, self.today)
         temp_list = handle_select(query)
@@ -405,7 +406,7 @@ class Schedule:
 			TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
             from SCHEDULE inner join client on client.client_id = SCHEDULE.client_id
             left join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id
-            where start_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' 
+            where start_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle'  and SCHEDULE.void = 0
             union 
             select SCHEDULIZER.schedule_id, name ,SCHEDULE.schedule_type ,start_date, end_date ,SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULE.status,  concat("[", TECHNICIAN.technician_id, "]", " ", 
 			TECHNICIAN.first_name, " ", TECHNICIAN.last_name) 
@@ -413,7 +414,7 @@ class Schedule:
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
             inner join client on client.client_id = SCHEDULE.client_id
             left join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id
-            where SCHEDULIZER.single_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' 
+            where SCHEDULIZER.single_date = "2024-06-18" + interval 1 day and SCHEDULE.status = 'Idle' and SCHEDULE.void = 0
             order by start_date, time_in, time_out ASC;
         """
         return handle_select(query)    

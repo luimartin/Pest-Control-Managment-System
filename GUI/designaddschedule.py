@@ -216,6 +216,7 @@ class AddSchedule(QDialog, Ui_Dialog):
                 elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
             
                 else: 
+                    print(id)
                     self.s.add_schedule(id, treatment, start_date, end_date, "09:00:00", "17:00:00")
                     self.notif(QMessageBox.Icon.Information, "Schedule Added" )
                     self.u.add_backlogs(self.admin, "Added Schedule")

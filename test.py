@@ -62,6 +62,7 @@ class CalendarScheduler(QDialog):
         s = Schedule()
         self.scheduled_events = {}
         self.scheduled_events = s.timetable(self.scheduled_events)
+        print(self.scheduled_events)
 
         self.add_month_year_label()
         self.create_calendar_table()
