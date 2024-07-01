@@ -1,9 +1,10 @@
 import sys
 from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem,
+    QApplication, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem,
     QPushButton, QLabel, QDialog, QTextEdit, QSizePolicy
 )
 from PyQt6.QtCore import QDate, Qt, QLocale
+from PyQt6.QtGui import QFont, QTextCursor
 from schedule import Schedule
 
 class ScheduleDialog(QDialog):
@@ -12,14 +13,37 @@ class ScheduleDialog(QDialog):
         self.setWindowTitle(f"Schedule for {client_name}")
 
         layout = QVBoxLayout()
-        self.schedule_text = QTextEdit()
 
+        # Create a QLabel for the time and center it
+        time_label = QLabel("Service Time")
+        time_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        font = QFont()
+        font.setPointSize(16)
+        time_label.setFont(font)
+
+        self.schedule_text = QTextEdit()
         schedule_text = '\n'.join(schedule)
         self.schedule_text.setText(schedule_text)
         self.schedule_text.setReadOnly(True)
 
+        # Set font size to 16px
+        self.schedule_text.setStyleSheet("font-size: 16px; text-align: center;")
+
+        # Align text to center
+        cursor = self.schedule_text.textCursor()
+        cursor.select(QTextCursor.SelectionType.Document)
+        cursor.mergeBlockFormat(self.center_alignment())
+        cursor.clearSelection()
+        self.schedule_text.setTextCursor(cursor)
+
+        layout.addWidget(time_label)
         layout.addWidget(self.schedule_text)
         self.setLayout(layout)
+
+    def center_alignment(self):
+        format = QTextCursor().blockFormat()
+        format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        return format
 
 class CalendarScheduler(QDialog):
     def __init__(self):
@@ -31,7 +55,6 @@ class CalendarScheduler(QDialog):
         self.central_widget = QWidget()
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.central_widget)
-        #self.setCentralWidget(self.central_widget)
 
         self.layout = QVBoxLayout(self.central_widget)
 
@@ -40,8 +63,18 @@ class CalendarScheduler(QDialog):
         self.scheduled_events = {}
         self.scheduled_events = s.timetable(self.scheduled_events)
 
+        self.add_month_year_label()
         self.create_calendar_table()
         self.populate_calendar()
+
+    def add_month_year_label(self):
+        current_date = QDate().currentDate()
+        month_year_label = QLabel(current_date.toString("MMMM yyyy"), self)
+        month_year_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        font = month_year_label.font()
+        font.setPointSize(16)
+        month_year_label.setFont(font)
+        self.layout.addWidget(month_year_label)
 
     def create_calendar_table(self):
         current_date = QDate().currentDate()
@@ -68,6 +101,14 @@ class CalendarScheduler(QDialog):
         for i in range(weeks_in_month):
             self.calendar_table.setRowHeight(i, table_height // weeks_in_month)
 
+        # Set background color for the headers
+        self.calendar_table.setStyleSheet("QHeaderView::section { background-color: #2D7401; color: white }")
+
+        # Set font size for headers
+        header_font = self.calendar_table.horizontalHeader().font()
+        header_font.setPointSize(14)  # Adjust the font size here
+        self.calendar_table.horizontalHeader().setFont(header_font)
+
         self.layout.addWidget(self.calendar_table)
 
     def populate_calendar(self):
@@ -90,10 +131,15 @@ class CalendarScheduler(QDialog):
                 for client_name, schedule in self.scheduled_events[date_str].items():
                     button = QPushButton(client_name)
                     button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+                    button.setStyleSheet("background-color: #E3C55C;")  # Set button background color
                     button.clicked.connect(lambda checked, n=client_name, s=schedule: self.show_schedule(n, s))
                     cell_layout.addWidget(button)
 
             cell_widget.setLayout(cell_layout)
+
+            # Set background color for the cell
+            cell_widget.setStyleSheet("background-color: #F4FCF5;")
+
             self.calendar_table.setCellWidget(row, column, cell_widget)
 
     def calculate_position(self, date):
@@ -106,3 +152,8 @@ class CalendarScheduler(QDialog):
         dialog = ScheduleDialog(client_name, schedule, self)
         dialog.exec()
 
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main_window = CalendarScheduler()
+    main_window.show()
+    sys.exit(app.exec())
