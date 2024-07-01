@@ -206,6 +206,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
+                    background-color: #2D7401; color: white
                 }
             """
             self.clientsTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -334,8 +335,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             self.removecontractBtn.clicked.connect(lambda _, id = client_id: 
                                                self.removebtn(id))
             
-        
-        
     def editcontract(self, client_id, cont_id):
         edit = AddContract(client_id, cont_id, "Edit", self.adminID)
         edit.exec()
@@ -405,6 +404,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
+                    background-color: #2D7401; color: white
                 }
             """
             self.voidclientsTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -462,6 +462,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
+                    background-color: #2D7401; color: white
                 }
             """
             tablename.horizontalHeader().setStyleSheet(stylesheet)
@@ -537,6 +538,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 self.inventoryTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -545,6 +547,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 self.inventoryTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -582,6 +585,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
+                    background-color: #2D7401; color: white
                 }
             """
             tablename.horizontalHeader().setStyleSheet(stylesheet)
@@ -724,6 +728,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                 QHeaderView::section {
                     font-weight: bold;
+                    background-color: #2D7401; color: white
                 }
             """
             tablename.horizontalHeader().setStyleSheet(stylesheet)
@@ -763,6 +768,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -773,6 +779,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -783,6 +790,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 self.saleTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -853,6 +861,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
             self.technicianTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -921,6 +930,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 table.horizontalHeader().setStyleSheet(stylesheet)
@@ -930,6 +940,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
                 table.horizontalHeader().setStyleSheet(stylesheet)
@@ -1032,6 +1043,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
             self.serviceTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -1060,7 +1072,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 edit.setStyleSheet(
                     "QPushButton"
                     "{"
-                    "background-color: #E3C55C"
+                    "background-color: #5C7AE3"
                     "}"
                 )   
                 #edit.clicked.connect(lambda _, cid = client_id, sid = sched_id: self.updatesched(sid, cid))
@@ -1102,6 +1114,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
         self.userlogTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -1158,6 +1171,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
+                        background-color: #2D7401; color: white
                     }
                 """
         self.smsTable.horizontalHeader().setStyleSheet(stylesheet)
@@ -1225,7 +1239,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-app = QApplication([])
+"""app = QApplication([])
 window = MainMenu("HF00010", app)
 window.show()
-app.exec()
+app.exec()"""
