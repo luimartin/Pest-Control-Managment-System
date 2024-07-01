@@ -90,7 +90,7 @@ class Technician:
             "where technician_id = {}".format(tech_id)
         )
         output_amount = handle_select(query)[0][0]
-        print(output_amount)
+        #print(output_amount)
         
         # The number of rows determines the number of accounted clients 
         # (Max. 2 only, otherwise not available)
@@ -123,7 +123,7 @@ class Technician:
             where technician_id = {}
         """.format(tech_id)
         t_assigned_id = handle_select(query)
-        print(t_assigned_id)
+        #print(t_assigned_id)
         
         if t_assigned_id:
             for sched in t_assigned_id:
@@ -140,7 +140,7 @@ class Technician:
             where technician_id = {}
         """.format(tech_id)
         t_item_id = handle_select(query)
-        print(t_item_id)
+        #print(t_item_id)
 
         if t_item_id:
             for item in t_item_id:

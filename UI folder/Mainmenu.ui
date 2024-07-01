@@ -92,7 +92,7 @@ QPushButton:pressed{
        <x>20</x>
        <y>190</y>
        <width>131</width>
-       <height>667</height>
+       <height>571</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
@@ -527,7 +527,7 @@ QPushButton:pressed{
 </string>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>16</number>
     </property>
     <widget class="QWidget" name="clientsPage">
      <property name="styleSheet">
@@ -1737,26 +1737,6 @@ background-color: white</string>
 background-color:rgb(182, 223, 154)
 }</string>
       </property>
-      <widget class="QPushButton" name="helpSrchBtn">
-       <property name="geometry">
-        <rect>
-         <x>910</x>
-         <y>130</y>
-         <width>91</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton {background-color: rgb(198, 200, 195); color: white;}</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="icons.qrc">
-         <normaloff>:/newPrefix/165329.png</normaloff>:/newPrefix/165329.png</iconset>
-       </property>
-      </widget>
       <widget class="QLabel" name="helplabel">
        <property name="geometry">
         <rect>
@@ -1777,37 +1757,6 @@ background-color:rgb(182, 223, 154)
        </property>
        <property name="indent">
         <number>3</number>
-       </property>
-      </widget>
-      <widget class="QLineEdit" name="helpsearch">
-       <property name="geometry">
-        <rect>
-         <x>30</x>
-         <y>130</y>
-         <width>861</width>
-         <height>31</height>
-        </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border: 1px solid black;
-border-radius: 10px;
-padding-right: 100px;
-background-color: white</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="frame">
-        <bool>false</bool>
-       </property>
-       <property name="echoMode">
-        <enum>QLineEdit::Normal</enum>
-       </property>
-       <property name="cursorPosition">
-        <number>0</number>
-       </property>
-       <property name="placeholderText">
-        <string>Search</string>
        </property>
       </widget>
      </widget>
@@ -3227,8 +3176,25 @@ QPushButton:hover{
        </property>
       </widget>
      </widget>
+     <widget class="QPushButton" name="assigntechBtn">
+      <property name="geometry">
+       <rect>
+        <x>880</x>
+        <y>680</y>
+        <width>122</width>
+        <height>38</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {background-color:rgb(217, 217, 217); color: black;}</string>
+      </property>
+      <property name="text">
+       <string>Assign Technician</string>
+      </property>
+     </widget>
      <zorder>widget_13</zorder>
      <zorder>serviceTable</zorder>
+     <zorder>assigntechBtn</zorder>
     </widget>
     <widget class="QWidget" name="upcomingschedPage">
      <widget class="QTableWidget" name="upcomingscheduleTable">

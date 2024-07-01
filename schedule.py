@@ -91,12 +91,12 @@ class Schedule:
         return handle_select(query)
 
     
-    def update_state_when_done(self, sched_id, client_id):
+    def update_state_when_done(self, sched_id):
         query_technician_id = """
         SELECT technician_id 
         FROM SCHEDULE 
-        WHERE client_id = {} AND schedule_id = {}
-        """.format(client_id, sched_id)
+        WHERE schedule_id = {}
+        """.format(sched_id)
         technician_id = handle_select(query_technician_id)[0][0] 
 
         if not technician_id:
@@ -115,9 +115,9 @@ class Schedule:
         query = """
         UPDATE SCHEDULE 
         SET status = 'Done', technician_id = NULL 
-        WHERE client_id = %s AND schedule_id = %s ;
+        WHERE schedule_id = %s ;
         """
-        data = (client_id, sched_id)
+        data = (sched_id, )
         handle_transaction(query, data)
 
         if count == 1:
@@ -127,7 +127,7 @@ class Schedule:
             SET state = 'Idle' 
             WHERE technician_id = %s 
             """
-            data_check = (technician_id,)
+            data_check = (technician_id, )
             handle_transaction(query_update_technician, data_check)
 
         return "Schedule status updated successfully."
@@ -464,12 +464,23 @@ class Schedule:
         query = """
         select schedule_id, name from schedule
         inner join 
-        client on schedule.client_id = client.client_id
+        client on schedule.client_id = client.client_id and schedule.void = 0 and client.void = 0;
+        """
+        return handle_select(query)
+    
+    def assigntechview(self):
+        query = """
+        select schedule_id, name from schedule
+        inner join 
+        client on schedule.client_id = client.client_id where schedule.technician_id is Null and schedule.void = 0 and client.void = 0 and schedule.status = "Idle";
         """
         return handle_select(query)
     
 
-#s = Schedule()
+
+s = Schedule()
+#print(s.get_data(28, 'technician_id'))
+s.edit_schedule_info(29, 'technician_id' , None)
 #print(s.get_data(29, 'start_date'))
 #print(s.smsview())
 #print(s.show_sched_for_tom())

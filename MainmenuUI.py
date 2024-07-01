@@ -142,6 +142,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.servicebackBtn.clicked.connect(self.switch_to_TechnicianPage)
         self.serviceBtn.clicked.connect(self.switch_to_servicePage)
         self.technicianSearch.clicked.connect(self.search_tech)
+        self.assigntechBtn.clicked.connect(lambda: self.assigntech(None, None))
+        
         #maintenance page
         self.addAdminBtn.clicked.connect(self.addadmin)
         self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
@@ -565,7 +567,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         handol = HandleDelivery(self.adminID)
         handol.exec()
 
-#schedule page######################################################################################################
+########### schedule page ######################################################################################################
     def populate_schedule(self, tablename, query):
         a = tablename.horizontalHeader()
         a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
@@ -595,7 +597,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     tablename.setItem(row_idx, col_idx, items)
                 
 
-                if schedule[row_idx][8] is None:
+                """if schedule[row_idx][8] is None:
                     assign = QPushButton('Assign')
                     assign.setStyleSheet(
                     "QPushButton"
@@ -605,8 +607,9 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 )
                     assign.clicked.connect(lambda _, id=schedule_id: self.assigntech(id))
                     tablename.setCellWidget(row_idx, 8, assign)
-                else:
-                    tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
+                else:"""
+                tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
+                
                 edit = QPushButton('Edit')
                 edit.setStyleSheet(
                     "QPushButton"
@@ -638,23 +641,19 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
+            self.s.update_state_when_done(id)
             self.s.edit_schedule_info(id, "void", 1)
-            self.s.edit_schedule_info(id, "technician_id", None)
             self.user.add_backlogs(self.adminID, "Voided Item")
             self.populate_schedule(self.scheduleTable, self.s.view_sched())
         else:
             noInput.close()
 
-    def assigntech(self, schedule_id):
-        ass = AssignTech(schedule_id, self.adminID)
+    def assigntech(self, which, sched_id):
+        ass = AssignTech(self.adminID, which, sched_id)
         ass.exec()
-            # Update the schedule data
-        for row_idx in range(self.scheduleTable.rowCount()):
-            if self.scheduleTable.item(row_idx, 0).text() == str(schedule_id):
-                self.scheduleTable.removeCellWidget(row_idx, 8)
-                break
-        self.populate_schedule(self.scheduleTable, self.s.view_sched())
-        self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
+        #self.populate_schedule(self.scheduleTable, self.s.view_sched())
+        self.populate_service()
+        #self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
 
     def schedAdd(self):
         addSchedule = AddSchedule(None, None, self.adminID)
@@ -680,11 +679,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.notif(QMessageBox.Icon.Information, round_robin)
         #self.s.view_sched()
         #self.scheduleTable
-        self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
-        self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
+        #self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
+        #self.removebutton_techsched(self.s.show_sched_for_tom(), self.upcomingscheduleTable)
         self.user.add_backlogs(self.adminID, "Technician Round Robin")
 
-    def removebutton_techsched(self, query, table):
+    """def removebutton_techsched(self, query, table):
         s = query 
         for row_idx in range(table.rowCount()):
             schedule_id = s[row_idx][0]
@@ -693,7 +692,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             if table.item(row_idx, 0).text() == str(schedule_id):
                 table.removeCellWidget(row_idx, 8)
         self.populate_schedule(table, query)
-
+"""
     def sendSMS(self):
         txtmoko = SMS(self.adminID)
         txtmoko.exec()
@@ -1019,7 +1018,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 ##service page
     def populate_service(self):
         a = self.serviceTable.horizontalHeader()
-        a.ResizeMode(QHeaderView.ResizeMode.Stretch)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.serviceTable.verticalHeader().hide()
         self.serviceTable.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
@@ -1028,15 +1027,14 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         service = self.tech.show_assigned_client()
         if service:
             self.serviceTable.setRowCount(len(service))
-            self.serviceTable.setColumnCount(7)
-            self.serviceTable.setHorizontalHeaderLabels(['Technician', 'Client', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Report Update'])
+            self.serviceTable.setColumnCount(8)
+            self.serviceTable.setHorizontalHeaderLabels(['Technician', 'Client', 'Start Date', 'End Date', 'Time In', 'Time Out', 'Report Update', 'Edit Schedule'])
             stylesheet = """
                     QHeaderView::section {
                         font-weight: bold;
                     }
                 """
             self.serviceTable.horizontalHeader().setStyleSheet(stylesheet)
-
 
             for row_idx, sched in enumerate(service):
                 for col_idx, item in enumerate(sched):
@@ -1045,6 +1043,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     self.serviceTable.setItem(row_idx, col_idx, items)
                 client_id = service[row_idx][7]
                 sched_id = service[row_idx][6]
+
                 update = QPushButton('Update')
                 update.setStyleSheet(
                     "QPushButton"
@@ -1052,9 +1051,18 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     "background-color: #E3C55C"
                     "}"
                 )   
-                update.clicked.connect(lambda _, cid = client_id, sid = sched_id:
-                                        self.updatesched(sid, cid))
+                update.clicked.connect(partial(self.updatesched, sched_id, client_id))
                 self.serviceTable.setCellWidget(row_idx, 6, update)
+
+                edit = QPushButton('Edit')
+                edit.setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    "background-color: #E3C55C"
+                    "}"
+                )   
+                edit.clicked.connect(partial(self.assigntech, "Edit", sched_id))
+                self.serviceTable.setCellWidget(row_idx, 7, edit)
         else:
             self.serviceTable.setRowCount(0)
             self.serviceTable.setColumnCount(0)
@@ -1072,7 +1080,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         noInput.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         yes = noInput.exec()
         if yes == QMessageBox.StandardButton.Yes:
-            self.s.update_state_when_done(sched, client)
+            self.s.update_state_when_done(sched)
             self.user.add_backlogs(self.adminID, "Updated Schedule")
             self.switch_to_servicePage()
         else: noInput.close()
