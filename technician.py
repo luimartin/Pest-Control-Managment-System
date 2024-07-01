@@ -107,13 +107,14 @@ class Technician:
         if output == 'Posting': return True
         return False
 
-    def edit_technician_info(self, tech_id, categ, new_input):
+    def edit_technician_info(self, tech_id, categ, new_input, v_type=False):
         temp = "update TECHNICIAN set {} = ".format(categ) 
         query = temp + "%s where technician_id = %s "
         data = (new_input, tech_id)
 
-        self.void_assigned_from_sched(tech_id)
-        self.void_tech_item(tech_id)
+        if v_type:
+            self.void_assigned_from_sched(tech_id)
+            self.void_tech_item(tech_id)
 
         handle_transaction(query, data)
 
