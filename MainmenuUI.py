@@ -1237,6 +1237,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
 app = QApplication([])
-window = MainMenu("HF00010", app)
+window = MainMenu(1, app)
 window.show()
 app.exec()

@@ -249,7 +249,7 @@ class Schedule:
             data = (tech_id,)
             handle_transaction(query1, data)
 
-            return "Technician assigned successfully."
+            return "Technician assigned successfully!"
         else:
             return "Technician not available or does not exist."
 
