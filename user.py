@@ -24,44 +24,72 @@ class User:
         self.isActive = True
 
     
-    # Add the admin account with SHA256 password encrypting and decryption
     def add_user(self, uname, pword, q1, a1, q2, a2):
         sha256 = hashlib.sha256()
         
-        salt = os.urandom(16)
-        sha256.update(salt + pword.encode('utf-8'))
+        # Hash and store the username
+        uname_salt = os.urandom(16)
+        sha256.update(uname_salt + uname.encode('utf-8'))
+        hashed_uname = sha256.hexdigest()
+
+        # Hash and store the password
+        pword_salt = os.urandom(16)
+        sha256.update(pword_salt + pword.encode('utf-8'))
         hashed_password = sha256.hexdigest()
-       
-        # Store the salt and hashed password in the database
+
+        # Hash and store the security questions and answers
+        q1_salt = os.urandom(16)
+        sha256.update(q1_salt + q1.encode('utf-8'))
+        hashed_q1 = sha256.hexdigest()
+
+        a1_salt = os.urandom(16)
+        sha256.update(a1_salt + a1.encode('utf-8'))
+        hashed_a1 = sha256.hexdigest()
+
+        q2_salt = os.urandom(16)
+        sha256.update(q2_salt + q2.encode('utf-8'))
+        hashed_q2 = sha256.hexdigest()
+
+        a2_salt = os.urandom(16)
+        sha256.update(a2_salt + a2.encode('utf-8'))
+        hashed_a2 = sha256.hexdigest()
+
+        # Store the salts and hashed values in the database
         query = (
-            "insert into USER(username, password, salt, question1, answer1, question2, answer2, void) "
-            "values(%s, %s, %s, %s, %s, %s, %s, %s)"
+            "INSERT INTO USER(username, password, salt, question1, answer1, question2, answer2, void, uname_salt, q1_salt, a1_salt, q2_salt, a2_salt) "
+            "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (uname, hashed_password, salt.hex(), q1, a1, q2, a2, 0)
+        data = (hashed_uname, hashed_password, pword_salt.hex(), hashed_q1, hashed_a1, hashed_q2, hashed_a2, 0, uname_salt.hex(), q1_salt.hex(), a1_salt.hex(), q2_salt.hex(), a2_salt.hex())
         handle_transaction(query, data)
 
-    # Validate user based from input id and password
     def validate_user(self, input_id, username, input_pwd):
-        # Adjust the query to ensure case-sensitive comparison for user_id and username
-        query = "SELECT salt, password FROM USER WHERE BINARY user_id = '{}' AND BINARY username = '{}'".format(input_id, username)
+        query = "SELECT uname_salt, salt, password FROM USER WHERE BINARY user_id = '{}'".format(input_id)
 
-        # Execute the query
         result = handle_select(query)
         if not result:
             return False
 
-        stored_salt, stored_hashed_password = result[0]
+        stored_uname_salt, stored_pword_salt, stored_hashed_password = result[0]
 
         sha256 = hashlib.sha256()
 
-        # Hash the input password with the stored salt
-        sha256.update(bytes.fromhex(stored_salt) + input_pwd.encode('utf-8'))
+        # Hash the input username with the stored username salt
+        sha256.update(bytes.fromhex(stored_uname_salt) + username.encode('utf-8'))
+        input_hashed_uname = sha256.hexdigest()
+
+        # Retrieve the stored hashed username for validation
+        query = "SELECT username FROM USER WHERE BINARY user_id = '{}'".format(input_id)
+        stored_hashed_uname = handle_select(query)[0][0]
+
+        if input_hashed_uname != stored_hashed_uname:
+            return False
+
+        # Hash the input password with the stored password salt
+        sha256.update(bytes.fromhex(stored_pword_salt) + input_pwd.encode('utf-8'))
         input_hashed_password = sha256.hexdigest()
 
-        # Compare the stored hashed password with the input hashed password
         return stored_hashed_password == input_hashed_password
-    
-    # Changing of password
+
     def new_pass(self, user_id, new_pass, confirm_pass):
         if new_pass == confirm_pass:
             print("Successfully Changed")
@@ -72,8 +100,8 @@ class User:
             hashed_password = sha256.hexdigest()
         
             query = (
-                "update USER set password = %s, salt = %s"
-                " where user_id = %s"
+                "UPDATE USER SET password = %s, salt = %s"
+                " WHERE user_id = %s"
             )
             data = (hashed_password, salt.hex(), user_id)
             handle_transaction(query, data)
@@ -81,26 +109,42 @@ class User:
         
         return False
 
-    # Validation of account based from the input userid and username for changing of password
     def cp_validate_user(self, user_id, username):
-        query = "select user_id, username from USER where user_id = '{}'".format(user_id)
+        query = "SELECT uname_salt, username FROM USER WHERE BINARY user_id = '{}'".format(user_id)
         
-        uid = handle_select(query)[0][0]
-        uname = handle_select(query)[0][1]
+        result = handle_select(query)
+        if not result:
+            return False
 
+        stored_uname_salt, stored_hashed_uname = result[0]
 
-        if uid == user_id and uname == username:
-            return True
-        
-        return False
-# q1, a1, q2, a2
+        sha256 = hashlib.sha256()
+
+        # Hash the input username with the stored username salt
+        sha256.update(bytes.fromhex(stored_uname_salt) + username.encode('utf-8'))
+        input_hashed_uname = sha256.hexdigest()
+
+        return input_hashed_uname == stored_hashed_uname
+
     def cp_questions(self, user_id, a1, a2):
-        query = "select answer1, answer2 from user where user_id = '{}'".format(user_id)
-        ans = handle_select(query)
+        query = "SELECT q1_salt, a1_salt, a2_salt, answer1, answer2 FROM USER WHERE BINARY user_id = '{}'".format(user_id)
+        
+        result = handle_select(query)
+        if not result:
+            return False
 
-        if ans[0][0] == a1 and ans[0][1] == a2:
-            return True
-        return False
+        stored_q1_salt, stored_a1_salt, stored_a2_salt, stored_hashed_a1, stored_hashed_a2 = result[0]
+
+        sha256 = hashlib.sha256()
+
+        # Hash the input answers with the stored salts
+        sha256.update(bytes.fromhex(stored_a1_salt) + a1.encode('utf-8'))
+        input_hashed_a1 = sha256.hexdigest()
+
+        sha256.update(bytes.fromhex(stored_a2_salt) + a2.encode('utf-8'))
+        input_hashed_a2 = sha256.hexdigest()
+
+        return input_hashed_a1 == stored_hashed_a1 and input_hashed_a2 == stored_hashed_a2
     
     # User backlogs or auditing
     def add_backlogs(self, active_user, activity):
@@ -138,7 +182,7 @@ class User:
         return handle_select(query)
 
 u = User()
-#print(u.validate_user("HF00010", "Maloi", "blooms"))
+#print(u.validate_user(1, "joy", "030709"))
 #print(u.get_data(11, 'question1, answer1, question2, answer2'))
 #print(u.show_id())
 #print(u.get_data(4, ("question1, question2")))
