@@ -144,14 +144,19 @@ def connect_db():
 	10. DONE (VALIDATED)
 	create table USER(
         user_id bigint not null auto_increment,
-		username varchar(20) not null UNIQUE KEY,
+		username varchar(256) not null UNIQUE KEY,
 		password varchar(256) not null,  
-		void tinyint(1) not null,
         salt varchar(256),
         question1 varchar(256),
         answer1 varchar(256),
         question2 varchar(256),
         answer2 varchar(256),
+        void tinyint(1) not null,
+        uname_salt varchar(256),
+        q1_salt varchar(256), 
+        a1_salt varchar(256), 
+        q2_salt varchar(256), 
+        a2_salt varchar(256),
 		PRIMARY KEY (user_id)
     );	 
 
