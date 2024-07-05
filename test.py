@@ -129,12 +129,23 @@ class CalendarScheduler(QDialog):
 
             date_str = date.toString("yyyy-MM-dd")
             if date_str in self.scheduled_events:
-                for client_name, schedule in self.scheduled_events[date_str].items():
-                    button = QPushButton(client_name)
-                    button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-                    button.setStyleSheet("background-color: #E3C55C;")  # Set button background color
-                    button.clicked.connect(lambda checked, n=client_name, s=schedule: self.show_schedule(n, s))
-                    cell_layout.addWidget(button)
+                for client_name, events in self.scheduled_events[date_str].items():
+                    for event_time, status in events:
+                        button = QPushButton(client_name)
+                        button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+                        # Set button color based on status
+                        if status == 'Unfinished':
+                            button.setStyleSheet("background-color: #E35C5C;")
+                        elif status == 'Done':
+                            button.setStyleSheet("background-color: #90CE67;")
+                        elif status == 'Idle':
+                            button.setStyleSheet("background-color: #D9D9D9;")
+                        elif status == 'Progress':
+                            button.setStyleSheet("background-color: #E3C55C;")
+
+                        button.clicked.connect(lambda checked, n=client_name, s=[e[0] for e in events]: self.show_schedule(n, s))
+                        cell_layout.addWidget(button)
 
             cell_widget.setLayout(cell_layout)
 

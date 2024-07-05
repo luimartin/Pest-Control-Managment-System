@@ -1,11 +1,11 @@
 from PyQt6.QtWidgets import QDialog,QMessageBox,QTableWidgetItem,QHeaderView,QPushButton,QApplication
 from PyQt6.QtCore import QDate
-from PyQt6 import QtGui
-from GUI.designaddcontractUI import Ui_addcontract
+from PyQt6 import QtGui, QtCore
+from GUI.designaddcontractUI import Ui_Dialog
 from datetime import date
 from contract import Contract
 from user import User
-class AddContract(QDialog,Ui_addcontract):
+class AddContract(QDialog,Ui_Dialog):
     def __init__(self, client_id, cont_id, which, admin):
         super().__init__()
         self.id = client_id
@@ -17,10 +17,11 @@ class AddContract(QDialog,Ui_addcontract):
         self.admin = admin
         self.addBtn.clicked.connect(self.addcontract)
         self.cancelBtn.clicked.connect(lambda: self.close())
-        self.priceInput.setValidator(QtGui.QDoubleValidator(0.0, 5.0, 4))
+        self.lineEdit_3.setValidator(QtGui.QDoubleValidator(0.0, 5.0, 4))
         self.scopeInput.setValidator(QtGui.QDoubleValidator(0.0, 5.0, 4))
         self.unitInput.setValidator(QtGui.QIntValidator())
         if self.which == "Edit":
+            self.label_17.setText(QtCore.QCoreApplication.translate("Dialog", "<html><head/><body><p><span style=\" font-size:24pt;\">Edit Contract</span></p></body></html>"))
             placeholder = self.c.contract_view(self.id)
             self.problemInput.setText(placeholder[0][0])
             self.typeInput.setText(placeholder[0][1])
@@ -28,7 +29,7 @@ class AddContract(QDialog,Ui_addcontract):
             self.endInput.setDate(QDate.fromString(str(placeholder[0][3]), "yyyy-MM-dd"))
             self.scopeInput.setText(str(placeholder[0][4]))
             self.unitInput.setText(str(placeholder[0][5]))
-            self.priceInput.setText(str(placeholder[0][6]))
+            self.lineEdit_3.setText(str(placeholder[0][6]))
         else: 
             self.endInput.setDate(date.today())
             self.startInput.setDate(date.today())
@@ -42,7 +43,7 @@ class AddContract(QDialog,Ui_addcontract):
             end = end.toString("yyyy-MM-dd")  
             scope =self.scopeInput.text()
             unit = self.unitInput.text()
-            price = self.priceInput.text()  
+            price = self.lineEdit_3.text()  
 
             if (problem and treatment and start and end and scope and unit and price) == "":
                 self.notif(QMessageBox.Icon.Warning, "Field cannot be null")
@@ -63,7 +64,7 @@ class AddContract(QDialog,Ui_addcontract):
             start = start.toString("yyyy-MM-dd")
             scope =self.scopeInput.text()
             unit = self.unitInput.text()
-            price = self.priceInput.text()  
+            price = self.lineEdit_3.text()  
             problem = self.problemInput.text()
             if (problem and treatment and start and end and scope and unit and price) == "":
                 self.notif(QMessageBox.Icon.Warning, "Field cannot be null")

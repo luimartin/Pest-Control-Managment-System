@@ -681,6 +681,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def roundrobin(self):
         round_robin = self.s.round_robin()
         self.notif(QMessageBox.Icon.Information, round_robin)
+        self.upcomingsched()
         #self.s.view_sched()
         #self.scheduleTable
         #self.removebutton_techsched(self.s.view_sched(), self.scheduleTable)
@@ -1236,7 +1237,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu("HF00010", app)
 window.show()
-app.exec()"""
+app.exec()
