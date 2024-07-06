@@ -126,26 +126,43 @@ class User:
 
         return input_hashed_uname == stored_hashed_uname
 
-    def cp_questions(self, user_id, a1, a2):
-        query = "SELECT q1_salt, a1_salt, a2_salt, answer1, answer2 FROM USER WHERE BINARY user_id = '{}'".format(user_id)
+    def cp_questions(self, user_id, answer1, answer2):
+        user_data = """
+        SELECT answer1, a1_salt, answer2, a2_salt FROM user WHERE user_id = "{}"        
+    """.format(user_id)
         
-        result = handle_select(query)
-        if not result:
+        ans = handle_select(user_data)
+        print(ans)
+        if not user_data:
             return False
 
-        stored_q1_salt, stored_a1_salt, stored_a2_salt, stored_hashed_a1, stored_hashed_a2 = result[0]
+        
+        stored_a1, a1_salt_hex, stored_a2, a2_salt_hex = ans[0]
 
+        a1_salt = bytes.fromhex(a1_salt_hex)
+        print("salt 1:", a1_salt_hex)
+        a2_salt = bytes.fromhex(a2_salt_hex)
+        print("salt 2:", a2_salt_hex)
         sha256 = hashlib.sha256()
 
-        # Hash the input answers with the stored salts
-        sha256.update(bytes.fromhex(stored_a1_salt) + a1.encode('utf-8'))
-        input_hashed_a1 = sha256.hexdigest()
+        # Verify Answer 1
+        sha256.update(a1_salt + answer1.encode('utf-8'))
+        hashed_a1 = sha256.hexdigest()
+        print(f"Expected hash for Answer 1: {stored_a1}")
+        print(f"Computed hash for Answer 1: {hashed_a1}")
+        if hashed_a1 != stored_a1:
+            return False
 
-        sha256.update(bytes.fromhex(stored_a2_salt) + a2.encode('utf-8'))
-        input_hashed_a2 = sha256.hexdigest()
+        # Verify Answer 2
+        sha256 = hashlib.sha256()  # Reset hash object
+        sha256.update(a2_salt + answer2.encode('utf-8'))
+        hashed_a2 = sha256.hexdigest()
 
-        return input_hashed_a1 == stored_hashed_a1 and input_hashed_a2 == stored_hashed_a2
-    
+        if hashed_a2 != stored_a2:
+            return False
+
+        return True
+
     # User backlogs or auditing
     def add_backlogs(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
@@ -182,6 +199,7 @@ class User:
         return handle_select(query)
 
 u = User()
+print(u.cp_questions('HF00026', "supershy", "dog"))
 #print(u.validate_user(1, "joy", "030709"))
 #print(u.get_data(11, 'question1, answer1, question2, answer2'))
 #print(u.show_id())
