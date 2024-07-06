@@ -409,6 +409,7 @@ class Schedule:
                         # Move to the next technician in the queue
                         rr_index = (rr_index + 1) % num_techs
                         technicians_checked += 1
+                        print("done")
                         break  # Exit the while loop to move on to the next schedule
 
                 # Move to the next technician in the queue
