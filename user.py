@@ -24,39 +24,42 @@ class User:
         self.isActive = True
 
     def add_user(self, uname, pword, q1, a1, q2, a2):
-        sha256 = hashlib.sha256()
-
         # Hash and store the username
+        sha256 = hashlib.sha256()
         uname_salt = os.urandom(16)
         sha256.update(uname_salt + uname.encode('utf-8'))
         hashed_uname = sha256.hexdigest()
 
         # Hash and store the password
+        sha256 = hashlib.sha256()  # Reset the hasher
         pword_salt = os.urandom(16)
         sha256.update(pword_salt + pword.encode('utf-8'))
         hashed_password = sha256.hexdigest()
 
         # Hash and store the security questions and answers
+        sha256 = hashlib.sha256()
         a1_salt = os.urandom(16)
         sha256.update(a1_salt + a1.encode('utf-8'))
         hashed_a1 = sha256.hexdigest()
 
+        sha256 = hashlib.sha256()
         a2_salt = os.urandom(16)
         sha256.update(a2_salt + a2.encode('utf-8'))
         hashed_a2 = sha256.hexdigest()
 
         # Store the salts and hashed values in the database
         query = (
-            "INSERT INTO USER(username, password, salt, question1, answer1, question2, answer2, void, uname_salt, a1_salt, a2_salt) "
+            "INSERT INTO USER(username, password, salt,void, question1, answer1, question2, answer2, uname_salt, a1_salt, a2_salt) "
             "VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         )
-        data = (hashed_uname, hashed_password, pword_salt.hex(), q1, hashed_a1, q2, hashed_a2, 0, uname_salt.hex(), a1_salt.hex(), a2_salt.hex())
+        data = (hashed_uname, hashed_password, pword_salt.hex(),0, q1,
+                 hashed_a1, q2, hashed_a2, uname_salt.hex(), a1_salt.hex(), a2_salt.hex())
         handle_transaction(query, data)
         
     def validate_user(self, input_id, username, input_pwd):
         query = "SELECT uname_salt, salt, password FROM USER WHERE BINARY user_id = '{}'".format(input_id)
-
         result = handle_select(query)
+        
         if not result:
             return False
 
@@ -102,7 +105,7 @@ class User:
             return True
         
         return False
-
+    
     def cp_validate_user(self, user_id, username):
         query = "SELECT uname_salt, username FROM USER WHERE BINARY user_id = '{}'".format(user_id)
         
@@ -119,28 +122,36 @@ class User:
         input_hashed_uname = sha256.hexdigest()
 
         return input_hashed_uname == stored_hashed_uname
-
-
-    def cp_questions(self, user_id, a1, a2):
-        query = "SELECT a1_salt, a2_salt, answer1, answer2 FROM USER WHERE BINARY user_id = '{}'".format(user_id)
-        
+    
+    def cp_questions(self, user_id, input_answer1, input_answer2):
+        # Retrieve the stored answers and salts
+        query = "SELECT answer1, a1_salt, answer2, a2_salt FROM USER WHERE BINARY user_id = '{}'".format(user_id)
         result = handle_select(query)
+        
         if not result:
             return False
 
-        stored_a1_salt, stored_a2_salt, stored_hashed_a1, stored_hashed_a2 = result[0]
+        stored_hashed_a1, a1_salt, stored_hashed_a2, a2_salt = result[0]
 
         sha256 = hashlib.sha256()
 
-        # Hash the input answers with the stored salts
-        sha256.update(bytes.fromhex(stored_a1_salt) + a1.encode('utf-8'))
-        input_hashed_a1 = sha256.hexdigest()
+        # Hash the first input answer with the stored salt
+        sha256.update(bytes.fromhex(a1_salt) + input_answer1.encode('utf-8'))
+        input_hashed_a1 = sha256.hexdigest() 
 
-        sha256.update(bytes.fromhex(stored_a2_salt) + a2.encode('utf-8'))
+        print(input_hashed_a1)
+        print(stored_hashed_a1)
+        sha256 = hashlib.sha256()   
+        # Hash the second input answer with the stored salt
+        sha256.update(bytes.fromhex(a2_salt) + input_answer2.encode('utf-8'))
         input_hashed_a2 = sha256.hexdigest()
 
-        return input_hashed_a1 == stored_hashed_a1 and input_hashed_a2 == stored_hashed_a2
-        
+        print(input_hashed_a2)
+        print(stored_hashed_a2)
+
+        # Compare the hashed input answers with the stored hashed answers
+        return stored_hashed_a1 == input_hashed_a1 and stored_hashed_a2 == input_hashed_a2
+
     # User backlogs or auditing
     def add_backlogs(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
@@ -176,17 +187,19 @@ class User:
     """ 
         return handle_select(query)
 
-u = User()
-
-#u.new_pass("HF00027", "bloom", "bloom")
-#print(u.cp_validate_user('HF00026', 'gil'))
-#print(u.validate_user(1, "joy", "030709"))
+#u = User()
+#print(u.new_pass("HF00030", "fucker", "fucker"))
+#print(u.cp_questions('HF00027', "supershy", "dog"))
+#print(u.validate_user("HF00030", "cris", "fucker"))
 #print(u.get_data(11, 'question1, answer1, question2, answer2'))
 #print(u.show_id())
 #print(u.get_data(4, ("question1, question2")))
-#print(u.cp_questions(4,"Human", "Sugar Baby"))
 #u.add_user("joy", "030709", "What is the name of your pet?", "fallfee", "What is your favorite food of all time?", "sinigang")
-#u.add_user("cris", "030709", "What was the first game you played?", "jackstone", "What is the toy/stuffed animal you like the most as a kid?", "giraffe")
+
 #u.add_user("doctora", "030709", "What was your dream job?", "doctor", "What was the first thing you learned to cook?", "hotdog")
 #u.add_user("gil", "030709", "What is your most listened song ever?", "supershy", "What is the toy/stuffed animal you like the most as a kid?", "dog")
-print(u.cp_questions('HF00027', "supershy", "dog"))
+
+
+#u.add_user("cris", "030709", "What was the first game you played?", "jackstone", "What is the toy/stuffed animal you like the most as a kid?", "giraffe")
+#print(u.cp_questions("HF00034", "jackstone", "giraffe"))
+#print(u.cp_questions("HF00033", "supershy", "dog"))

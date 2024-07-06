@@ -42,10 +42,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.userdb = 'root'
         self.password = '030709'
         self.database = 'mansys'
-
-
-
-        
         super().__init__()
         #self.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         self.setupUi(self)
@@ -153,7 +149,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
         self.backupBtn.clicked.connect(self.backup)
         self.restoretBn.clicked.connect(self.open_file_dialog)
-    
+        
 
         self.smshelp.clicked.connect(self.open_pdf)
         #SMS page
@@ -1266,7 +1262,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-app = QApplication([])
+"""app = QApplication([])
 window = MainMenu("HF00010", app)
 window.show()
-app.exec()
+app.exec()"""

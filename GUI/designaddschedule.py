@@ -227,16 +227,13 @@ class AddSchedule(QDialog, Ui_Dialog):
                     self.notif(QMessageBox.Icon.Information, "Schedule Edited" )
                     self.close()
             else:
-                if start_date == end_date: self.notif(QMessageBox.Icon.Warning, "Start Date and End Date is the Same!")
-                elif start_date > end_date: self.notif(QMessageBox.Icon.Warning, "Start Date cannot be greater than End Date")
-                else:
-                    self.s.edit_schedule_info(self.sched_id, 'start_date', day)
-                    self.s.edit_schedule_info(self.sched_id, 'end_date', day)
-                    self.s.edit_schedule_info(self.sched_id, 'time_in', time_in)
-                    self.s.edit_schedule_info(self.sched_id, 'time_out', time_out)
-                    self.u.add_backlogs(self.admin, "Edited Schedule")
-                    self.notif(QMessageBox.Icon.Information, "Schedule Edited" )
-                    self.close()
+                self.s.edit_schedule_info(self.sched_id, 'start_date', day)
+                self.s.edit_schedule_info(self.sched_id, 'end_date', day)
+                self.s.edit_schedule_info(self.sched_id, 'time_in', time_in)
+                self.s.edit_schedule_info(self.sched_id, 'time_out', time_out)
+                self.u.add_backlogs(self.admin, "Edited Schedule")
+                self.notif(QMessageBox.Icon.Information, "Schedule Edited" )
+                self.close()
         else:
             if treatment == "Posting":
 

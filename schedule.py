@@ -206,6 +206,7 @@ class Schedule:
                 SELECT time_in, time_out, start_date, technician_id
                 FROM SCHEDULE
                 WHERE schedule_id = {}
+                AND void = 0
             """.format(sched_id)
             schedule_time = handle_select(query_schedule_time)
 
@@ -213,7 +214,6 @@ class Schedule:
                 return "Schedule not found."
 
             new_time_in, new_time_out, new_start_date, assigned_tech_id = schedule_time[0]
-            print(new_time_in, new_time_out, new_start_date)
 
             # Check if the technician is already assigned to this schedule
             if assigned_tech_id == tech_id:
@@ -226,9 +226,10 @@ class Schedule:
                 WHERE technician_id = {} 
                 AND start_date = '{}' 
                 AND ((time_in < '{}' AND time_out > '{}') OR (time_in < '{}' AND time_out > '{}') OR (time_in >= '{}' AND time_out <= '{}'))
+                AND void = 0
             """.format(tech_id, new_start_date, new_time_out, new_time_in, new_time_in, new_time_out, new_time_in, new_time_out)
             existing_schedules = handle_select(query_conflicts)
-            print(existing_schedules)
+            print("Existing Schedules", existing_schedules)
 
             if existing_schedules:
                 return "Technician has a scheduling conflict on the same day."
@@ -266,13 +267,13 @@ class Schedule:
 
     def timetable(self, schedule_event=None):
         query = """
-            select SCHEDULE.start_date, CLIENT.name, SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULE.status 
+            select SCHEDULE.start_date, concat("[", schedule.schedule_id, "]", " ", client.name), SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULE.status 
             from SCHEDULE 
             inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
             where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
             and SCHEDULE.void = 0
             union 
-            select SCHEDULIZER.single_date, CLIENT.name, "09:00:00", "17:00:00", CASE WHEN SCHEDULIZER.single_date = "{}" THEN "Progress" ELSE SCHEDULIZER.single_status END
+            select SCHEDULIZER.single_date, concat("[", schedule.schedule_id, "]", " ", client.name), "09:00:00", "17:00:00", CASE WHEN SCHEDULIZER.single_date = "{}" THEN "Progress" ELSE SCHEDULIZER.single_status END
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULIZER.schedule_id = SCHEDULE.schedule_id
             inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
@@ -313,7 +314,7 @@ class Schedule:
         query_techs = """
             SELECT technician_id, CONCAT(first_name, ' ', last_name) AS 'Available Technician', state 
             FROM TECHNICIAN 
-            WHERE state = 'Idle'
+            WHERE state = 'Idle' and void = 0
         """
         idle_technicians = handle_select(query_techs)
         print("Output", idle_technicians)
@@ -369,6 +370,7 @@ class Schedule:
                     AND ((time_in < '{}' AND time_out > '{}') OR 
                         (time_in < '{}' AND time_out > '{}') OR 
                         (time_in >= '{}' AND time_out <= '{}'))
+                    and void = 0
                 """.format(technician_id, sched_time_out, sched_time_in, sched_time_in, sched_time_out, sched_time_in, sched_time_out)
                 existing_schedules = handle_select(query_conflicts)
 
@@ -376,7 +378,7 @@ class Schedule:
                     query_type = """
                         SELECT schedule_type
                         FROM SCHEDULE
-                        WHERE schedule_id = {}
+                        WHERE schedule_id = {} and void = 0
                         ORDER BY start_date, time_in, time_out ASC
                     """.format(schedule_id)
                     schedule_type = handle_select(query_type)[0][0]
@@ -394,7 +396,7 @@ class Schedule:
                         query_count = """
                             SELECT COUNT(*)
                             FROM SCHEDULE
-                            WHERE technician_id = {} AND schedule_type = 'Default'
+                            WHERE technician_id = {} AND schedule_type = 'Default' and void = 0
                         """.format(technician_id)
                         tech_assign_count = handle_select(query_count)[0][0]
 
@@ -404,6 +406,10 @@ class Schedule:
                             assigned = True
 
                     if assigned:
+                        # Move to the next technician in the queue
+                        rr_index = (rr_index + 1) % num_techs
+                        technicians_checked += 1
+                        print("done")
                         break  # Exit the while loop to move on to the next schedule
 
                 # Move to the next technician in the queue
@@ -414,16 +420,17 @@ class Schedule:
                 return "Could not assign all schedules due to conflicts."
 
         return "Technicians assigned successfully."
+
             
     def show_sched_for_tom(self):
         query = """
-            select schedule_id, name ,schedule_type, start_date, end_date, time_in, time_out, SCHEDULE.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+            select schedule_id, name, schedule_type, start_date, end_date, time_in, time_out, SCHEDULE.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
 			TECHNICIAN.first_name, " ", TECHNICIAN.last_name)
             from SCHEDULE inner join client on client.client_id = SCHEDULE.client_id
             left join TECHNICIAN on TECHNICIAN.technician_id = SCHEDULE.technician_id
             where start_date = '{}' + interval 1 day and SCHEDULE.status = 'Idle' and SCHEDULE.void = 0
             union 
-            select SCHEDULIZER.schedule_id, name ,SCHEDULE.schedule_type, SCHEDULIZER.single_date, end_date ,SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULIZER.single_status,  concat("[", TECHNICIAN.technician_id, "]", " ", 
+            select SCHEDULIZER.schedule_id, name ,SCHEDULE.schedule_type, SCHEDULIZER.single_date, SCHEDULE.end_date ,SCHEDULE.time_in, SCHEDULE.time_out, SCHEDULIZER.single_status,  concat("[", TECHNICIAN.technician_id, "]", " ", 
 			TECHNICIAN.first_name, " ", TECHNICIAN.last_name) 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
@@ -535,8 +542,8 @@ class Schedule:
     
 
 
-s = Schedule()
-print(s.assigntechview())
+#s = Schedule()
+#print(s.assigntechview())
 #s.set_progress_to_done()
 #print(s.get_data(28, 'technician_id'))
 #s.edit_schedule_info(29, 'technician_id' , None)
