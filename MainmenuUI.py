@@ -572,9 +572,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
 ########### schedule page ######################################################################################################
     def populate_schedule(self, tablename, query):
+        tablename.setColumnWidth(0, 1)
         a = tablename.horizontalHeader()
-        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
         tablename.verticalHeader().hide()
+        
         tablename.setStyleSheet("font-size: 16px; text-align: center;")
         a.setStretchLastSection(True)
         schedule = query
@@ -589,9 +591,6 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 }
             """
             tablename.horizontalHeader().setStyleSheet(stylesheet)
-
-            header = tablename.horizontalHeader()
-            header.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
             for row_idx, sched in enumerate(schedule):
                 schedule_id = schedule[row_idx][0]
@@ -1134,12 +1133,14 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def addadmin(self):
         addmin = AddAdmin(self.adminID)
         addmin.exec()
+
     def editadmin(self):
         edd = EditAdmin(self.adminID)
         edd.exec()
-    def backup(self):
-        backup_database(self.host, self.userdb, self.password, self.database, "C:/Users/deini/OneDrive/Desktop/backup")
 
+    def backup(self):
+        msg = backup_database(self.host, self.userdb, self.password, self.database, "C:/Users/deini/OneDrive/Desktop/backup")
+        self.notif(QMessageBox.Icon.Information, msg)
     def open_file_dialog(self):
         dialog = QFileDialog(self)
         dialog.setDirectory(r'C:\Users\deini\OneDrive\Desktop\backup')
@@ -1150,8 +1151,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             filenames = dialog.selectedFiles()
             filenames = [Path(filename) for filename in filenames]
             fn = filenames[0]
-            restore_database(self.host, self.userdb, self.password, self.database, fn)
-            
+            msg = restore_database(self.host, self.userdb, self.password, self.database, fn)
+            self.notif(QMessageBox.Icon.Information, msg)
 
 ############# SMS FORMAT ###################################################################################################
     def populate_sms(self, query):
