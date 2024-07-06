@@ -23,7 +23,6 @@ class User:
         self.username = username
         self.isActive = True
 
-    
     def add_user(self, uname, pword, q1, a1, q2, a2):
         sha256 = hashlib.sha256()
         
@@ -84,6 +83,9 @@ class User:
         if input_hashed_uname != stored_hashed_uname:
             return False
 
+        # Reinitialize sha256 for password hashing
+        sha256 = hashlib.sha256()
+        
         # Hash the input password with the stored password salt
         sha256.update(bytes.fromhex(stored_pword_salt) + input_pwd.encode('utf-8'))
         input_hashed_password = sha256.hexdigest()
@@ -126,26 +128,41 @@ class User:
 
         return input_hashed_uname == stored_hashed_uname
 
-    def cp_questions(self, user_id, a1, a2):
-        query = "SELECT q1_salt, a1_salt, a2_salt, answer1, answer2 FROM USER WHERE BINARY user_id = '{}'".format(user_id)
+    def cp_questions(self, user_id, answer1, answer2):
+        user_data_query = """
+        SELECT answer1, a1_salt, answer2, a2_salt FROM user WHERE user_id = "{}"        
+        """.format(user_id)
         
-        result = handle_select(query)
-        if not result:
+        ans = handle_select(user_data_query)
+        
+        if not ans or len(ans) == 0:
             return False
 
-        stored_q1_salt, stored_a1_salt, stored_a2_salt, stored_hashed_a1, stored_hashed_a2 = result[0]
+        stored_a1, a1_salt_hex, stored_a2, a2_salt_hex = ans[0]
+        print("Stored Answer 1:", stored_a1)
+        print("Stored Salt 1:", a1_salt_hex)
+        print("Stored Answer 2:", stored_a2)
+        print("Stored Salt 2:", a2_salt_hex)
 
         sha256 = hashlib.sha256()
 
-        # Hash the input answers with the stored salts
-        sha256.update(bytes.fromhex(stored_a1_salt) + a1.encode('utf-8'))
-        input_hashed_a1 = sha256.hexdigest()
+        # Verify Answer 1
+        sha256.update(bytes.fromhex(a1_salt_hex) + answer1.encode('utf-8'))
+        hashed_a1 = sha256.hexdigest()
+        print(f"Computed Hash for Answer 1: {hashed_a1}")
+        if hashed_a1 != stored_a1:
+            return False
 
-        sha256.update(bytes.fromhex(stored_a2_salt) + a2.encode('utf-8'))
-        input_hashed_a2 = sha256.hexdigest()
+        # Verify Answer 2
+        sha256 = hashlib.sha256()  # Reset hash object
+        sha256.update(bytes.fromhex(a2_salt_hex) + answer2.encode('utf-8'))
+        hashed_a2 = sha256.hexdigest()
+        print(f"Computed Hash for Answer 2: {hashed_a2}")
+        if hashed_a2 != stored_a2:
+            return False
 
-        return input_hashed_a1 == stored_hashed_a1 and input_hashed_a2 == stored_hashed_a2
-    
+        return True
+
     # User backlogs or auditing
     def add_backlogs(self, active_user, activity):
         # This is the place where the activity within the system will be accounted
@@ -182,6 +199,9 @@ class User:
         return handle_select(query)
 
 u = User()
+print(u.cp_questions('HF00028', "fallfee", "sinigang"))
+#u.new_pass("HF00027", "bloom", "bloom")
+#print(u.cp_validate_user('HF00026', 'gil'))
 #print(u.validate_user(1, "joy", "030709"))
 #print(u.get_data(11, 'question1, answer1, question2, answer2'))
 #print(u.show_id())

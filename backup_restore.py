@@ -28,9 +28,9 @@ def backup_database(host, user, password, database, backup_dir):
 
         # Execute the mysqldump command
         subprocess.run(dump_cmd, shell=True, check=True)
-        print(f"Backup successful! Backup file created at: {backup_file}")
+        return(f"Backup successful! Backup file created at: {backup_file}")
     except subprocess.CalledProcessError as e:
-        print(f"Error during backup: {e}")
+        return(f"Error during backup: {e}")
 
 def restore_database(host, user, password, database, backup_file):
     try:
@@ -39,9 +39,9 @@ def restore_database(host, user, password, database, backup_file):
 
         # Execute the mysql command
         subprocess.run(restore_cmd, shell=True, check=True)
-        print(f"Restore successful! Database {database} restored from: {backup_file}")
+        return(f"Restore successful! Database {database} restored from: {backup_file}")
     except subprocess.CalledProcessError as e:
-        print(f"Error during restore: {e}")
+        return(f"Error during restore: {e}")
 
 # Replace with your MySQL credentials and desired backup directory
 """host = 'localhost'
