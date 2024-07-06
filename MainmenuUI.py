@@ -108,6 +108,10 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
         self.inventorysearchBtn.clicked.connect(self.search_inv)
 
+        self.chemicalsearchBtn.clicked.connect(lambda: self.search_inv_specific("Chemical"))
+        self.materialsearchBtn.clicked.connect(lambda: self.search_inv_specific("Material"))
+        self.equipmentSearchBtn.clicked.connect(lambda: self.search_inv_specific("Equipment"))
+
         # for schedulepage
         self.s = Schedule()
         self.addschedBtn.clicked.connect(self.schedAdd)
@@ -149,7 +153,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.userLogBtn.clicked.connect(self.switch_to_userlogPage)
         self.backupBtn.clicked.connect(self.backup)
         self.restoretBn.clicked.connect(self.open_file_dialog)
-        self.editAdminBtn.clicked.connect(self.editadmin)
+    
 
         self.smshelp.clicked.connect(self.open_pdf)
         #SMS page
@@ -167,6 +171,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(0)
         self.populate_table1(self.c.select_all_clients())
     def switch_to_SchedulePage(self):
+        self.s.earliest_deadline_first()
         self.stackedWidget.setCurrentIndex(1)
         self.populate_schedule(self.scheduleTable, self.s.view_sched())
     def switch_to_InventoryPage(self):
@@ -523,6 +528,29 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         else:
             self.populate_inventory(self.i.search(search), self.inventoryTable)
         
+        
+    def search_inv_specific(self,which):
+        if which == "Chemical": 
+            search = self.chemicalSearch.text()
+            if search == "":
+                self.populate_inventory(self.i.choose_category("Chemical"), self.chemicalTable)
+            else:
+                self.populate_inventory(self.i.search_specific(search ,"Chemical"), self.chemicalTable)
+        
+        elif which == "Material":
+            search = self.materialsSearch.text()
+            if search == "":
+                self.populate_inventory(self.i.choose_category("Material"), self.materialsTable)
+            else:
+                self.populate_inventory(self.i.search_specific(search ,"Material"), self.materialsTable)
+        else: 
+            search = self.equipmentSearch.text()
+            if search == "":
+                self.populate_inventory(self.i.choose_category("Equipment"), self.equipmentSearch)
+            else:
+                self.populate_inventory(self.i.search_specific(search ,"Equipment"), self.equipmentSearch)
+
+
 
     def populate_delivery_and_void(self, query, categ):  
         a = self.inventoryTable.horizontalHeader()
@@ -1238,7 +1266,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
-"""app = QApplication([])
+app = QApplication([])
 window = MainMenu("HF00010", app)
 window.show()
-app.exec()"""
+app.exec()

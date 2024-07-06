@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'MainMenu.ui'
+# Form implementation generated from reading ui file 'Mainmenu.ui'
 #
 # Created by: PyQt6 UI code generator 6.7.0
 #
@@ -53,9 +53,10 @@ class Ui_MainWindow(object):
 "}")
         self.moduleMenu.setObjectName("moduleMenu")
         self.layoutWidget = QtWidgets.QWidget(parent=self.moduleMenu)
-        self.layoutWidget.setGeometry(QtCore.QRect(20, 190, 131, 571))
+        self.layoutWidget.setGeometry(QtCore.QRect(20, 190, 131, 561))
         self.layoutWidget.setObjectName("layoutWidget")
         self.gridLayout = QtWidgets.QGridLayout(self.layoutWidget)
+        self.gridLayout.setSizeConstraint(QtWidgets.QLayout.SizeConstraint.SetDefaultConstraint)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
@@ -556,10 +557,6 @@ class Ui_MainWindow(object):
         self.addAdminBtn.setStyleSheet("QPushButton {background-color:rgb(217, 217, 217); color: black;}")
         self.addAdminBtn.setObjectName("addAdminBtn")
         self.horizontalLayout.addWidget(self.addAdminBtn)
-        self.editAdminBtn = QtWidgets.QPushButton(parent=self.layoutWidget3)
-        self.editAdminBtn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
-        self.editAdminBtn.setObjectName("editAdminBtn")
-        self.horizontalLayout.addWidget(self.editAdminBtn)
         self.restoretBn = QtWidgets.QPushButton(parent=self.layoutWidget3)
         self.restoretBn.setStyleSheet("QPushButton {background-color:rgb(88, 144, 50); color: white;}")
         self.restoretBn.setObjectName("restoretBn")
@@ -1267,7 +1264,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(16)
+        self.stackedWidget.setCurrentIndex(5)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1338,7 +1335,6 @@ class Ui_MainWindow(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:18pt;\"><br /></span><span style=\" font-size:18pt; font-weight:696;\">User Logs:</span><span style=\" font-size:18pt;\"><br />To view the activities happening within the system, click the &quot;User Logs&quot; button. This will display the audit trail of the admin\'s action. </span></p></body></html>"))
         self.label_11.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:36pt; color:#000000;\">Maintenance</span></p></body></html>"))
         self.addAdminBtn.setText(_translate("MainWindow", "Add Admin"))
-        self.editAdminBtn.setText(_translate("MainWindow", "Edit Admin"))
         self.restoretBn.setText(_translate("MainWindow", "Restore"))
         self.backupBtn.setText(_translate("MainWindow", "Back Up"))
         self.addSMSBtn.setText(_translate("MainWindow", "Add SMS"))

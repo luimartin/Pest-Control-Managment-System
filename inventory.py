@@ -125,6 +125,22 @@ class Inventory:
             OR description LIKE '%{input}%'
             ) and void = 0
         """
+        return handle_select(query)
+    
+    def search_specific(self, input, which):
+        query = f"""
+            select item_id,item_name, item_type, quantity, 
+            expiration, description, supplier, last_delivery_date 
+            from Inventory
+            where item_type = '{which}' and (
+            item_id LIKE '%{input}%'
+            OR item_name LIKE '%{input}%'
+            OR item_type LIKE '%{input}%' 
+            OR quantity LIKE '%{input}%' 
+            OR expiration LIKE '%{input}%' 
+            OR description LIKE '%{input}%'
+            ) and void = 0
+        """
         return handle_select(query) 
     
     def select_inventory_assigntech(self):
