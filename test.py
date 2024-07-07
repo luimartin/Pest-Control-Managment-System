@@ -143,7 +143,7 @@ class CalendarScheduler(QDialog):
                         # Set button color based on status
                         if status == 'Unfinished':
                             button.setStyleSheet("background-color: #E35C5C;")
-                        elif status == 'Done' and 'Finished':
+                        elif status == 'Finished' or status == 'Done':
                             button.setStyleSheet("background-color: #90CE67;")
                         elif status == 'Idle':
                             button.setStyleSheet("background-color: #D9D9D9;")
