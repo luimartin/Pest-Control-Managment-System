@@ -579,5 +579,5 @@ s = Schedule()
 #temp = {}
 #print(s.timetable(temp))
 #print(s.round_robin())
-s.set_sched_to_finish()
-s.set_progress_to_unfinish()
+#s.set_sched_to_finish()
+#s.set_progress_to_unfinish()
