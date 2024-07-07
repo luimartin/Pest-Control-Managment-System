@@ -10,7 +10,6 @@ def connect_db():
         database='mansys',
         auth_plugin='mysql_native_password'
     )
-
 """
     MySQL Queries
 	

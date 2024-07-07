@@ -220,6 +220,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(client):
                     items = QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.clientsTable.setItem(row_idx, col_idx, items)
 
                 schedview = QPushButton('View')
@@ -414,6 +415,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(client):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.voidclientsTable.setItem(row_idx, col_idx, items)
         else:
             self.voidclientsTable.setRowCount(0)
@@ -478,6 +480,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     #tablename.setStyleSheet("font-size: 14px;")
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     tablename.setItem(row_idx, col_idx, items)
 
                 edit = QPushButton('Edit')
@@ -580,6 +583,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(sched):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.inventoryTable.setItem(row_idx, col_idx, items)
 
     def switch_to_delivery(self):
@@ -598,7 +602,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
     def populate_schedule(self, tablename, query):
         tablename.setColumnWidth(0, 1)
         a = tablename.horizontalHeader()
-        a.setSectionResizeMode(QHeaderView.ResizeMode.Interactive)
+        a.setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         tablename.verticalHeader().hide()
         
         tablename.setStyleSheet("font-size: 16px; text-align: center;")
@@ -619,22 +623,11 @@ class MainMenu(QMainWindow, Ui_MainWindow):
             for row_idx, sched in enumerate(schedule):
                 schedule_id = schedule[row_idx][0]
                 for col_idx, item in enumerate(sched):
-                    items= QTableWidgetItem(str(item))
-                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items = QTableWidgetItem(str(item))
+                    items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable)
+                    items.setToolTip(str(item))  # Set tooltip
                     tablename.setItem(row_idx, col_idx, items)
                 
-
-                """if schedule[row_idx][8] is None:
-                    assign = QPushButton('Assign')
-                    assign.setStyleSheet(
-                    "QPushButton"
-                    "{"
-                    "background-color: #E3C55C"
-                    "}"
-                )
-                    assign.clicked.connect(lambda _, id=schedule_id: self.assigntech(id))
-                    tablename.setCellWidget(row_idx, 8, assign)
-                else:"""
                 tablename.setItem(row_idx, 8, QTableWidgetItem(str(schedule[row_idx][8])))
                 
                 edit = QPushButton('Edit')
@@ -765,6 +758,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(sched):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     tablename.setItem(row_idx, col_idx, items)
 
     def switch_to_todayschedPage(self):
@@ -823,6 +817,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(sales):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.saleTable.setItem(row_idx, col_idx, items)
                 if which is None:
                     sale_id = sale[row_idx][3]
@@ -898,6 +893,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     tech_id = clients[row_idx][0]
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.technicianTable.setItem(row_idx, col_idx, items)
 
                 # Create buttons
@@ -977,6 +973,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                     techid = clients[row_idx][7]
                     items = QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     #items.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     table.setStyleSheet("font-size: 14px; text-align: center;")
                     table.setItem(row_idx, col_idx, items)
@@ -1076,6 +1073,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(sched):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.serviceTable.setItem(row_idx, col_idx, items)
                 client_id = service[row_idx][7]
                 sched_id = service[row_idx][6]
@@ -1145,6 +1143,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
                 for col_idx, item in enumerate(sched):
                     items= QTableWidgetItem(str(item))
                     items.setFlags(items.flags() & ~QtCore.Qt.ItemFlag.ItemIsEditable) 
+                    items.setToolTip(str(item))  # Set tooltip
                     self.userlogTable.setItem(row_idx, col_idx, items)
         else:
             self.userlogTable.setRowCount(0)
