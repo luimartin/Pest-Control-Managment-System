@@ -65,11 +65,14 @@ class Schedule:
                 select schedule_id, start_date, time_in, time_out
                 from SCHEDULE 
                 where start_date like '{}%' and void = 0
+                and SCHEDULE.status != 'Done' 
+                and SCHEDULE.status != 'Finished'
+                and SCHEDULE.status != 'Unfinished' 
                 union
                 select SCHEDULIZER.schedule_id, SCHEDULIZER.single_date, "09:00:00", "17:00:00" 
                 from SCHEDULIZER 
                 inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id  
-                where single_date like '{}%' and SCHEDULE.void = 0 
+                where single_date like '{}%' and SCHEDULE.void = 0    
                 order by start_date, time_in, time_out ASC
             """.format(self.today, self.today)    
         
@@ -79,27 +82,27 @@ class Schedule:
                 "update TECHNICIAN set state = 'Active' "
                 "where technician_id = (select technician_id from SCHEDULE where schedule_id = %s)"
             )
-            data = (id[0],)
+            data = (id[0], )
             handle_transaction(query, data)
             handle_transaction(query1, data)  
         
     def earliest_deadline_first_show(self):
         query = """
-        select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
-	    time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
-        TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
-        inner join client as c on s.client_id = c.client_id
-        left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
-        where s.void = 0 and s.status = 'Progress'
+            select schedule_id ,c.name, schedule_type, start_date, end_date, time_in, 
+            time_out, s.status, concat("[", TECHNICIAN.technician_id, "]", " ", 
+            TECHNICIAN.first_name, " ", TECHNICIAN.last_name) from schedule as s
+            inner join client as c on s.client_id = c.client_id
+            left join TECHNICIAN on TECHNICIAN.technician_id = s.technician_id
+            where s.void = 0 and s.status = 'Progress'
         """
         return handle_select(query)
 
     
     def update_state_when_done(self, sched_id):
         query_technician_id = """
-        SELECT technician_id 
-        FROM SCHEDULE 
-        WHERE schedule_id = {}
+            SELECT technician_id 
+            FROM SCHEDULE 
+            WHERE schedule_id = {}
         """.format(sched_id)
         technician_id = handle_select(query_technician_id)[0][0] 
 
@@ -109,24 +112,30 @@ class Schedule:
 
         # Check if the technician is assigned to any other schedules
         query_check_other_assignments = """
-        SELECT COUNT(*) 
-        FROM SCHEDULE 
-        WHERE technician_id = {} AND status != 'Done' 
+            SELECT COUNT(*) 
+            FROM SCHEDULE 
+            WHERE technician_id = {} AND status != 'Done' 
         """.format(technician_id)
         count = handle_select(query_check_other_assignments)[0][0]
 
-
         query = """
-        UPDATE SCHEDULE 
-        SET status = case 
-            when schedule_type = 'Posting' then 'Idle'
-            else 'Done'
-        end,
-        technician_id = NULL 
-        WHERE schedule_id = %s ;
+            UPDATE SCHEDULE 
+            SET status = case 
+                when schedule_type = 'Posting' then 'Idle'
+                else 'Done'
+            end,
+            technician_id = NULL 
+            WHERE schedule_id = %s ;
         """
         data = (sched_id, )
         handle_transaction(query, data)
+        
+        query_schedulizer = """
+            update SCHDULIZER 
+            set single_status = 'Done'
+            where schedule_id = %s 
+        """ 
+        handle_transaction(query_schedulizer, data) 
 
         if count == 1:
             # If no other schedules are assigned to this technician, update their state to 'Idle'
@@ -271,8 +280,9 @@ class Schedule:
             from SCHEDULE 
             inner join CLIENT on SCHEDULE.client_id = CLIENT.client_id 
             where SCHEDULE.start_date <= LAST_DAY("{}") and SCHEDULE.start_date > LAST_DAY(DATE_SUB("{}", INTERVAL 1 MONTH)) 
-            and SCHEDULE.void = 0
-            union 
+            and SCHEDULE.void = 0 
+            and SCHEDULE.schedule_type = 'Default'
+            union
             select SCHEDULIZER.single_date, concat("[", schedule.schedule_id, "]", " ", client.name), "09:00:00", "17:00:00", CASE WHEN SCHEDULIZER.single_date = "{}" THEN "Progress" ELSE SCHEDULIZER.single_status END
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULIZER.schedule_id = SCHEDULE.schedule_id
@@ -443,11 +453,35 @@ class Schedule:
         return handle_select(query)    
 
     # Used to finished the schedule when current day is greater than end_date
-    def finish_sched(self):
-        pass
+    def set_sched_to_finish(self):
+        query = """
+            select schedule_id, end_date from SCHEDULE
+            where void = 0 
+            and DATE_SUB(end_date, INTERVAL - 1 DAY) = '{}'
+            and status != 'Progress' and status != 'Unfinished'
+        """.format(self.today)
+        f_sched = handle_select(query)
+        
+        if f_sched:
+            for sched in f_sched:
+                if sched[1] < self.today:
+                    query = """
+                        update SCHEDULE 
+                        set status = 'Finished'
+                        where schedule_id = %s and void = 0 
+                    """
+                    data = (sched[0], )
+                    handle_transaction(query, data)
 
+                    query_schedulizer = """
+                        update SCHDULIZER 
+                        set single_status = 'Finished'
+                        where schedule_id = %s
+                    """ 
+                    handle_transaction(query_schedulizer, data)
+                    
     # Used to finished the 'progress' schedule when not updated by the admin
-    def set_progress_to_done(self):
+    def set_progress_to_unfinish(self):
         query = """
             select SCHEDULE.schedule_id, SCHEDULE.start_date, SCHEDULE.schedule_type 
             from SCHEDULE 
@@ -471,13 +505,21 @@ class Schedule:
                     query = """
                         update SCHEDULE 
                         set status = case 
-                            when schedule_type = 'Posting' then 'Idle' 
+                            when schedule_type = 'Posting' and end_date >= %s then 'Idle' 
                             else 'Unfinished' 
                         end
                         where status = 'Progress' and schedule_id = %s and void = 0 
                     """
-                    data = (sched[0], )
+                    data = (self.today, sched[0], )
                     handle_transaction(query, data) 
+
+                    query_schedulizer = """
+                        update SCHDULIZER 
+                        set single_status = 'Unfinished'
+                        where schedule_id = %s
+                    """ 
+                    handle_transaction(query_schedulizer, data) 
+
 
     def edit_schedule_info(self, sched_id, categ, new_input):
         temp = "update SCHEDULE set {} = ".format(categ) 
@@ -514,35 +556,35 @@ class Schedule:
     
     def placeholder_sched(self, sched_id):
         query = """
-        select c.name, schedule_type, start_date, end_date, 
-        time_in, time_out from schedule as s inner join 
-        client as c on s.client_id = c.client_id where schedule_id = {};
+            select c.name, schedule_type, start_date, end_date, 
+            time_in, time_out from schedule as s inner join 
+            client as c on s.client_id = c.client_id where schedule_id = {};
         """.format(sched_id)
         return handle_select(query)
     
     def smsview(self):
         query = """
-        select schedule_id, name from schedule
-        inner join 
-        client on schedule.client_id = client.client_id and schedule.void = 0 and client.void = 0;
+            select schedule_id, name from schedule
+            inner join 
+            client on schedule.client_id = client.client_id and schedule.void = 0 and client.void = 0;
         """
         return handle_select(query)
     
     def assigntechview(self):
         query = """
-        select schedule_id, name from schedule
-        inner join 
-        client on schedule.client_id = client.client_id
-        where schedule.technician_id is Null 
-        and schedule.void = 0 and 
-        client.void = 0 and (schedule.status = "Idle" or schedule.status = "Progress" )
+            select schedule_id, name from schedule
+            inner join 
+            client on schedule.client_id = client.client_id
+            where schedule.technician_id is Null 
+            and schedule.void = 0 and 
+            client.void = 0 and (schedule.status = "Idle" or schedule.status = "Progress" )
         """
 
         return handle_select(query)
     
 
 
-#s = Schedule()
+s = Schedule()
 #print(s.assigntechview())
 #s.set_progress_to_done()
 #print(s.get_data(28, 'technician_id'))
@@ -562,3 +604,5 @@ class Schedule:
 #temp = {}
 #print(s.timetable(temp))
 #print(s.round_robin())
+#s.set_sched_to_finish()
+#s.set_progress_to_unfinish()

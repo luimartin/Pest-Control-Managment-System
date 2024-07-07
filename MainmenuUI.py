@@ -167,6 +167,8 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.stackedWidget.setCurrentIndex(0)
         self.populate_table1(self.c.select_all_clients())
     def switch_to_SchedulePage(self):
+        self.s.set_sched_to_finish()
+        self.s.set_progress_to_unfinish()
         self.s.earliest_deadline_first()
         self.stackedWidget.setCurrentIndex(1)
         self.populate_schedule(self.scheduleTable, self.s.view_sched())

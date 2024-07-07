@@ -25,7 +25,6 @@ def backup_database(host, user, password, database, backup_dir):
         #print(f"Backup directory: {backup_dir}")
         #print(f"Backup file: {backup_file}")
         #print(f"Dump command: {dump_cmd}")
-
         # Execute the mysqldump command
         subprocess.run(dump_cmd, shell=True, check=True)
         return(f"Backup successful! Backup file created at: {backup_file}")
