@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtWidgets import (
     QApplication, QVBoxLayout, QWidget, QTableWidget, QTableWidgetItem,
-    QPushButton, QLabel, QDialog, QTextEdit, QSizePolicy
+    QPushButton, QLabel, QDialog, QTextEdit, QSizePolicy, QScrollArea
 )
 from PyQt6.QtCore import QDate, Qt, QLocale
 from PyQt6.QtGui import QFont, QTextCursor
@@ -86,7 +86,7 @@ class CalendarScheduler(QDialog):
         # Calculate number of weeks needed
         weeks_in_month = (days_in_month + start_day_of_week - 1 + 6) // 7
         # Set the table size dynamically based on weeks
-        table_width = 1209
+        table_width = 1367
         table_height = 768
         self.calendar_table = QTableWidget(weeks_in_month, 7, self)
         self.calendar_table.setFixedSize(table_width, table_height)
@@ -129,15 +129,21 @@ class CalendarScheduler(QDialog):
 
             date_str = date.toString("yyyy-MM-dd")
             if date_str in self.scheduled_events:
+                scroll_area = QScrollArea()
+                scroll_area.setWidgetResizable(True)
+                scroll_content = QWidget()
+                scroll_layout = QVBoxLayout(scroll_content)
+
                 for client_name, events in self.scheduled_events[date_str].items():
                     for event_time, status in events:
                         button = QPushButton(client_name)
+                        button.setFixedSize(138, 25)
                         button.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
                         # Set button color based on status
                         if status == 'Unfinished':
                             button.setStyleSheet("background-color: #E35C5C;")
-                        elif status == 'Done':
+                        elif status == 'Done' and 'Finished':
                             button.setStyleSheet("background-color: #90CE67;")
                         elif status == 'Idle':
                             button.setStyleSheet("background-color: #D9D9D9;")
@@ -145,7 +151,11 @@ class CalendarScheduler(QDialog):
                             button.setStyleSheet("background-color: #E3C55C;")
 
                         button.clicked.connect(lambda checked, n=client_name, s=[e[0] for e in events]: self.show_schedule(n, s))
-                        cell_layout.addWidget(button)
+                        scroll_layout.addWidget(button)
+
+                scroll_content.setLayout(scroll_layout)
+                scroll_area.setWidget(scroll_content)
+                cell_layout.addWidget(scroll_area)
 
             cell_widget.setLayout(cell_layout)
 

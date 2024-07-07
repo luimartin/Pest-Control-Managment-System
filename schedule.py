@@ -443,24 +443,41 @@ class Schedule:
         return handle_select(query)    
 
     # Used to finished the schedule when current day is greater than end_date
-    def finish_sched(self):
-        pass
-
+    def set_sched_to_finish(self):
+        query = """
+            select schedule_id, end_date from SCHEDULE
+            where void = 0 
+            and DATE_SUB(end_date, INTERVAL - 1 DAY) = '2024-07-06'
+            and status != 'Progress' and status != 'Unfinished'
+        """.format(self.today)
+        f_sched = handle_select(query)
+        
+        if f_sched:
+            for sched in f_sched:
+                if sched[1] < self.today:
+                    query = """
+                        update SCHEDULE 
+                        set status = 'Finished'
+                        where schedule_id = %s and void = 0 
+                    """
+                    data = (sched[0], )
+                    handle_transaction(query, data) 
+                    
     # Used to finished the 'progress' schedule when not updated by the admin
-    def set_progress_to_done(self):
+    def set_progress_to_unfinish(self):
         query = """
             select SCHEDULE.schedule_id, SCHEDULE.start_date, SCHEDULE.schedule_type 
             from SCHEDULE 
             where SCHEDULE.status = 'Progress'
             and SCHEDULE.void = 0 
-            and DATE_SUB(SCHEDULE.start_date, INTERVAL - 1 DAY) = '{}'
+            and DATE_SUB(SCHEDULE.start_date, INTERVAL - 1 DAY) = '2024-07-06'
             union
             select SCHEDULIZER.schedule_id, SCHEDULIZER.single_date, SCHEDULE.schedule_type 
             from SCHEDULIZER 
             inner join SCHEDULE on SCHEDULE.schedule_id = SCHEDULIZER.schedule_id 
             where SCHEDULE.status = 'Progress'
             and SCHEDULE.void = 0 
-            and DATE_SUB(SCHEDULIZER.single_date, INTERVAL - 1 DAY) = '{}'
+            and DATE_SUB(SCHEDULIZER.single_date, INTERVAL - 1 DAY) = '2024-07-06'
         """.format(self.today, self.today)
         prog_sched_id = handle_select(query)
         print(prog_sched_id)
@@ -471,12 +488,12 @@ class Schedule:
                     query = """
                         update SCHEDULE 
                         set status = case 
-                            when schedule_type = 'Posting' then 'Idle' 
+                            when schedule_type = 'Posting' and end_date >= %s then 'Idle' 
                             else 'Unfinished' 
                         end
                         where status = 'Progress' and schedule_id = %s and void = 0 
                     """
-                    data = (sched[0], )
+                    data = ('2024-07-06', sched[0], )
                     handle_transaction(query, data) 
 
     def edit_schedule_info(self, sched_id, categ, new_input):
@@ -542,7 +559,7 @@ class Schedule:
     
 
 
-#s = Schedule()
+s = Schedule()
 #print(s.assigntechview())
 #s.set_progress_to_done()
 #print(s.get_data(28, 'technician_id'))
@@ -562,3 +579,5 @@ class Schedule:
 #temp = {}
 #print(s.timetable(temp))
 #print(s.round_robin())
+s.set_sched_to_finish()
+s.set_progress_to_unfinish()
