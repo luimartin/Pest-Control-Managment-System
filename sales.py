@@ -48,14 +48,15 @@ class Sales:
             select year(sale_date), date_format(sale_date, '%M'), sum(figure) 
             from SALES where void = 0
             group by year(sale_date) ,date_format(sale_date, '%M') 
-            order by date_format(sale_date, '%M') desc;
+            order by year(sale_date) desc
         """
         return handle_select(query)
     
     def monthly_avg_total_sale(self):
         query = """
             select year(sale_date), date_format(sale_date, '%M'), cast(avg(figure) as decimal(10,2)) from SALES  where void = 0
-            group by year(sale_date), DATE_FORMAT(sale_date, '%M');
+            group by year(sale_date), DATE_FORMAT(sale_date, '%M')
+            order by year(sale_date) desc
         """
         return handle_select(query)
 
@@ -214,10 +215,12 @@ class Sales:
             # === Daily Analysis ===
             elements.append(Paragraph("Daily Analysis:", section_title_left_style))
             if not df.empty:
-                df.columns = ["Year", "Date", "Daily Service"]
-                data = [df.columns.tolist()] + df.values.tolist()
-                
+                df.columns = ["Year", "Date", "Daily Service Sales"]
 
+                total_daily_sr = df["Daily Service Sales"].sum()
+                total_daily_row = ["", "Total", total_daily_sr]
+
+                data = [df.columns.tolist()] + df.values.tolist() + [total_daily_row]
                 table = create_table(data, col_widths_sales)
                 elements.append(table)
             else:
@@ -230,7 +233,10 @@ class Sales:
                 df_month_analysis.columns = ["Year", "Month", "Service Revenue", "Average Service Revenue"]
                 # Calculate Service Revenue Total
                 total_service_revenue = df_month_analysis["Service Revenue"].sum()
-                total_row = ["", "Total", total_service_revenue, ""]
+                total_sr_avg = df_month_analysis["Average Service Revenue"].sum()
+                
+                total_row = ["", "Total", total_service_revenue, total_sr_avg]
+
                 data = [df_month_analysis.columns.tolist()] + df_month_analysis.values.tolist() + [total_row]
                 table = create_table(data, col_widths_month)
                 elements.append(table)
@@ -242,13 +248,18 @@ class Sales:
             elements.append(Paragraph("Year Analysis:", section_title_left_style))
             if not df_year_analysis.empty:
                 df_year_analysis.columns = ["Year", "Service Revenue", "Average Service Revenue"]
+                
                 # Calculate Service Revenue Total
                 total_service_revenue = df_year_analysis["Service Revenue"].sum()
-                total_row = ["Total", total_service_revenue, ""]
+                total_sr_avg = df_year_analysis["Average Service Revenue"].sum()
+
+                total_row = ["Total", total_service_revenue, total_sr_avg]
+
                 data = [df_year_analysis.columns.tolist()] + df_year_analysis.values.tolist() + [total_row]
                 table = create_table(data, col_widths_year)
                 elements.append(table)
                 elements.append(Spacer(1, 20))
+
                 # Generate trend graph for Year Analysis
                 year_graph_data = df_year_analysis[["Year", "Service Revenue"]].values.tolist()
                 year_graph_buffer = self.generate_trend_graph(year_graph_data, 'Annual Service Revenue Trend', 'Year', 'Service Revenue', 'year_trend.png')

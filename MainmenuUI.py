@@ -150,7 +150,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
         self.backupBtn.clicked.connect(self.backup)
         self.restoretBn.clicked.connect(self.open_file_dialog)
         
-
+        self.smshelp.setEnabled(True)
         self.smshelp.clicked.connect(self.open_pdf)
         #SMS page
         self.message = Message()
@@ -1260,7 +1260,7 @@ class MainMenu(QMainWindow, Ui_MainWindow):
 
     def open_pdf(self):
         # Replace with your file path
-        pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix User Manual.pdf"
+        pdf_path = "C:/Users/deini/OneDrive/Desktop/SoftEng/Pest-Control-Managment-System/Asset/HomeFix_User-Manual.pdf"
         QtGui.QDesktopServices.openUrl(QtCore.QUrl.fromLocalFile(pdf_path))
 
 """app = QApplication([])
